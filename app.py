@@ -4,7 +4,7 @@ from PySide6.QtCore import Qt, QTimer,QRunnable, Slot, QThreadPool, Signal, QObj
 from pymongo import MongoClient
 from ssl import CERT_NONE
 from time import sleep
-from sys import exit
+from sys import exit, argv
 
 #Signals from worker threads
 class WorkerSignals(QObject):
@@ -103,17 +103,20 @@ class LoginMainWindow(QMainWindow):
         self.errorLbl.setText("User found.  Logging in......")
         sleep(0.15)
 
+    def main_startup(self):
+        self.app.main_startup(self.client, self.user)
+
     def try_to_login(self):
         valid = not (len(self.userName.text()) == 0 or len(self.passWord.text()) == 0)
         if valid:
-            client = MongoClient("mongodb+srv://softgod1:banana123@group5warehouse.kvdys.mongodb.net/test",
+            self.client = MongoClient("mongodb+srv://softgod1:banana123@group5warehouse.kvdys.mongodb.net/test",
                                   ssl_cert_reqs=CERT_NONE, serverSelectionTimeoutMS=1000)
             try:
-                client.server_info()
-                db = client.warehouse
+                self.client.server_info()
+                db = self.client.warehouse
                 users = db.users
-                user = users.find_one({"_id": self.userName.text(),"Password": self.passWord.text()})  #BretC1, bananafish6
-                if user == None:
+                self.user = users.find_one({"_id": self.userName.text(),"Password": self.passWord.text()})  #BretC1, bananafish6
+                if self.user == None:
                     self.errorLbl.setStyleSheet("color: red;")
                     self.errorLbl.setText("Invalid login credentials.\nPlease try again.")
                 else:
@@ -122,7 +125,7 @@ class LoginMainWindow(QMainWindow):
 
                     #Thread an animation to run before closing the login gui and opening main gui
                     worker = Worker(self.load_animation)
-                    worker.signals.finished.connect(self.app.main_startup)
+                    worker.signals.finished.connect(self.main_startup)
                     self.app.threadpool.start(worker)
 
             except Exception as e:
@@ -144,8 +147,27 @@ class MainWindow(QMainWindow):
         self.init_menu()
 
     def init_central_widget(self):
-        widget = QTextEdit()
-        self.setCentralWidget(widget)
+        layout = QVBoxLayout()
+        addItemBtn = QPushButton("Add Item to Database")
+        #Username and Password LineEdits
+        idEdit = QLineEdit()
+        idEdit.setPlaceholderText("_id")
+        modelNumberEdit = QLineEdit()
+        modelNumberEdit.setPlaceholderText("Model Number")
+        brandEdit = QLineEdit()
+        brandEdit.setPlaceholderText("Brand")
+        descriptionEdit = QTextEdit()
+        descriptionEdit.setPlaceholderText("Description")
+
+        layout.addWidget(addItemBtn)
+        layout.addWidget(idEdit)
+        layout.addWidget(modelNumberEdit)
+        layout.addWidget(brandEdit)
+        layout.addWidget(descriptionEdit)
+        layout.addStretch(1)
+        container_widget = QWidget()
+        container_widget.setLayout(layout)
+        self.setCentralWidget(container_widget)
 
     def init_dock_widgets(self):
         widget = QDockWidget("Item Finder")
@@ -185,13 +207,18 @@ class MainWindow(QMainWindow):
 class Application(QApplication):
     def __init__(self):
         super().__init__()
+        #if (len(argv) == 0):
         self.threadpool = QThreadPool()
         self.loginWindow = LoginMainWindow(self)
         self.mainWindow = None
         self.loginWindow.show()
+        #else:
+        #    if argv[0] == 'm':
+        #        self.mainWindow = MainWindow()
+        #        self.mainWindow.show()
 
     #Close login window and open main window
-    def main_startup(self):
+    def main_startup(self, client, user):
         self.mainWindow = MainWindow()
         self.mainWindow.show()
         if self.loginWindow != None:
