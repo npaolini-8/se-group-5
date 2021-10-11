@@ -1,10 +1,11 @@
 from PySide6.QtWidgets import (QApplication, QMainWindow, QTextEdit, QLineEdit,
 QDockWidget, QCheckBox, QVBoxLayout, QWidget, QPushButton, QLabel, QSizePolicy)
 from PySide6.QtCore import Qt, QTimer,QRunnable, Slot, QThreadPool, Signal, QObject, QThread
-from pymongo import MongoClient
+#from pymongo import MongoClient
 from ssl import CERT_NONE
 from time import sleep
 from sys import exit, argv
+from database_funcs import Warehouse
 
 #Signals from worker threads
 class WorkerSignals(QObject):
@@ -42,6 +43,7 @@ class LoginMainWindow(QMainWindow):
     def __init__(self, app):
         super().__init__()
         self.app = app
+        self.warehouse = app.warehouse
         self.init_window_props()
         self.init_widgets()
 
@@ -104,17 +106,17 @@ class LoginMainWindow(QMainWindow):
         sleep(0.15)
 
     def main_startup(self):
-        self.app.main_startup(self.client, self.user)
+        self.app.main_startup(self.user)
 
     def try_to_login(self):
         valid = not (len(self.userName.text()) == 0 or len(self.passWord.text()) == 0)
         if valid:
-            self.client = MongoClient("mongodb+srv://softgod1:banana123@group5warehouse.kvdys.mongodb.net/test",
-                                  ssl_cert_reqs=CERT_NONE, serverSelectionTimeoutMS=1000)
+            #self.client = MongoClient("mongodb+srv://softgod1:banana123@group5warehouse.kvdys.mongodb.net/test",
+                                  #ssl_cert_reqs=CERT_NONE, serverSelectionTimeoutMS=1000)
             try:
-                self.client.server_info()
-                db = self.client.warehouse
-                users = db.users
+                client = self.warehouse.cluster
+                client.server_info()
+                users = self.warehouse.users_collection
                 self.user = users.find_one({"_id": self.userName.text(),"Password": self.passWord.text()})  #BretC1, bananafish6
                 if self.user == None:
                     self.errorLbl.setStyleSheet("color: red;")
@@ -139,54 +141,81 @@ class LoginMainWindow(QMainWindow):
 #Main gui that most users will be using
 #Not even close to finished -- just here as a placeholder
 class MainWindow(QMainWindow):
-    def __init__(self):
+    def __init__(self, app):
         super().__init__()
+        self.app = app
+        self.warehouse = app.warehouse
         self.init_window_props() #Set window title, dimensions, location
         self.init_central_widget()
         self.init_dock_widgets()
         self.init_menu()
 
+    def try_add_item(self):
+        if len(self.idEdit.text()) > 0 and len(self.modelNumberEdit.text()) > 0 and len(self.brandEdit.text()) > 0 and len(self.descriptionEdit.toPlainText()) > 0:
+            if self.warehouse.find_item(self.idEdit.text()) == None:
+                self.warehouse.create_main_item(self.idEdit.text(), self.descriptionEdit.toPlainText(), self.modelNumberEdit.text(), self.brandEdit.text())
+                self.errorLbl.setStyleSheet("color: green;")
+                self.errorLbl.setText(self.idEdit.text() + ' successfully added to database.')
+                self.idEdit.clear()
+                self.modelNumberEdit.clear()
+                self.brandEdit.clear()
+                self.descriptionEdit.clear()
+                self.refresh_items()
+            else:
+                self.errorLbl.setStyleSheet("color: red;")
+                self.errorLbl.setText(self.idEdit.text() + ' already exists. Cannot add item.')
+        else:
+            self.errorLbl.setStyleSheet("color: red;")
+            self.errorLbl.setText('One or more fields are empty. Cannot add item.')
+
+
     def init_central_widget(self):
         layout = QVBoxLayout()
         addItemBtn = QPushButton("Add Item to Database")
+        addItemBtn.clicked.connect(self.try_add_item)
         #Username and Password LineEdits
-        idEdit = QLineEdit()
-        idEdit.setPlaceholderText("_id")
-        modelNumberEdit = QLineEdit()
-        modelNumberEdit.setPlaceholderText("Model Number")
-        brandEdit = QLineEdit()
-        brandEdit.setPlaceholderText("Brand")
-        descriptionEdit = QTextEdit()
-        descriptionEdit.setPlaceholderText("Description")
+        self.idEdit = QLineEdit()
+        self.idEdit.setPlaceholderText("_id")
+        self.modelNumberEdit = QLineEdit()
+        self.modelNumberEdit.setPlaceholderText("Model Number")
+        self.brandEdit = QLineEdit()
+        self.brandEdit.setPlaceholderText("Brand")
+        self.descriptionEdit = QTextEdit()
+        self.descriptionEdit.setPlaceholderText("Description")
+        self.errorLbl = QLabel("")
+        self.errorLbl.setMaximumHeight(50)
+        self.errorLbl.setStyleSheet("color: red;")
 
+        layout.addWidget(self.errorLbl)
         layout.addWidget(addItemBtn)
-        layout.addWidget(idEdit)
-        layout.addWidget(modelNumberEdit)
-        layout.addWidget(brandEdit)
-        layout.addWidget(descriptionEdit)
+        layout.addWidget(self.idEdit)
+        layout.addWidget(self.modelNumberEdit)
+        layout.addWidget(self.brandEdit)
+        layout.addWidget(self.descriptionEdit)
         layout.addStretch(1)
         container_widget = QWidget()
         container_widget.setLayout(layout)
         self.setCentralWidget(container_widget)
 
+    def refresh_items(self):
+        self.itemBox.clear()
+        items = self.warehouse.get_items()
+        for item in items:
+            self.itemBox.append(item['_id'] + ': ' + item['Description'] + '\n\n')
+
     def init_dock_widgets(self):
-        widget = QDockWidget("Item Finder")
+        widget = QDockWidget("Item Catalog")
         self.addDockWidget(Qt.LeftDockWidgetArea, widget)
         self.resizeDocks([widget], [self.dimensions[0] * 0.25], Qt.Horizontal)
         layout = QVBoxLayout()
-        label = QLabel("Search By:")
-        #label.setStyleSheet("border: 1px solid black;")
 
-        layout.addWidget(label)
-        #label.setAlignment(Qt.AlignTop)
-        label.setMaximumHeight(100)
-        layout.addWidget(QPushButton("Press"))
-        layout.addWidget(QPushButton("Press"))
-        layout.addWidget(QPushButton("Press"))
-        layout.addWidget(QPushButton("Press"))
-        #layout.addStrut(200) #Add minimum width/height
+        self.itemBox = QTextEdit()
+        self.itemBox.setReadOnly(True)
+        self.refresh_items()
 
-        layout.addStretch(1)
+        layout.addWidget(self.itemBox)
+
+        #layout.addStretch(1)
         container_widget = QWidget()
         container_widget.setLayout(layout)
         widget.setWidget(container_widget)
@@ -207,19 +236,25 @@ class MainWindow(QMainWindow):
 class Application(QApplication):
     def __init__(self):
         super().__init__()
-        #if (len(argv) == 0):
+        self.warehouse = Warehouse()
+        if len(argv) == 1:
+            self.init()
+        else:
+            if argv[1] == 'm':
+                self.mainWindow = MainWindow(self)
+                self.mainWindow.show()
+            else:
+                self.init()
+
+    def init(self):
         self.threadpool = QThreadPool()
         self.loginWindow = LoginMainWindow(self)
         self.mainWindow = None
         self.loginWindow.show()
-        #else:
-        #    if argv[0] == 'm':
-        #        self.mainWindow = MainWindow()
-        #        self.mainWindow.show()
 
     #Close login window and open main window
-    def main_startup(self, client, user):
-        self.mainWindow = MainWindow()
+    def main_startup(self, user):
+        self.mainWindow = MainWindow(self)
         self.mainWindow.show()
         if self.loginWindow != None:
             self.loginWindow = None
