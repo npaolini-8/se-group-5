@@ -1,7 +1,8 @@
 from PySide6.QtWidgets import (QApplication, QMainWindow, QTextEdit, QLineEdit,
-QDockWidget, QCheckBox, QVBoxLayout, QWidget, QPushButton, QLabel, QSizePolicy)
+QDockWidget, QCheckBox, QVBoxLayout, QWidget, QPushButton, QLabel, QSizePolicy, QTableWidget,
+QTableWidgetItem)
 from PySide6.QtCore import Qt, QTimer,QRunnable, Slot, QThreadPool, Signal, QObject, QThread
-#from pymongo import MongoClient
+from PySide6.QtGui import QIcon
 from ssl import CERT_NONE
 from time import sleep
 from sys import exit, argv
@@ -110,15 +111,13 @@ class LoginMainWindow(QMainWindow):
 
     def try_to_login(self):
         valid = not (len(self.userName.text()) == 0 or len(self.passWord.text()) == 0)
-        if valid:
-            #self.client = MongoClient("mongodb+srv://softgod1:banana123@group5warehouse.kvdys.mongodb.net/test",
-                                  #ssl_cert_reqs=CERT_NONE, serverSelectionTimeoutMS=1000)
+        if valid:  #If username and password fields aren't empty
             try:
                 client = self.warehouse.cluster
-                client.server_info()
+                client.server_info()  #This will fail if we don't have a connection to the server
                 users = self.warehouse.users_collection
-                self.user = users.find_one({"_id": self.userName.text(),"Password": self.passWord.text()})  #BretC1, bananafish6
-                if self.user == None:
+                self.user = users.find_one({"_id": self.userName.text(),"Password": self.passWord.text()}) #BretC1, bananafish6
+                if self.user == None:  #If user + password doesn't exist
                     self.errorLbl.setStyleSheet("color: red;")
                     self.errorLbl.setText("Invalid login credentials.\nPlease try again.")
                 else:
@@ -152,7 +151,7 @@ class MainWindow(QMainWindow):
 
     def try_add_item(self):
         if len(self.idEdit.text()) > 0 and len(self.modelNumberEdit.text()) > 0 and len(self.brandEdit.text()) > 0 and len(self.descriptionEdit.toPlainText()) > 0:
-            if self.warehouse.find_item(self.idEdit.text()) == None:
+            if self.warehouse.find_item(self.idEdit.text()) == None:  #If item id doesn't already exist
                 self.warehouse.create_main_item(self.idEdit.text(), self.descriptionEdit.toPlainText(), self.modelNumberEdit.text(), self.brandEdit.text())
                 self.errorLbl.setStyleSheet("color: green;")
                 self.errorLbl.setText(self.idEdit.text() + ' successfully added to database.')
@@ -160,14 +159,13 @@ class MainWindow(QMainWindow):
                 self.modelNumberEdit.clear()
                 self.brandEdit.clear()
                 self.descriptionEdit.clear()
-                self.refresh_items()
+                self.refresh_item_table()
             else:
                 self.errorLbl.setStyleSheet("color: red;")
                 self.errorLbl.setText(self.idEdit.text() + ' already exists. Cannot add item.')
         else:
             self.errorLbl.setStyleSheet("color: red;")
             self.errorLbl.setText('One or more fields are empty. Cannot add item.')
-
 
     def init_central_widget(self):
         layout = QVBoxLayout()
@@ -197,11 +195,17 @@ class MainWindow(QMainWindow):
         container_widget.setLayout(layout)
         self.setCentralWidget(container_widget)
 
-    def refresh_items(self):
-        self.itemBox.clear()
+    #Refresh item list in gui
+    def refresh_item_table(self):
+        self.itemTable.clearContents()
         items = self.warehouse.get_items()
-        for item in items:
-            self.itemBox.append(item['_id'] + ': ' + item['Description'] + '\n\n')
+        self.itemTable.setRowCount(len(items))
+        for i in range(len(items)):
+            count = 0
+            for key in items[i].keys():
+                self.itemTable.setItem(i, count, QTableWidgetItem(items[i][key].__str__()))
+                count += 1
+            #self.itemBox.append(item['_id'] + ': ' + item['Description'] + '\n\n')
 
     def init_dock_widgets(self):
         widget = QDockWidget("Item Catalog")
@@ -209,13 +213,18 @@ class MainWindow(QMainWindow):
         self.resizeDocks([widget], [self.dimensions[0] * 0.25], Qt.Horizontal)
         layout = QVBoxLayout()
 
-        self.itemBox = QTextEdit()
-        self.itemBox.setReadOnly(True)
-        self.refresh_items()
+        #self.itemBox = QTextEdit()
+        #self.itemBox.setReadOnly(True)
+        #self.refresh_items()
 
-        layout.addWidget(self.itemBox)
+        self.itemTable = QTableWidget()
+        colTitles = self.warehouse.item_column_titles()  #Gets list of values that items have
+        self.itemTable.setColumnCount(len(colTitles))
+        self.itemTable.setHorizontalHeaderLabels(colTitles)
+        self.refresh_item_table()
 
-        #layout.addStretch(1)
+
+        layout.addWidget(self.itemTable)
         container_widget = QWidget()
         container_widget.setLayout(layout)
         widget.setWidget(container_widget)
@@ -236,6 +245,7 @@ class MainWindow(QMainWindow):
 class Application(QApplication):
     def __init__(self):
         super().__init__()
+        self.setWindowIcon(QIcon('icon.png'))
         self.warehouse = Warehouse()
         if len(argv) == 1:
             self.init()

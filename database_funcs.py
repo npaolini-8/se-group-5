@@ -24,6 +24,12 @@ class Warehouse():
     def find_item(self, id):
         return self.items_collection.find_one({"_id": id})
 
+    def item_column_titles(self):
+        return self.items_collection.find_one({}).keys()
+
+    def num_items(self):
+        return self.items_collection.count()
+
     def get_items(self, max = 100):
         items = []
         count = 0
