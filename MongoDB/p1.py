@@ -32,19 +32,22 @@ def increment_barcode_increment(id):
     )
 
 def create_main_item(id, description, modelNumber, brand):
-    items_collection.insert_one(
-        {
-            "_id": id,
-            "Description": description,
-            "Model Number": modelNumber,
-            "Brand": brand,
-            "isActive": True,
-            "Date modified": get_time(),
-            "Last modified by": "getUser()",
-            "Barcode Increment": 0,
-            "Items": []
-        }
-    )
+    try:
+        items_collection.insert_one(
+            {
+                "_id": id,
+                "Description": description,
+                "Model Number": modelNumber,
+                "Brand": brand,
+                "isActive": True,
+                "Date modified": get_time(),
+                "Last modified by": "getUser()",
+                "Barcode Increment": 0,
+                "Items": []
+            }
+        )
+    except:
+        print(f"Error: {id} already exist!")
 
 def create_sub_item(id, container):
     items_collection.update_one(
@@ -80,6 +83,9 @@ def edit_main_item(id, description=None, modelNumber=None, brand=None, isActive=
         {"$set": edit_dict}
     )
 
+def delete_main_item(id):
+    items_collection.delete_one({"_id":id})
+
 def edit_sub_item(id, barcode, container=None, status=None):
     edit_dict = {}
     if container is not None:
@@ -101,6 +107,16 @@ def edit_sub_item(id, barcode, container=None, status=None):
                 "subitem.Barcode": barcode
             }
         ]
+    )
+
+def delete_sub_item(id, barcode):
+    items_collection.update_one(
+        {
+            "_id": id
+        },
+        {  
+            '$pull': {"Items": {"Barcode":barcode}}
+        }
     )
 
 def create_user(id, password, role):
@@ -129,10 +145,15 @@ def edit_user(id, password=None, role=None):
         {"$set": edit_dict}
     )
 
+def delete_user(id):
+    users_collection.delete_one({"_id": id})
 
-# create_main_item("Banana", "This is a fruit derived from the angels.", "BANANA0", "Banana Incorporated")
-# create_sub_item("Banana", "BAN0001", "PALLET0001")
+# create_main_item("Logitech G502 Mouse", "This is a lightweight 5kg mouse.", "LG5M", "Logitech")
+# create_sub_item("Banana", "PALLET0001")
 # edit_main_item("Banana", description="New Description", brand="New Brand") ~ This is how we would use optional parameters to only have to input what we want to change
 # edit_sub_item("Banana", "BAN3", container="PALLET0001", status="PooPooPeePee")
-# create_user("TonyN123", "banana123", "Admin")
+# create_user("admin", "admin", "Admin")
 # edit_user("TonyN123", password="newPassword123")
+# delete_main_item("Banana")
+# delete_user("TonyN22")
+# delete_sub_item("Oranges", "ORA1")
