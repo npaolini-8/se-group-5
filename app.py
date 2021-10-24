@@ -1,6 +1,6 @@
 from PySide6.QtWidgets import (QApplication, QMainWindow, QTextEdit, QLineEdit,
 QDockWidget, QCheckBox, QVBoxLayout, QWidget, QPushButton, QLabel, QSizePolicy, QTableWidget,
-QTableWidgetItem)
+QTableWidgetItem, QHBoxLayout, QStackedLayout, QButtonGroup, QRadioButton)
 from PySide6.QtCore import Qt, QTimer,QRunnable, Slot, QThreadPool, Signal, QObject, QThread
 from PySide6.QtGui import QIcon
 from ssl import CERT_NONE
@@ -200,39 +200,78 @@ class MainWindow(QMainWindow):
         self.itemTable.clearContents()
         items = self.warehouse.get_items()
         self.itemTable.setRowCount(len(items))
+
+        if self.idCheck.isChecked():
+            items = sorted(items, key=lambda x:x['_id'])
+        elif self.descriptionCheck.isChecked():
+            items = sorted(items, key=lambda x:x['Description'])
+        elif self.modelCheck.isChecked():
+            items = sorted(items, key=lambda x:x['Model Number'])
+        elif self.brandCheck.isChecked():
+            items = sorted(items, key=lambda x:x['Brand'])
+        elif self.dateCheck.isChecked():
+            items = sorted(items, key=lambda x:x['Date modified'], reverse=True)
+        elif self.subCheck.isChecked():
+            items = sorted(items, key=lambda x:len(x['Items']), reverse=True)
+
+
         for i in range(len(items)):
             count = 0
             for key in items[i].keys():
                 self.itemTable.setItem(i, count, QTableWidgetItem(items[i][key].__str__()))
                 count += 1
-            #self.itemBox.append(item['_id'] + ': ' + item['Description'] + '\n\n')
 
     def init_dock_widgets(self):
         widget = QDockWidget("Item Catalog")
-        self.addDockWidget(Qt.LeftDockWidgetArea, widget)
-        self.resizeDocks([widget], [self.dimensions[0] * 0.25], Qt.Horizontal)
+        self.addDockWidget(Qt.BottomDockWidgetArea, widget)
+        self.resizeDocks([widget], [self.dimensions[1] * 0.33], Qt.Vertical)
         layout = QVBoxLayout()
+        checkLayout = QHBoxLayout()
 
-        #self.itemBox = QTextEdit()
-        #self.itemBox.setReadOnly(True)
-        #self.refresh_items()
-
+        #Create and setup item table
         self.itemTable = QTableWidget()
+        self.itemTable.verticalHeader().setVisible(False)
         colTitles = self.warehouse.item_column_titles()  #Gets list of values that items have
         self.itemTable.setColumnCount(len(colTitles))
         self.itemTable.setHorizontalHeaderLabels(colTitles)
-        self.refresh_item_table()
+        self.itemTable.horizontalHeader().setStretchLastSection(True)
 
+        #Create radio buttons for sorting
+        self.idCheck = QRadioButton("_id")
+        self.descriptionCheck = QRadioButton("Description")
+        self.modelCheck = QRadioButton("Model Number")
+        self.brandCheck = QRadioButton("Brand")
+        self.dateCheck = QRadioButton("Most recently modified")
+        self.subCheck = QRadioButton("Sub-item count")
+        self.idCheck.setChecked(True)
 
+        #Add all radio buttons to a layout
+        checkLayout.addWidget(self.idCheck)
+        checkLayout.addWidget(self.descriptionCheck)
+        checkLayout.addWidget(self.modelCheck)
+        checkLayout.addWidget(self.brandCheck)
+        checkLayout.addWidget(self.dateCheck)
+        checkLayout.addWidget(self.subCheck)
+
+        refreshBtn = QPushButton("Refresh")
+        refreshBtn.clicked.connect(self.refresh_item_table)
+        checkLayout.addWidget(refreshBtn)
+
+        checkLayout.addStretch(1)
+
+        layout.addLayout(checkLayout)
         layout.addWidget(self.itemTable)
+
         container_widget = QWidget()
         container_widget.setLayout(layout)
         widget.setWidget(container_widget)
+        self.refresh_item_table()
+
 
     def init_window_props(self):
         self.setWindowTitle('Warehouse System Control Panel')
         geometry = self.screen().availableGeometry()
-        self.dimensions = (geometry.width() * 0.8, geometry.height() * 0.8)
+        self.dimensions = (geometry.width() * 0.6, geometry.height() * 0.6)
         self.resize(self.dimensions[0], self.dimensions[1])
         self.move((geometry.width() - self.dimensions[0]) / 2, (geometry.height() - self.dimensions[1]) / 2)
 
@@ -245,7 +284,7 @@ class MainWindow(QMainWindow):
 class Application(QApplication):
     def __init__(self):
         super().__init__()
-        self.setWindowIcon(QIcon('icon.png'))
+        self.setWindowIcon(QIcon('Resources/icon.png'))
         self.warehouse = Warehouse()
         if len(argv) == 1:
             self.init()
