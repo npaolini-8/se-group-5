@@ -2,7 +2,7 @@ from PySide6.QtWidgets import (QApplication, QMainWindow, QTextEdit, QLineEdit,
 QDockWidget, QCheckBox, QVBoxLayout, QWidget, QPushButton, QLabel, QSizePolicy, QTableWidget,
 QTableWidgetItem, QHBoxLayout, QStackedLayout, QButtonGroup, QRadioButton)
 from PySide6.QtCore import Qt, QTimer,QRunnable, Slot, QThreadPool, Signal, QObject, QThread
-from PySide6.QtGui import QIcon
+from PySide6.QtGui import QIcon, QAction
 from ssl import CERT_NONE
 from time import sleep
 from sys import exit, argv
@@ -220,11 +220,13 @@ class MainWindow(QMainWindow):
             for key in items[i].keys():
                 self.itemTable.setItem(i, count, QTableWidgetItem(items[i][key].__str__()))
                 count += 1
+            self.itemTable.setItem(i, count, QTableWidgetItem(str(len(items[i]['Items']))))
 
     def init_dock_widgets(self):
-        widget = QDockWidget("Item Catalog")
-        self.addDockWidget(Qt.BottomDockWidgetArea, widget)
-        self.resizeDocks([widget], [self.dimensions[1] * 0.33], Qt.Vertical)
+        self.bottomDockWidget = QDockWidget("Item Catalog")
+        #self.setDockOptions(None)
+        self.addDockWidget(Qt.BottomDockWidgetArea, self.bottomDockWidget)
+        self.resizeDocks([self.bottomDockWidget], [self.dimensions[1] * 0.33], Qt.Vertical)
         layout = QVBoxLayout()
         checkLayout = QHBoxLayout()
 
@@ -232,9 +234,9 @@ class MainWindow(QMainWindow):
         self.itemTable = QTableWidget()
         self.itemTable.verticalHeader().setVisible(False)
         colTitles = self.warehouse.item_column_titles()  #Gets list of values that items have
-        self.itemTable.setColumnCount(len(colTitles))
-        self.itemTable.setHorizontalHeaderLabels(colTitles)
-        self.itemTable.horizontalHeader().setStretchLastSection(True)
+        self.itemTable.setColumnCount(10)
+        self.itemTable.setHorizontalHeaderLabels(['id', 'Description', 'Model Number', 'Brand', 'Active?', 'Last modified', 'Last modified by', 'Increment', 'Items', 'Stock'])
+        #self.itemTable.horizontalHeader().setStretchLastSection(True)
 
         #Create radio buttons for sorting
         self.idCheck = QRadioButton("_id")
@@ -242,10 +244,11 @@ class MainWindow(QMainWindow):
         self.modelCheck = QRadioButton("Model Number")
         self.brandCheck = QRadioButton("Brand")
         self.dateCheck = QRadioButton("Most recently modified")
-        self.subCheck = QRadioButton("Sub-item count")
+        self.subCheck = QRadioButton("Stock")
         self.idCheck.setChecked(True)
 
         #Add all radio buttons to a layout
+        checkLayout.addWidget(QLabel("Order by: "))
         checkLayout.addWidget(self.idCheck)
         checkLayout.addWidget(self.descriptionCheck)
         checkLayout.addWidget(self.modelCheck)
@@ -264,7 +267,7 @@ class MainWindow(QMainWindow):
 
         container_widget = QWidget()
         container_widget.setLayout(layout)
-        widget.setWidget(container_widget)
+        self.bottomDockWidget.setWidget(container_widget)
         self.refresh_item_table()
 
 
@@ -275,10 +278,20 @@ class MainWindow(QMainWindow):
         self.resize(self.dimensions[0], self.dimensions[1])
         self.move((geometry.width() - self.dimensions[0]) / 2, (geometry.height() - self.dimensions[1]) / 2)
 
+    def bottomDockInvert(self):
+        self.bottomDockWidget.setVisible(not self.bottomDockWidget.isVisible())
+
     def init_menu(self):
-        self.menuBar().addMenu("File")
-        self.menuBar().addMenu("Edit")
-        self.menuBar().addMenu("View")
+        file = self.menuBar().addMenu("File")
+        edit = self.menuBar().addMenu("Edit")
+        view = self.menuBar().addMenu("View")
+
+        bottomDockAction = QAction("Item catalog", self)
+        bottomDockAction.setStatusTip("Pane to browse item list")
+        bottomDockAction.setCheckable(True)
+        bottomDockAction.triggered.connect(self.bottomDockInvert)
+        view.addAction(bottomDockAction)
+
 
 #Application controls all sub-windows
 class Application(QApplication):
