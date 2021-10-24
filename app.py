@@ -222,13 +222,36 @@ class MainWindow(QMainWindow):
                 count += 1
             self.itemTable.setItem(i, count, QTableWidgetItem(str(len(items[i]['Items']))))
 
+    def updateSearchPlaceholder(self):
+        if self.idCheck.isChecked():
+            self.searchLine.setPlaceholderText("id")
+            self.sortBtn.setText("Sort by id")
+        elif self.descriptionCheck.isChecked():
+            self.searchLine.setPlaceholderText("description")
+            self.sortBtn.setText("Sort by description")
+        elif self.modelCheck.isChecked():
+            self.searchLine.setPlaceholderText("model number")
+            self.sortBtn.setText("Sort by model number")
+        elif self.brandCheck.isChecked():
+            self.searchLine.setPlaceholderText("brand")
+            self.sortBtn.setText("Sort by brand")
+        elif self.dateCheck.isChecked():
+            self.searchLine.setPlaceholderText("date")
+            self.sortBtn.setText("Sort by date")
+        elif self.subCheck.isChecked():
+            self.searchLine.setPlaceholderText("stock")
+            self.sortBtn.setText("Sort by stock")
+
     def init_dock_widgets(self):
         self.bottomDockWidget = QDockWidget("Item Catalog")
         #self.setDockOptions(None)
         self.addDockWidget(Qt.BottomDockWidgetArea, self.bottomDockWidget)
         self.resizeDocks([self.bottomDockWidget], [self.dimensions[1] * 0.33], Qt.Vertical)
         layout = QVBoxLayout()
-        checkLayout = QHBoxLayout()
+        searchLayout = QHBoxLayout()
+        orderLayout = QHBoxLayout()
+
+
 
         #Create and setup item table
         self.itemTable = QTableWidget()
@@ -239,7 +262,7 @@ class MainWindow(QMainWindow):
         #self.itemTable.horizontalHeader().setStretchLastSection(True)
 
         #Create radio buttons for sorting
-        self.idCheck = QRadioButton("_id")
+        self.idCheck = QRadioButton("id")
         self.descriptionCheck = QRadioButton("Description")
         self.modelCheck = QRadioButton("Model Number")
         self.brandCheck = QRadioButton("Brand")
@@ -247,22 +270,40 @@ class MainWindow(QMainWindow):
         self.subCheck = QRadioButton("Stock")
         self.idCheck.setChecked(True)
 
+        self.idCheck.clicked.connect(self.updateSearchPlaceholder)
+        self.descriptionCheck.clicked.connect(self.updateSearchPlaceholder)
+        self.modelCheck.clicked.connect(self.updateSearchPlaceholder)
+        self.brandCheck.clicked.connect(self.updateSearchPlaceholder)
+        self.dateCheck.clicked.connect(self.updateSearchPlaceholder)
+        self.subCheck.clicked.connect(self.updateSearchPlaceholder)
+
+        #Add items to searchLayout
+        searchLayout.addWidget(QLabel("Search for: "))
+        self.searchLine = QLineEdit()
+        self.searchLine.setPlaceholderText("id")
+        searchLayout.addWidget(self.searchLine)
+        searchLayout.addWidget(QPushButton("Search"))
+        #searchLayout.addWidget(self.descriptionCheck)
+
         #Add all radio buttons to a layout
-        checkLayout.addWidget(QLabel("Order by: "))
-        checkLayout.addWidget(self.idCheck)
-        checkLayout.addWidget(self.descriptionCheck)
-        checkLayout.addWidget(self.modelCheck)
-        checkLayout.addWidget(self.brandCheck)
-        checkLayout.addWidget(self.dateCheck)
-        checkLayout.addWidget(self.subCheck)
+        orderLayout.addWidget(QLabel("Field to search by: "))
+        orderLayout.addWidget(self.idCheck)
+        orderLayout.addWidget(self.descriptionCheck)
+        orderLayout.addWidget(self.modelCheck)
+        orderLayout.addWidget(self.brandCheck)
+        orderLayout.addWidget(self.dateCheck)
+        orderLayout.addWidget(self.subCheck)
 
-        refreshBtn = QPushButton("Refresh")
-        refreshBtn.clicked.connect(self.refresh_item_table)
-        checkLayout.addWidget(refreshBtn)
+        self.sortBtn = QPushButton("Sort by id")
+        self.sortBtn.clicked.connect(self.refresh_item_table)
+        orderLayout.addWidget(self.sortBtn)
 
-        checkLayout.addStretch(1)
+        searchLayout.addStretch(1)
+        orderLayout.addStretch(1)
 
-        layout.addLayout(checkLayout)
+
+        layout.addLayout(orderLayout)
+        layout.addLayout(searchLayout)
         layout.addWidget(self.itemTable)
 
         container_widget = QWidget()
