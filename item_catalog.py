@@ -43,7 +43,9 @@ class ItemCatalogWidget(QDockWidget):
         self.searchLine = QLineEdit()
         self.searchLine.setPlaceholderText("id")
         searchLayout.addWidget(self.searchLine)
-        searchLayout.addWidget(QPushButton("Search"))
+        self.searchBtn = QPushButton("Search")
+        self.searchBtn.clicked.connect(self.search_clicked)
+        searchLayout.addWidget(self.searchBtn)
         #searchLayout.addWidget(self.descriptionCheck)
 
         #Add all radio buttons to a layout
@@ -56,7 +58,7 @@ class ItemCatalogWidget(QDockWidget):
         orderLayout.addWidget(self.subCheck)
 
         self.sortBtn = QPushButton("Sort by id")
-        self.sortBtn.clicked.connect(self.refresh_item_table)
+        self.sortBtn.clicked.connect(self.normal_refresh_item_table)
         orderLayout.addWidget(self.sortBtn)
 
         searchLayout.addStretch(1)
@@ -69,7 +71,38 @@ class ItemCatalogWidget(QDockWidget):
         container_widget = QWidget()
         container_widget.setLayout(layout)
         self.setWidget(container_widget)
-        self.refresh_item_table()
+        self.normal_refresh_item_table()
+
+    def get_search(self, key, string):
+        results = []
+        items = self.warehouse.get_items()
+        for item in items:
+            if string.upper() in str(item[key]).upper():
+                results.append(item)
+        return results
+
+
+    def search_clicked(self):
+        result = []
+
+        if self.idCheck.isChecked():
+            result = self.get_search('_id', self.searchLine.text())
+        elif self.descriptionCheck.isChecked():
+            result = self.get_search('Description', self.searchLine.text())
+        elif self.modelCheck.isChecked():
+            result = self.get_search('Model Number', self.searchLine.text())
+        elif self.brandCheck.isChecked():
+            result = self.get_search('Brand', self.searchLine.text())
+        elif self.dateCheck.isChecked():
+            result = self.get_search('Date Modified', self.searchLine.text())
+        #elif self.subCheck.isChecked():
+            #result = self.get_search('Items', self.searchLine.text())
+
+
+
+        self.refresh_item_table(result)
+
+
 
     def updateSearchPlaceholder(self):
         if self.idCheck.isChecked():
@@ -91,10 +124,12 @@ class ItemCatalogWidget(QDockWidget):
             self.searchLine.setPlaceholderText("stock")
             self.sortBtn.setText("Sort by stock")
 
+    def normal_refresh_item_table(self):
+        self.refresh_item_table(self.warehouse.get_items())
+
     #Refresh item list in gui
-    def refresh_item_table(self):
+    def refresh_item_table(self, items):
         self.itemTable.clearContents()
-        items = self.warehouse.get_items()
         self.itemTable.setRowCount(len(items))
 
         if self.idCheck.isChecked():
