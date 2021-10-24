@@ -1,6 +1,30 @@
 from PySide6.QtWidgets import (QLineEdit, QDockWidget, QCheckBox,
 QVBoxLayout, QWidget, QPushButton, QLabel, QTableWidget,
-QTableWidgetItem, QHBoxLayout, QRadioButton)
+QTableWidgetItem, QHBoxLayout, QRadioButton, QTableWidgetSelectionRange)
+
+from PySide6.QtCore import Qt
+
+class ItemTableWidget(QTableWidget):
+    def __init__(self,  warehouse):
+        super().__init__()
+        self.warehouse = warehouse
+        self.verticalHeader().setVisible(False)
+        colTitles = self.warehouse.item_column_titles()  #Gets list of values that items have
+        self.setColumnCount(10)
+        self.setHorizontalHeaderLabels(['id', 'Description', 'Model Number',
+        'Brand', 'Active?', 'Last modified', 'Last modified by', 'Increment', 'Items', 'Stock'])
+        self.cellClicked.connect(self.cell_was_clicked)
+        #self.setRangeSelected(QTableWidgetSelectionRange(0, 0, 2, 2), True)
+
+
+    #@override
+    def cell_was_clicked(self, row, column):
+        for i in range(self.rowCount()):
+            self.item(row, i).setSelected(True)
+        #print(row, ' ', column)
+        #self.setRangeSelected(QTableWidgetSelectionRange(row, 0, row + 2, self.columnCount()), True)
+
+
 
 #Item catalog custom widget
 #For displaying table of current items in database
@@ -15,11 +39,8 @@ class ItemCatalogWidget(QDockWidget):
         orderLayout = QHBoxLayout()
 
         #Create and setup item table
-        self.itemTable = QTableWidget()
-        self.itemTable.verticalHeader().setVisible(False)
-        colTitles = self.warehouse.item_column_titles()  #Gets list of values that items have
-        self.itemTable.setColumnCount(10)
-        self.itemTable.setHorizontalHeaderLabels(['id', 'Description', 'Model Number', 'Brand', 'Active?', 'Last modified', 'Last modified by', 'Increment', 'Items', 'Stock'])
+        self.itemTable = ItemTableWidget(self.warehouse)
+
         #self.itemTable.horizontalHeader().setStretchLastSection(True)
 
         #Create radio buttons for sorting
@@ -73,6 +94,7 @@ class ItemCatalogWidget(QDockWidget):
         self.setWidget(container_widget)
         self.normal_refresh_item_table()
 
+
     def get_search(self, key, string):
         results = []
         items = self.warehouse.get_items()
@@ -98,9 +120,8 @@ class ItemCatalogWidget(QDockWidget):
         #elif self.subCheck.isChecked():
             #result = self.get_search('Items', self.searchLine.text())
 
-
-
         self.refresh_item_table(result)
+
 
 
 
@@ -123,6 +144,7 @@ class ItemCatalogWidget(QDockWidget):
         elif self.subCheck.isChecked():
             self.searchLine.setPlaceholderText("stock")
             self.sortBtn.setText("Sort by stock")
+
 
     def normal_refresh_item_table(self):
         self.refresh_item_table(self.warehouse.get_items())
@@ -148,6 +170,11 @@ class ItemCatalogWidget(QDockWidget):
         for i in range(len(items)):
             count = 0
             for key in items[i].keys():
-                self.itemTable.setItem(i, count, QTableWidgetItem(items[i][key].__str__()))
+                item = QTableWidgetItem(items[i][key].__str__())
+                item.setFlags(item.flags() & ~Qt.ItemIsEditable)
+                #item.clicked.connect(self.test)
+                self.itemTable.setItem(i, count, item)
                 count += 1
-            self.itemTable.setItem(i, count, QTableWidgetItem(str(len(items[i]['Items']))))
+            item = QTableWidgetItem(str(len(items[i]['Items'])))
+            item.setFlags(item.flags() & ~Qt.ItemIsEditable)
+            self.itemTable.setItem(i, count, item)
