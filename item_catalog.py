@@ -4,6 +4,8 @@ QTableWidgetItem, QHBoxLayout, QRadioButton, QTableWidgetSelectionRange)
 
 from PySide6.QtCore import Qt
 
+from PySide6.QtGui import QBrush, QColor
+
 class ItemTableWidget(QTableWidget):
     def __init__(self,  warehouse):
         super().__init__()
@@ -14,16 +16,21 @@ class ItemTableWidget(QTableWidget):
         self.setHorizontalHeaderLabels(['id', 'Description', 'Model Number',
         'Brand', 'Active?', 'Last modified', 'Last modified by', 'Increment', 'Items', 'Stock'])
         self.cellClicked.connect(self.cell_was_clicked)
+        self.currentItemChanged.connect(self.cell_was_changed)
         #self.setRangeSelected(QTableWidgetSelectionRange(0, 0, 2, 2), True)
 
 
     #@override
     def cell_was_clicked(self, row, column):
-        for i in range(self.rowCount()):
-            self.item(row, i).setSelected(True)
-        #print(row, ' ', column)
-        #self.setRangeSelected(QTableWidgetSelectionRange(row, 0, row + 2, self.columnCount()), True)
+        self.item(row, column).setSelected(False)
 
+
+    def cell_was_changed(self, current, previous):
+
+        for i in range(self.columnCount()):
+            if previous != None:
+                self.item(previous.row(), i).setBackground(QBrush(QColor(0, 0, 0, 0)))
+            self.item(current.row(), i).setBackground(QBrush(QColor(91, 46, 242, 100)))
 
 
 #Item catalog custom widget
@@ -171,7 +178,7 @@ class ItemCatalogWidget(QDockWidget):
             count = 0
             for key in items[i].keys():
                 item = QTableWidgetItem(items[i][key].__str__())
-                item.setFlags(item.flags() & ~Qt.ItemIsEditable)
+                item.setFlags(item.flags() & ~Qt.ItemIsEditable & ~Qt.ItemIsSelectable)
                 #item.clicked.connect(self.test)
                 self.itemTable.setItem(i, count, item)
                 count += 1
