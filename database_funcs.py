@@ -130,7 +130,7 @@ class Warehouse():
             {
                 "Name": name
             },
-            {  
+            {
                 '$pull': {"Items": {"Barcode":barcode}}
             }
         )
@@ -164,7 +164,8 @@ class Warehouse():
     def delete_user(self, username):
         self.users_collection.delete_one({"Username": username})
 
-warehouse = Warehouse()
+#warehouse = Warehouse()
+#print(warehouse.items_collection.find_one({}))
 
 # create_main_item("Banana", "This is a fruit derived from the angels.", "BANANA0", "Banana Incorporated")
 # create_sub_item("Banana", "BAN0001", "PALLET0001")
