@@ -99,6 +99,9 @@ class Warehouse():
             {"$set": edit_dict}
         )
 
+    def delete_main_item(self, name):
+        self.items_collection.delete_one({"Name":name})
+
     def edit_sub_item(self, Name, barcode, container=None, status=None):
         edit_dict = {}
         if container is not None:
@@ -120,6 +123,16 @@ class Warehouse():
                     "subitem.Barcode": barcode
                 }
             ]
+        )
+
+    def delete_sub_item(self, name, barcode):
+        self.items_collection.update_one(
+            {
+                "Name": name
+            },
+            {  
+                '$pull': {"Items": {"Barcode":barcode}}
+            }
         )
 
     def create_user(self, Name, password, role):
@@ -148,6 +161,8 @@ class Warehouse():
             {"$set": edit_dict}
         )
 
+    def delete_user(self, name):
+        self.users_collection.delete_one({"Name": name})
 
 # create_main_item("Banana", "This is a fruit derived from the angels.", "BANANA0", "Banana Incorporated")
 # create_sub_item("Banana", "BAN0001", "PALLET0001")
