@@ -12,7 +12,7 @@ class ItemTableWidget(QTableWidget):
         self.warehouse = warehouse
         self.verticalHeader().setVisible(False)
         #colTitles = self.warehouse.item_column_titles()  #Gets list of values that items have
-        self.setColumnCount(10)
+        self.setColumnCount(11)
         self.keyHeaderNames = ['id', 'Name', 'Description', 'Model Number',
         'Brand', 'Active?', 'Last modified', 'Last modified by', 'Increment', 'Items']
         self.keyHeaders = ['_id', 'Name', 'Description', 'Model Number',
