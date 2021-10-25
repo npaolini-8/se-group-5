@@ -1,4 +1,6 @@
 from PySide6.QtWidgets import QMainWindow, QLineEdit, QVBoxLayout, QWidget, QPushButton, QLabel
+from time import sleep
+from utils import Worker
 
 #Login gui
 class LoginMainWindow(QMainWindow):
@@ -77,7 +79,7 @@ class LoginMainWindow(QMainWindow):
                 client = self.warehouse.cluster
                 client.server_info()  #This will fail if we don't have a connection to the server
                 users = self.warehouse.users_collection
-                self.user = users.find_one({"_id": self.userName.text(),"Password": self.passWord.text()}) #BretC1, bananafish6
+                self.user = users.find_one({"Username": self.userName.text(),"Password": self.passWord.text()}) #BretC1, bananafish6
                 if self.user == None:  #If user + password doesn't exist
                     self.errorLbl.setStyleSheet("color: red;")
                     self.errorLbl.setText("Invalid login credentials.\nPlease try again.")

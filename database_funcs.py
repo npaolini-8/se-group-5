@@ -164,9 +164,11 @@ class Warehouse():
     def delete_user(self, username):
         self.users_collection.delete_one({"Username": username})
 
+warehouse = Warehouse()
+
 # create_main_item("Banana", "This is a fruit derived from the angels.", "BANANA0", "Banana Incorporated")
 # create_sub_item("Banana", "BAN0001", "PALLET0001")
 # edit_main_item("Banana", description="New Description", brand="New Brand") ~ This is how we would use optional parameters to only have to input what we want to change
 # edit_sub_item("Banana", "BAN3", container="PALLET0001", status="PooPooPeePee")
-# create_user("TonyN123", "banana123", "Admin")
+# warehouse.create_user("admin", "admin", "Admin")
 # edit_user("TonyN123", password="newPassword123")
