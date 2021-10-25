@@ -64,7 +64,7 @@ class ItemCatalogWidget(QDockWidget):
 
         #Create radio buttons for sorting
         self.idCheck = QRadioButton("id")
-        self.nameCheck = QRadioButton("id")
+        self.nameCheck = QRadioButton("Name")
         self.descriptionCheck = QRadioButton("Description")
         self.modelCheck = QRadioButton("Model Number")
         self.brandCheck = QRadioButton("Brand")
