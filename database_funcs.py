@@ -6,8 +6,8 @@ import ssl # Used to specify certificate connection for MongoDB
 def get_time():
     return datetime.now().strftime("%d/%m/%Y %H:%M:%S")
 
-def generate_barcode(id, increment):
-    string = id[0:3].upper()
+def generate_barcode(Name, increment):
+    string = Name[0:3].upper()
     return f'{string}{increment}'
 
 class Warehouse():
@@ -17,12 +17,12 @@ class Warehouse():
         self.items_collection = self.warehouse_database["items"]
         self.users_collection = self.warehouse_database["users"]
 
-    def get_item_increment(self, id):
-        main_item = self.items_collection.find({"_id":id})[0]
+    def get_item_increment(self, Name):
+        main_item = self.items_collection.find({"Name":Name})[0]
         return main_item["Barcode Increment"]
 
-    def find_item(self, id):
-        return self.items_collection.find_one({"_id": id})
+    def find_item(self, Name):
+        return self.items_collection.find_one({"Name": Name})
 
     def item_column_titles(self):
         value = self.items_collection.find_one({})
@@ -44,16 +44,16 @@ class Warehouse():
         return items
 
 
-    def increment_barcode_increment(self, id):
+    def increment_barcode_increment(self, Name):
         self.items_collection.update_one(
-            {"_id": id},
-            {"$set": {"Barcode Increment": self.get_item_increment(id)+1}}
+            {"Name": Name},
+            {"$set": {"Barcode Increment": self.get_item_increment(Name)+1}}
         )
 
-    def create_main_item(self, id, description, modelNumber, brand):
+    def create_main_item(self, name, description, modelNumber, brand):
         self.items_collection.insert_one(
             {
-                "_id": id,
+                "Name": name,
                 "Description": description,
                 "Model Number": modelNumber,
                 "Brand": brand,
@@ -65,13 +65,13 @@ class Warehouse():
             }
         )
 
-    def create_sub_item(self, id, container):
+    def create_sub_item(self, Name, container):
         self.items_collection.update_one(
-            {"_id" : id},
+            {"Name" : Name},
             {"$push":
                 {"Items":
                     {
-                    "Barcode":generate_barcode(id, self.get_item_increment(id)+1),
+                    "Barcode":generate_barcode(Name, self.get_item_increment(Name)+1),
                     "Container":container,
                     "Status":"Available",
                     "Date modified":get_time(),
@@ -80,9 +80,9 @@ class Warehouse():
                 }
             }
         )
-        self.increment_barcode_increment(id)
+        self.increment_barcode_increment(Name)
 
-    def edit_main_item(self, id, description=None, modelNumber=None, brand=None, isActive=None):
+    def edit_main_item(self, Name, description=None, modelNumber=None, brand=None, isActive=None):
         edit_dict = {}
         if description is not None:
             edit_dict.update({"Description": description})
@@ -95,11 +95,11 @@ class Warehouse():
         edit_dict.update([("Date modified",get_time()),("Last modified by","getUser()")])
 
         self.items_collection.update_one(
-            {"_id" : id},
+            {"Name" : Name},
             {"$set": edit_dict}
         )
 
-    def edit_sub_item(self, id, barcode, container=None, status=None):
+    def edit_sub_item(self, Name, barcode, container=None, status=None):
         edit_dict = {}
         if container is not None:
             edit_dict.update({"Items.$[subitem].Container": container})
@@ -109,7 +109,7 @@ class Warehouse():
 
         self.items_collection.update_one(
             {
-                "_id": id
+                "Name": Name
             },
             {
                 '$set': edit_dict
@@ -122,10 +122,10 @@ class Warehouse():
             ]
         )
 
-    def create_user(self, id, password, role):
+    def create_user(self, Name, password, role):
         self.users_collection.insert_one(
             {
-                "_id": id,
+                "Name": Name,
                 "Password": password,
                 "Role": role,
                 "isActive": True,
@@ -135,7 +135,7 @@ class Warehouse():
             }
         )
 
-    def edit_user(self, id, password=None, role=None):
+    def edit_user(self, Name, password=None, role=None):
         edit_dict = {}
         if password is not None:
             edit_dict.update({"Password": password})
@@ -144,7 +144,7 @@ class Warehouse():
         edit_dict.update([("Date modified",get_time()),("Last modified by","getUser()")])
 
         self.users_collection.update_one(
-            {"_id" : id},
+            {"Name" : Name},
             {"$set": edit_dict}
         )
 
