@@ -25,7 +25,10 @@ class Warehouse():
         return self.items_collection.find_one({"_id": id})
 
     def item_column_titles(self):
-        return self.items_collection.find_one({}).keys()
+        value = self.items_collection.find_one({})
+        if value == None:
+            return None
+        return value
 
     def num_items(self):
         return self.items_collection.count()

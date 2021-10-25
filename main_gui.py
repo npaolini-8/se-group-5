@@ -73,7 +73,7 @@ class MainWindow(QMainWindow):
         #Place item catalog widget on bottom dock
         self.itemCatalog = ItemCatalogWidget("Item Catalog", self.warehouse)
         self.addDockWidget(Qt.BottomDockWidgetArea, self.itemCatalog)
-        self.resizeDocks([self.itemCatalog], [self.dimensions[1] * 0.33], Qt.Vertical)
+        self.resizeDocks([self.itemCatalog], [self.dimensions[1] * 0.45], Qt.Vertical)
 
 
     def init_window_props(self):

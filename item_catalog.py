@@ -30,7 +30,8 @@ class ItemTableWidget(QTableWidget):
         for i in range(self.columnCount()):
             if previous != None:
                 self.item(previous.row(), i).setBackground(QBrush(QColor(0, 0, 0, 0)))
-            self.item(current.row(), i).setBackground(QBrush(QColor(91, 46, 242, 100)))
+            if current != None:
+                self.item(current.row(), i).setBackground(QBrush(QColor(91, 46, 242, 100)))
 
 
 #Item catalog custom widget
