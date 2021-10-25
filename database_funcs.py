@@ -135,10 +135,10 @@ class Warehouse():
             }
         )
 
-    def create_user(self, Name, password, role):
+    def create_user(self, username, password, role):
         self.users_collection.insert_one(
             {
-                "Name": Name,
+                "Username": username,
                 "Password": password,
                 "Role": role,
                 "isActive": True,
@@ -148,7 +148,7 @@ class Warehouse():
             }
         )
 
-    def edit_user(self, Name, password=None, role=None):
+    def edit_user(self, username, password=None, role=None):
         edit_dict = {}
         if password is not None:
             edit_dict.update({"Password": password})
@@ -157,12 +157,12 @@ class Warehouse():
         edit_dict.update([("Date modified",get_time()),("Last modified by","getUser()")])
 
         self.users_collection.update_one(
-            {"Name" : Name},
+            {"Username" : username},
             {"$set": edit_dict}
         )
 
-    def delete_user(self, name):
-        self.users_collection.delete_one({"Name": name})
+    def delete_user(self, username):
+        self.users_collection.delete_one({"Username": username})
 
 # create_main_item("Banana", "This is a fruit derived from the angels.", "BANANA0", "Banana Incorporated")
 # create_sub_item("Banana", "BAN0001", "PALLET0001")
