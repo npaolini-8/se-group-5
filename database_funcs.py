@@ -66,12 +66,13 @@ class Warehouse():
         )
 
     def create_sub_item(self, Name, container):
+        barcode = generate_barcode(Name, self.get_item_increment(Name)+1)
         self.items_collection.update_one(
             {"Name" : Name},
             {"$push":
                 {"Items":
                     {
-                    "Barcode":generate_barcode(Name, self.get_item_increment(Name)+1),
+                    "Barcode":barcode,
                     "Container":container,
                     "Status":"Available",
                     "Date modified":get_time(),
@@ -81,6 +82,7 @@ class Warehouse():
             }
         )
         self.increment_barcode_increment(Name)
+        return barcode
 
     def edit_main_item(self, Name, description=None, modelNumber=None, brand=None, isActive=None):
         edit_dict = {}
