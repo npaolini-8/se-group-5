@@ -1,5 +1,6 @@
 from pymongo import MongoClient # MongoDB Library to connect to database.
 from datetime import datetime # Used to get timestamps for database information
+from bson.objectid import ObjectId
 import ssl # Used to specify certificate connection for MongoDB
 
 
@@ -16,6 +17,8 @@ class Warehouse():
         self.warehouse_database = self.cluster["warehouse"]
         self.items_collection = self.warehouse_database["items"]
         self.users_collection = self.warehouse_database["users"]
+        self.orders_collection = self.warehouse_database["orders"]
+        self.orders_history_collection = self.warehouse_database["orders_history"]
 
     def get_item_increment(self, Name):
         main_item = self.items_collection.find({"Name":Name})[0]
@@ -166,7 +169,35 @@ class Warehouse():
     def delete_user(self, username):
         self.users_collection.delete_one({"Username": username})
 
-#warehouse = Warehouse()
+    def create_order(self, order_type, client, status):
+        self.orders_collection.insert_one(
+            {
+                "Order Type": order_type,
+                "Client": client,
+                "Status": status,
+                "Date modified": get_time(),
+                "Last modified by": "getUser()",
+                "Order Items": []
+            }
+        )
+    
+    def add_to_order(self, order_id, item_name, count):
+        item = self.find_item(item_name)
+        obj = ObjectId(order_id)
+        self.orders_collection.update_one(
+            {"_id" : obj},
+            {"$push":
+                {"Order Items":
+                    {
+                    "Item ID": item["_id"],
+                    "Item Name": item["Name"],
+                    "Count": count
+                    }
+                }
+            }
+        )
+
+# warehouse = Warehouse()
 #print(warehouse.items_collection.find_one({}))
 
 # create_main_item("Banana", "This is a fruit derived from the angels.", "BANANA0", "Banana Incorporated")
@@ -175,3 +206,5 @@ class Warehouse():
 # edit_sub_item("Banana", "BAN3", container="PALLET0001", status="PooPooPeePee")
 # warehouse.create_user("admin", "admin", "Admin")
 # edit_user("TonyN123", password="newPassword123")
+# warehouse.create_order("Random Type", "Jerry", "IN PROGRESS")
+# warehouse.add_to_order("617f52a84464fbb2790d1ca2", "Logitech G502 Lightspeed", 3)
