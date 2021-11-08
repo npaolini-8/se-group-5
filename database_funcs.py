@@ -19,6 +19,7 @@ class Warehouse():
         self.users_collection = self.warehouse_database["users"]
         self.orders_collection = self.warehouse_database["orders"]
         self.orders_history_collection = self.warehouse_database["orders_history"]
+        self.containers_collection = self.warehouse_database["containers"]
 
     def get_item_increment(self, Name):
         main_item = self.items_collection.find({"Name":Name})[0]
@@ -197,7 +198,100 @@ class Warehouse():
             }
         )
 
-# warehouse = Warehouse()
+    def add_container_type( self, name, length, width, depth, max_weight ):
+        self.containers_collection.insert_one(
+            {
+                "name" : name,
+                "legnth" : length,
+                "width" : width,
+                "depth" : depth,
+                "max_weight" : max_weight,
+                "last_modified" : get_time(),
+                "last_modified_by" : "getUser()",
+                "containers" : [],
+                "id_increment" : 0
+            }
+        )
+    
+    def find_container_type(self, name):
+        return self.containers_collection.find_one({"name": name})
+
+    def add_container( self, name, x_loc, y_loc):
+
+        #grab id increment for id generation, save, then increment
+        container_type = self.find_container_type(name)
+        id_increment = container_type["id_increment"]
+        id_increment += 1
+        self.containers_collection.update_one(
+            {"name" : name},
+            {"$set" :
+                {
+                    "id_increment" : id_increment
+                }
+            }
+        )
+
+        #create new container using id increment
+        self.containers_collection.update_one(
+            {"name" : name},
+            {"$push":
+                {"containers":
+                    {
+                        "id" : str(id_increment),
+                        "v_curr" : 0,
+                        "w_curr" : 0,
+                        "x_loc" : x_loc,
+                        "y_loc" : y_loc,
+                        "last_modified" : get_time(),
+                        "last_modified_by" : "getUser()",
+                        "items" : []
+
+                    }
+                }
+            }
+        )
+    
+    #returns single container object from container type
+    #TODO: is there a better way to do this? need to search an array of dicts
+    def find_container( self, cont_type, cont_id ):
+
+        container_type = self.find_container_type(cont_type)
+
+        for container in container_type["containers"]:
+            if container["id"] == cont_id:
+                return container
+        
+        return None
+
+    
+    #adds item to container
+    def add_item_to_container( self, cont_type, cont_id, item_name, item_barcode ):
+
+        #grab container, then the item list, append to the list, set the list in the db to the new list (list of item dicts)
+        container = self.find_container( cont_type, cont_id)
+
+        item_list = container["items"]
+        item_list.append( {"item_name":item_name, "barcode": item_barcode})
+
+        self.containers_collection.update_one(
+            {
+                "name": cont_type
+            },
+            {
+                '$set': { "containers.$[containers].items": item_list}
+            },
+            upsert=False,
+            array_filters=[
+                {
+                    "containers.id": cont_id
+                }
+            ]
+        )
+
+
+
+
+#warehouse = Warehouse()
 #print(warehouse.items_collection.find_one({}))
 
 # create_main_item("Banana", "This is a fruit derived from the angels.", "BANANA0", "Banana Incorporated")
@@ -208,3 +302,10 @@ class Warehouse():
 # edit_user("TonyN123", password="newPassword123")
 # warehouse.create_order("Random Type", "Jerry", "IN PROGRESS")
 # warehouse.add_to_order("617f52a84464fbb2790d1ca2", "Logitech G502 Lightspeed", 3)
+
+#atomic container tests, all passed
+#print(warehouse.find_container_type("testContainer"))
+#print(warehouse.find_container("testContainer","1"))
+#warehouse.add_container_type("test2", 14, 15, 16, 1000)
+#warehouse.add_container("test2", 50, 100)
+#warehouse.add_item_to_container("test2", "1", "acorn", "AC01")
