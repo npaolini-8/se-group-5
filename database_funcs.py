@@ -171,7 +171,7 @@ class Warehouse():
         self.users_collection.delete_one({"Username": username})
 
     def create_order(self, order_type, client, status):
-        self.orders_collection.insert_one(
+        inserted_result = self.orders_collection.insert_one(
             {
                 "Order Type": order_type,
                 "Client": client,
@@ -181,6 +181,7 @@ class Warehouse():
                 "Order Items": []
             }
         )
+        return str(inserted_result.inserted_id)
     
     def add_to_order(self, order_id, item_name, count):
         item = self.find_item(item_name)
@@ -309,3 +310,6 @@ class Warehouse():
 #warehouse.add_container_type("test2", 14, 15, 16, 1000)
 #warehouse.add_container("test2", 50, 100)
 #warehouse.add_item_to_container("test2", "1", "acorn", "AC01")
+
+#warehouse.create_order("Random Type", "Jerry", "IN PROGRESS")
+# warehouse.add_to_order("617f52a84464fbb2790d1ca2", "Logitech G502 Lightspeed", 3)
