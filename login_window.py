@@ -58,6 +58,7 @@ class LoginWindow(QMainWindow):
 
     #Just a cool little login text animation as a confirmation that you are logging in
     def load_animation(self):
+        self.errorLbl.setStyleSheet("color: green;")
         sleep(0.15)
         self.errorLbl.setText("User found.  Logging in..")
         sleep(0.15)
@@ -71,25 +72,28 @@ class LoginWindow(QMainWindow):
         sleep(0.15)
 
     def main_startup(self):
+        self.errorLbl.setText("")
         self.warehouse_controller.switch_to(self, 'main')
 
     def try_to_login(self):
         valid = not (len(self.userName.text()) == 0 or len(self.passWord.text()) == 0)
         if valid:  #If username and password fields aren't empty
             try:
-                self.user = self.warehouse_controller.connect_user(self.userName.text(), self.passWord.text())  #Will cause exception if server is not connected -- will return None if no user with those credentials
+                user = self.warehouse_controller.connect_user(self.userName.text(), self.passWord.text())  #Will cause exception if server is not connected -- will return None if no user with those credentials
 
-                if self.user == None:  #If user + password doesn't exist
+                if user == None:  #If user + password doesn't exist
                     self.errorLbl.setStyleSheet("color: red;")
                     self.errorLbl.setText("Invalid login credentials.\nPlease try again.")
                 else:
                     self.errorLbl.setStyleSheet("color: green;")
                     self.errorLbl.setText("User found.  Logging in.")
+                    self.warehouse_controller.set_current_user(user)
 
                     #Thread an animation to run before closing the login gui and opening main gui
-                    worker = Worker(self.load_animation)
-                    worker.signals.finished.connect(self.main_startup)
-                    self.threadpool.start(worker)
+                    #worker = Worker(self.load_animation)
+                    #worker.signals.finished.connect(self.main_startup)
+                    #self.threadpool.start(worker)
+                    self.main_startup()
 
             except Exception as e:
                 print(e)

@@ -1,10 +1,10 @@
 from warehouse import Warehouse
-from app import Application
-
+from application import Application
 
 class WarehouseController():
     def __init__(self):
         self.warehouse = Warehouse()
+        self.current_user = None
         self.app = Application(self)
         exit(self.app.exec())
 
@@ -24,6 +24,5 @@ class WarehouseController():
         self.warehouse.cluster.server_info()  #This will fail if we don't have a connection to the server
         return self.warehouse.users_collection.find_one({"Username": username,"Password": password}) #BretC1, bananafish6
 
-
-if __name__ == '__main__':
-    controller = WarehouseController()
+    def set_current_user(self, new_user):
+        self.current_user = new_user
