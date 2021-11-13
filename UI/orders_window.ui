@@ -17,9 +17,9 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>10</y>
+     <y>50</y>
      <width>201</width>
-     <height>581</height>
+     <height>541</height>
     </rect>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout">
@@ -120,6 +120,19 @@
      <widget class="QTableView" name="selected_tbl"/>
     </item>
    </layout>
+  </widget>
+  <widget class="QPushButton" name="return_btn">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>121</width>
+     <height>34</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Return</string>
+   </property>
   </widget>
  </widget>
  <resources/>
