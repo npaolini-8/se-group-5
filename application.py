@@ -14,6 +14,7 @@ class Application(QApplication):
         super().__init__()
         self.setWindowIcon(QIcon('Resources/icon.png'))
         self.warehouse_controller = warehouse_controller
+        self.warehouse_controller.get_incoming_orders()
         if len(argv) == 1 or argv[1] == 'n':  #n -- normal startup
             self.start()
         elif argv[1] == 'm':                #m -- skip to main window

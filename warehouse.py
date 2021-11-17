@@ -49,7 +49,19 @@ class Warehouse():
             {"Name": Name},
             {"$set": {"Barcode Increment": self.get_item_increment(Name)+1}}
         )
-        
+
+    def get_incoming_orders(self):
+        incoming = []
+        for order in self.orders_collection.find({'Order Type': 'Incoming'}):
+            incoming.append(order)
+        return incoming
+
+    def get_outgoing_orders(self):
+        outgoing = []
+        for order in self.orders_collection.find({'Order Type': 'Outgoing'}):
+            outgoing.append(order)
+        return outgoing
+
     def create_main_item(self, name, description, modelNumber, brand):
         self.items_collection.insert_one(
             {
@@ -284,3 +296,6 @@ class Warehouse():
                 }
             ]
         )
+
+#warehouse = Warehouse()
+#warehouse.get_incoming_orders()

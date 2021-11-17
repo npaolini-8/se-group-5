@@ -26,3 +26,15 @@ class WarehouseController():
 
     def set_current_user(self, new_user):
         self.current_user = new_user
+
+    def get_incoming_orders(self):  #Formatted purposefully
+        orders = []
+        for order in self.warehouse.get_incoming_orders():
+            orders.append({'Client': order['Client'], 'Status': order['Status'], 'Order Items': str([str(item['Count']) + ' ' + item['Item Name'] + 's' for item in order['Order Items']])})
+        return orders
+
+    def get_outgoing_orders(self):  #Formatted purposefully
+        orders = []
+        for order in self.warehouse.get_outgoing_orders():
+            orders.append({'Client': order['Client'], 'Status': order['Status'], 'Order Items': str([str(item['Count']) + ' ' + item['Item Name'] + 's' for item in order['Order Items']])})
+        return orders
