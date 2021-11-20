@@ -14,10 +14,10 @@ class Warehouse():
         self.orders_history_collection = self.warehouse_database["orders_history"]
         self.containers_collection = self.warehouse_database["containers"]
 
-    def get_time():
+    def get_time(self):
         return datetime.now().strftime("%d/%m/%Y %H:%M:%S")
 
-    def generate_barcode(Name, increment):
+    def generate_barcode(self, Name, increment):
         string = Name[0:3].upper()
         return f'{string}{increment}'
 

@@ -81,10 +81,12 @@ class Ui_CreateOrder(object):
 
         self.verticalLayout_4.addWidget(self.plus_btn)
 
-        self.counter_view = QTextBrowser(self.verticalLayoutWidget_4)
-        self.counter_view.setObjectName(u"counter_view")
+        self.count_line = QLineEdit(self.verticalLayoutWidget_4)
+        self.count_line.setObjectName(u"count_line")
+        self.count_line.setAlignment(Qt.AlignCenter)
+        self.count_line.setReadOnly(True)
 
-        self.verticalLayout_4.addWidget(self.counter_view)
+        self.verticalLayout_4.addWidget(self.count_line)
 
         self.minus_btn = QPushButton(self.verticalLayoutWidget_4)
         self.minus_btn.setObjectName(u"minus_btn")
@@ -112,9 +114,12 @@ class Ui_CreateOrder(object):
         self.label_2.setText(QCoreApplication.translate("Dialog", u"Client", None))
         self.submit_order_btn.setText(QCoreApplication.translate("Dialog", u"Submit Order", None))
         self.plus_btn.setText(QCoreApplication.translate("Dialog", u"+", None))
+        self.count_line.setText(QCoreApplication.translate("Dialog", u"0", None))
+        self.count_line.setPlaceholderText("")
         self.minus_btn.setText(QCoreApplication.translate("Dialog", u"-", None))
         self.remove_from_order_btn.setText(QCoreApplication.translate("Dialog", u"Remove from Order", None))
     # retranslateUi
+
 
 class CreateOrderWindow(QDialog):
     def __init__(self, warehouse_controller):
@@ -125,12 +130,16 @@ class CreateOrderWindow(QDialog):
         self.init_buttons()
         self.init_tables()
         self.ui.search_bar_line.textChanged.connect(self.filter_table)
-        self.ui.search_tbl.setSelectionBehavior(QAbstractItemView.SelectionBehavior.SelectRows)
-        self.ui.search_tbl.setSelectionMode(QAbstractItemView.SingleSelection)
 
     def init_buttons(self):
         self.ui.return_btn.clicked.connect(self.return_clicked)
         self.ui.add_to_order_btn.clicked.connect(self.add_to_order)
+        self.ui.remove_from_order_btn.clicked.connect(self.remove_from_order)
+        self.plus_minus_btn = QButtonGroup()
+        self.plus_minus_btn.addButton(self.ui.plus_btn)
+        self.plus_minus_btn.addButton(self.ui.minus_btn)
+        self.plus_minus_btn.buttonClicked.connect(self.choose_amount)
+        self.ui.submit_order_btn.clicked.connect(self.create_order)
 
     def return_clicked(self):
         self.warehouse_controller.switch_to(self, 'main')
@@ -147,24 +156,76 @@ class CreateOrderWindow(QDialog):
             self.ui.search_tbl.setRowHidden(row, not filtered)
 
     def add_to_order(self):
-        row = self.ui.search_tbl.currentRow()
-        item_col0 = QTableWidgetItem(self.ui.search_tbl.item(row, 0))
-        item_col1 = QTableWidgetItem(self.ui.search_tbl.item(row, 1))
-        
-        
-        if self.ui.order_items_tbl.item(0, 0).text() == '':
-            self.ui.order_items_tbl.setItem(0, 0, item_col0)
-            self.ui.order_items_tbl.setItem(0, 1, item_col1)
-        #self.ui.order_items_tbl.setItem(self.ui.order_items_tbl.rowCount()-1, )
+        try:
+            row = self.ui.search_tbl.currentRow()
+            item_col0 = QTableWidgetItem(self.ui.search_tbl.item(row, 0))
+            item_col1 = QTableWidgetItem(self.ui.search_tbl.item(row, 1))
+
+            if self.ui.order_items_tbl.item(0, 0) is None or self.ui.order_items_tbl.item(0, 0).text() == '':
+                if int(item_col1.text()) != 0:
+                    if int(item_col1.text()) >= int(self.ui.count_line.text()):
+                        self.ui.order_items_tbl.setItem(0, 0, item_col0)
+                        amountItem = QTableWidgetItem(self.ui.count_line.text())
+                        self.ui.order_items_tbl.setItem(0, 1, amountItem)
+                        newStockItem = QTableWidgetItem(str(int(item_col1.text())-int(self.ui.count_line.text())))
+                        self.ui.search_tbl.setItem(row, 1, newStockItem)
+            else:
+                if int(item_col1.text()) != 0:
+                    if int(item_col1.text()) >= int(self.ui.count_line.text()):
+                        self.ui.order_items_tbl.insertRow(self.ui.order_items_tbl.rowCount())
+                        self.ui.order_items_tbl.setItem(self.ui.order_items_tbl.rowCount()-1, 0, item_col0)
+                        amountItem = QTableWidgetItem(self.ui.count_line.text())
+                        self.ui.order_items_tbl.setItem(self.ui.order_items_tbl.rowCount()-1, 1, amountItem)
+                        newStockItem = QTableWidgetItem(str(int(item_col1.text())-int(self.ui.count_line.text())))
+                        self.ui.search_tbl.setItem(row, 1, newStockItem)
+        except ValueError: # This error comes up when you haven't selected an item yet.
+            pass
+
+    def remove_from_order(self):
+        try:
+            order_row = self.ui.order_items_tbl.currentRow()
+            restock_amount = int(self.ui.order_items_tbl.item(order_row, 1).text())
+            search_item_string = self.ui.order_items_tbl.item(order_row, 0).text()
+            search_items = self.ui.search_tbl.findItems(search_item_string, Qt.MatchContains)
+            if search_items:
+                item = search_items[0]
+                item_row = item.row()
+                current_stock = int(self.ui.search_tbl.item(item_row, 1).text())
+                newStockItem = QTableWidgetItem(str(current_stock+restock_amount))
+                self.ui.search_tbl.setItem(item_row, 1, newStockItem)
+            self.ui.order_items_tbl.removeRow(order_row)
+
+            if self.ui.order_items_tbl.rowCount() == 0:
+                self.ui.order_items_tbl.insertRow(self.ui.order_items_tbl.rowCount())
+        except AttributeError: # This error comes up when there's nothing to remove.
+            pass
+
+    def choose_amount(self, btn):
+        try:
+            current_amount = int(self.ui.count_line.text())
+            row = self.ui.search_tbl.currentRow()
+            item_col1 = QTableWidgetItem(self.ui.search_tbl.item(row, 1))
+            if btn.objectName() == 'plus_btn':
+                if current_amount < int(item_col1.text()):
+                    self.ui.count_line.setText(str(current_amount+1))
+            elif btn.objectName() == 'minus_btn':
+                if current_amount > 0:
+                    self.ui.count_line.setText(str(current_amount-1))
+        except ValueError: # This error comes up when you haven't selected an item yet.
+            pass
+
 
     def create_order(self):
         if self.ui.incoming_radio.isChecked():
             order_type = 'Incoming'
         elif self.ui.outgoing_radio.isChecked():
             order_type = 'Outgoing'
-
-        if self.ui.client_line.text() != '':
-            client = self.ui.client_line.text()
+        client = self.ui.client_line.text()
+        order_id = self.warehouse_controller.warehouse.create_order(order_type, client, 'Pending')
+        for row in range(self.ui.order_items_tbl.rowCount()):
+            item_name = self.ui.order_items_tbl.item(row, 0).text()
+            item_count = int(self.ui.order_items_tbl.item(row,  1).text())
+            self.warehouse_controller.warehouse.add_to_order(order_id, item_name, item_count)
 
     def init_table(self, table, list):
         col_count = 0
@@ -190,7 +251,18 @@ class CreateOrderWindow(QDialog):
                 table.setItem(i, count, item)
                 count += 1
 
+    
+
     def init_tables(self):
+        self.ui.search_tbl.setSelectionBehavior(QAbstractItemView.SelectionBehavior.SelectRows)
+        self.ui.search_tbl.setSelectionMode(QAbstractItemView.SingleSelection)
+        self.ui.order_items_tbl.setSelectionBehavior(QAbstractItemView.SelectionBehavior.SelectRows)
+        self.ui.order_items_tbl.setSelectionMode(QAbstractItemView.SingleSelection)
         items=[{'Item Name': '', 'Stock': ''}]
         self.init_table(self.ui.search_tbl, self.warehouse_controller.get_items())
         self.init_table(self.ui.order_items_tbl, items)
+
+        def clear_amount():
+            self.ui.count_line.setText('0')
+
+        self.ui.search_tbl.clicked.connect(clear_amount)
