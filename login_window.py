@@ -1,6 +1,5 @@
 from PySide6.QtWidgets import QMainWindow, QLineEdit, QVBoxLayout, QWidget, QPushButton, QLabel
 from time import sleep
-from utils import Worker
 from PySide6.QtCore import QThreadPool
 
 #Login gui

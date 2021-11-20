@@ -1,8 +1,7 @@
 import sys
 from PyQt6 import QtWidgets
-from PyQt6.QtWidgets import QDialog, QApplication, QMainWindow
+from PyQt6.QtWidgets import *
 from PyQt6.uic import loadUi
-from database_funcs import Warehouse
 
 warehouse = Warehouse()
 
@@ -43,6 +42,31 @@ class MainWindow(QMainWindow):
     def __init__(self):
         super(MainWindow, self).__init__()
         self.ui = loadUi("main_window.ui", self)
+        self.btn_grp = QButtonGroup()
+        self.btn_grp.setExclusive(True)
+        self.btn_grp.addButton(self.items_btn)
+        self.btn_grp.addButton(self.create_order_btn)
+        self.btn_grp.addButton(self.process_order_btn)
+        self.btn_grp.addButton(self.backup_btn)
+        self.btn_grp.addButton(self.admin_panel_btn)
+        self.btn_grp.buttonClicked.connect(self.change_window)
+
+
+
+    def change_window(self, btn):
+        if btn.objectName() == 'items_btn':
+            mainwindow.hide()
+            itemswindow.show()
+        elif btn.objectName() == 'create_order_btn':
+            pass
+        elif btn.objectName() == 'process_order_btn':
+            mainwindow.hide()
+            orderswindow.show()
+        elif btn.objectName() == 'backup_btn':
+            pass
+        elif btn.objectName() == 'admin_panel_btn':
+            pass
+
 
 class OrdersWindow(QDialog):
     def __init__(self):
@@ -60,14 +84,5 @@ loginwindow = LoginWindow(warehouse)
 mainwindow = MainWindow()
 orderswindow = OrdersWindow()
 itemswindow = ItemsWindow()
-
-widget = QtWidgets.QStackedWidget()
-widget.addWidget(loginwindow)
-widget.addWidget(mainwindow)
-widget.addWidget(orderswindow)
-widget.addWidget(itemswindow)
-
-widget.setFixedWidth(800)
-widget.setFixedHeight(600)
-widget.show()
+loginwindow.show()
 app.exec()

@@ -15,10 +15,23 @@ class WarehouseController():
             self.app.login_window.show()
         elif win_name == 'main':
             self.app.main_window.show()
-        elif win_name == 'orders':
-            self.app.orders_window.show()
         elif win_name == 'items':
             self.app.items_window.show()
+        elif win_name == 'create_order':
+            #self.app.create_order_window.show()
+            self.app.main_window.show()
+            pass
+        elif win_name == 'process_order':
+            self.app.orders_window.show()
+        elif win_name == 'backup':
+            #self.app.backup_window.show()
+            self.app.main_window.show()
+            pass
+        elif win_name == 'admin_panel':
+            #self.app.admin_panel_window.show()
+            self.app.main_window.show()
+            pass
+
 
     def connect_user(self, username, password):
         self.warehouse.cluster.server_info()  #This will fail if we don't have a connection to the server
@@ -30,11 +43,11 @@ class WarehouseController():
     def get_incoming_orders(self):  #Formatted purposefully
         orders = []
         for order in self.warehouse.get_incoming_orders():
-            orders.append({'Client': order['Client'], 'Status': order['Status'], 'Order Items': str([str(item['Count']) + ' ' + item['Item Name'] + 's' for item in order['Order Items']])})
+            orders.append({'Order ID': order['_id'], 'Client': order['Client'], 'Status': order['Status'], 'Order Items': str([str(item['Count']) + ' ' + item['Item Name'] + 's' for item in order['Order Items']])})
         return orders
 
     def get_outgoing_orders(self):  #Formatted purposefully
         orders = []
         for order in self.warehouse.get_outgoing_orders():
-            orders.append({'Client': order['Client'], 'Status': order['Status'], 'Order Items': str([str(item['Count']) + ' ' + item['Item Name'] + 's' for item in order['Order Items']])})
+            orders.append({'Order ID': order['_id'], 'Client': order['Client'], 'Status': order['Status'], 'Order Items': str([str(item['Count']) + ' ' + item['Item Name'] + 's' for item in order['Order Items']])})
         return orders
