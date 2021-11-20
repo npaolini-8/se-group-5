@@ -18,9 +18,7 @@ class WarehouseController():
         elif win_name == 'items':
             self.app.items_window.show()
         elif win_name == 'create_order':
-            #self.app.create_order_window.show()
-            self.app.main_window.show()
-            pass
+            self.app.create_order_window.show()
         elif win_name == 'process_order':
             self.app.orders_window.show()
         elif win_name == 'backup':
@@ -51,3 +49,10 @@ class WarehouseController():
         for order in self.warehouse.get_outgoing_orders():
             orders.append({'Order ID': order['_id'], 'Client': order['Client'], 'Status': order['Status'], 'Order Items': str([str(item['Count']) + ' ' + item['Item Name'] + 's' for item in order['Order Items']])})
         return orders
+
+    def get_items(self):
+        items = []
+        for item in self.warehouse.get_items():
+            if item['isActive'] == True:
+                items.append({'Item Name': item['Name'], 'Stock': len(item['Items'])})
+        return items
