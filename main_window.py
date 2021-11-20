@@ -8,6 +8,7 @@ class Ui_MainWindow(object):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
         MainWindow.resize(800, 600)
+        MainWindow.setStyleSheet("background-color:#808000")
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.verticalLayoutWidget = QWidget(self.centralwidget)
@@ -99,13 +100,19 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))
         self.items_btn.setText(QCoreApplication.translate("MainWindow", u"Items", None))
+        self.items_btn.setStyleSheet("background-color:#000000; color:#cbd3d7;padding: 6px 2px;border: 1px solid #cbd3d7")
         self.create_order_btn.setText(QCoreApplication.translate("MainWindow", u"Create Order", None))
+        self.create_order_btn.setStyleSheet("background-color:#000000; color:#cbd3d7;padding: 6px 2px;border: 1px solid #cbd3d7")
         self.process_order_btn.setText(QCoreApplication.translate("MainWindow", u"Process Order", None))
+        self.process_order_btn.setStyleSheet("background-color:#000000; color:#cbd3d7;padding: 6px 2px;border: 1px solid #cbd3d7")
         self.backup_btn.setText(QCoreApplication.translate("MainWindow", u"Backup", None))
+        self.backup_btn.setStyleSheet("background-color:#000000; color:#cbd3d7;padding: 6px 2px;border: 1px solid #cbd3d7")
         self.admin_panel_btn.setText(QCoreApplication.translate("MainWindow", u"Admin Panel", None))
+        self.admin_panel_btn.setStyleSheet("background-color:#000000; color:#cbd3d7;padding: 6px 2px;border: 1px solid #cbd3d7")
         self.label.setText(QCoreApplication.translate("MainWindow", u"                                                      Incoming Orders", None))
         self.label_2.setText(QCoreApplication.translate("MainWindow", u"                                                      Outgoing Orders", None))
         self.logout_btn.setText(QCoreApplication.translate("MainWindow", u"Logout", None))
+        self.logout_btn.setStyleSheet("background-color:#000000; color:#cbd3d7;padding: 6px 2px;border: 1px solid #cbd3d7")
         self.user_lbl.setText("")
     # retranslateUi
 
