@@ -1,6 +1,5 @@
 from PySide6.QtWidgets import QMainWindow, QLineEdit, QVBoxLayout, QWidget, QPushButton, QLabel
 from time import sleep
-from utils import Worker
 from PySide6.QtCore import QThreadPool
 
 #Login gui
@@ -19,9 +18,11 @@ class LoginWindow(QMainWindow):
         #Set window width and heights as percentages of screen resolution
         self.dimensions = (geometry.width() * 0.35, geometry.height() * 0.35)
         self.setFixedSize(self.dimensions[0], self.dimensions[1])
+        self.setStyleSheet("background-color:#808000")
 
         #Center window on screen
         self.move((geometry.width() - self.dimensions[0]) / 2, (geometry.height() - self.dimensions[1]) / 2)
+       
 
     def init_widgets(self):
         #Create and configure vertical layout
@@ -32,12 +33,16 @@ class LoginWindow(QMainWindow):
         #Username and Password LineEdits
         self.userName = QLineEdit()
         self.userName.setPlaceholderText("Enter Username")
+        self.userName.setStyleSheet("background-color:#000000; color:#cbd3d7;padding: 6px 2px;border: 1px solid #cbd3d7")
         self.passWord = QLineEdit()
         self.passWord.setPlaceholderText("Enter Password")
+        self.passWord.setStyleSheet("background-color:#000000; color:#cbd3d7;padding: 6px 2px;border: 1px solid #cbd3d7")
         self.passWord.setEchoMode(QLineEdit.Password)
 
         #Login button
+        
         loginBtn = QPushButton("Login")
+        loginBtn.setStyleSheet("background-color: #000000;color:#cbd3d7;border:2px solid #cbd3d7")
         loginBtn.clicked.connect(self.try_to_login)
 
         #Error label for failed attempts

@@ -1,4 +1,5 @@
 from PySide6.QtCore import Signal, QObject, QRunnable, Slot
+import sys
 
 #Signals from worker threads
 class WorkerSignals(QObject):

@@ -2,6 +2,7 @@ from PySide6.QtWidgets import QApplication
 from PySide6.QtCore import QThreadPool
 from PySide6.QtGui import QIcon
 from sys import exit, argv
+from create_order_window import CreateOrderWindow
 from login_window import LoginWindow
 from main_window import MainWindow
 from items_window import ItemsWindow
@@ -27,6 +28,7 @@ class Application(QApplication):
         self.main_window = MainWindow(self.warehouse_controller)
         self.orders_window = OrdersWindow(self.warehouse_controller)
         self.items_window = ItemsWindow(self.warehouse_controller)
+        self.create_order_window = CreateOrderWindow(self.warehouse_controller)
 
         if skipLogin:
             self.main_window.show()

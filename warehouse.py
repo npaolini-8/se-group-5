@@ -14,10 +14,10 @@ class Warehouse():
         self.orders_history_collection = self.warehouse_database["orders_history"]
         self.containers_collection = self.warehouse_database["containers"]
 
-    def get_time():
+    def get_time(self):
         return datetime.now().strftime("%d/%m/%Y %H:%M:%S")
 
-    def generate_barcode(Name, increment):
+    def generate_barcode(self, Name, increment):
         string = Name[0:3].upper()
         return f'{string}{increment}'
 
@@ -70,7 +70,7 @@ class Warehouse():
                 "Model Number": modelNumber,
                 "Brand": brand,
                 "isActive": True,
-                "Date modified": get_time(),
+                "Date modified": self.get_time(),
                 "Last modified by": "getUser()",
                 "Barcode Increment": 0,
                 "Items": []
@@ -78,7 +78,7 @@ class Warehouse():
         )
 
     def create_sub_item(self, Name, container):
-        barcode = generate_barcode(Name, self.get_item_increment(Name)+1)
+        barcode = self.generate_barcode(Name, self.get_item_increment(Name)+1)
         self.items_collection.update_one(
             {"Name" : Name},
             {"$push":
@@ -87,7 +87,7 @@ class Warehouse():
                     "Barcode":barcode,
                     "Container":container,
                     "Status":"Available",
-                    "Date modified":get_time(),
+                    "Date modified": self.get_time(),
                     "Last modified by":"get_user()"
                     }
                 }
@@ -106,7 +106,7 @@ class Warehouse():
             edit_dict.update({"Brand": brand})
         if isActive is not None:
             edit_dict.update({"isActive": isActive})
-        edit_dict.update([("Date modified",get_time()),("Last modified by","getUser()")])
+        edit_dict.update([("Date modified", self.get_time()),("Last modified by","getUser()")])
 
         self.items_collection.update_one(
             {"Name" : Name},
@@ -122,7 +122,7 @@ class Warehouse():
             edit_dict.update({"Items.$[subitem].Container": container})
         if status is not None:
             edit_dict.update({"Items.$[subitem].Status": status})
-        edit_dict.update([("Items.$[subitem].Date modified",get_time()),("Items.$[subitem].Last modified by","getUser()")])
+        edit_dict.update([("Items.$[subitem].Date modified", self.get_time()),("Items.$[subitem].Last modified by","getUser()")])
 
         self.items_collection.update_one(
             {
@@ -157,7 +157,7 @@ class Warehouse():
                 "Role": role,
                 "isActive": True,
                 "isLocked": False,
-                "Date modified": get_time(),
+                "Date modified": self.get_time(),
                 "Last modified by": "getUser()",
             }
         )
@@ -168,7 +168,7 @@ class Warehouse():
             edit_dict.update({"Password": password})
         if role is not None:
             edit_dict.update({"Role":role})
-        edit_dict.update([("Date modified",get_time()),("Last modified by","getUser()")])
+        edit_dict.update([("Date modified",self.get_time()),("Last modified by","getUser()")])
 
         self.users_collection.update_one(
             {"Username" : username},
@@ -184,7 +184,7 @@ class Warehouse():
                 "Order Type": order_type,
                 "Client": client,
                 "Status": status,
-                "Date modified": get_time(),
+                "Date modified": self.get_time(),
                 "Last modified by": "getUser()",
                 "Order Items": []
             }
@@ -215,7 +215,7 @@ class Warehouse():
                 "width" : width,
                 "depth" : depth,
                 "max_weight" : max_weight,
-                "last_modified" : get_time(),
+                "last_modified" : self.get_time(),
                 "last_modified_by" : "getUser()",
                 "containers" : [],
                 "id_increment" : 0
@@ -251,7 +251,7 @@ class Warehouse():
                         "w_curr" : 0,
                         "x_loc" : x_loc,
                         "y_loc" : y_loc,
-                        "last_modified" : get_time(),
+                        "last_modified" : self.get_time(),
                         "last_modified_by" : "getUser()",
                         "items" : []
 

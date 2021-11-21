@@ -110,6 +110,9 @@
      </item>
      <item>
       <widget class="QTableWidget" name="incoming_orders_tbl">
+       <property name="editTriggers">
+        <set>QAbstractItemView::NoEditTriggers</set>
+       </property>
        <property name="sortingEnabled">
         <bool>true</bool>
        </property>
@@ -124,6 +127,9 @@
      </item>
      <item>
       <widget class="QTableWidget" name="outgoing_orders_tbl">
+       <property name="editTriggers">
+        <set>QAbstractItemView::NoEditTriggers</set>
+       </property>
        <property name="sortingEnabled">
         <bool>true</bool>
        </property>
@@ -164,7 +170,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>30</height>
+     <height>22</height>
     </rect>
    </property>
   </widget>
