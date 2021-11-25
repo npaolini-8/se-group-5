@@ -74,6 +74,7 @@ class Ui_MainWindow(object):
         self.outgoing_orders_tbl.setObjectName(u"outgoing_orders_tbl")
         self.outgoing_orders_tbl.setEditTriggers(QAbstractItemView.NoEditTriggers)
         self.outgoing_orders_tbl.setSortingEnabled(True)
+        #self.outgoing_orders_tbl.row()
 
         self.verticalLayout_2.addWidget(self.outgoing_orders_tbl)
 
