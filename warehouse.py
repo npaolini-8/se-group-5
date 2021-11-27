@@ -44,6 +44,17 @@ class Warehouse():
                 break
         return items
 
+    def get_users(self):
+        users = []
+
+        for user in self.users_collection.find({}):
+            users.append(user)
+        
+        return users
+
+    def find_user(self, username):
+        return self.users_collection.find_one({'Username': username})
+
     def increment_barcode_increment(self, Name):
         self.items_collection.update_one(
             {"Name": Name},
@@ -162,12 +173,18 @@ class Warehouse():
             }
         )
 
-    def edit_user(self, username, password=None, role=None):
+    def edit_user(self, username, password=None, role=None, newUsername=None, active=None, locked=None):
         edit_dict = {}
         if password is not None:
             edit_dict.update({"Password": password})
         if role is not None:
             edit_dict.update({"Role":role})
+        if newUsername is not None:
+            edit_dict.update({"Username":newUsername})
+        if active is not None:
+            edit_dict.update({"isActive": active})
+        if locked is not None:
+            edit_dict.update({"isLocked":locked})
         edit_dict.update([("Date modified",self.get_time()),("Last modified by","getUser()")])
 
         self.users_collection.update_one(

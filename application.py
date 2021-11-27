@@ -7,6 +7,7 @@ from login_window import LoginWindow
 from main_window import MainWindow
 from items_window import ItemsWindow
 from orders_window import OrdersWindow
+from admin_window import AdminWindow  
 
 
 #Application controls all sub-windows
@@ -29,6 +30,7 @@ class Application(QApplication):
         self.orders_window = OrdersWindow(self.warehouse_controller)
         self.items_window = ItemsWindow(self.warehouse_controller)
         self.create_order_window = CreateOrderWindow(self.warehouse_controller)
+        self.admin_window = AdminWindow(self.warehouse_controller)
 
         if skipLogin:
             self.main_window.show()

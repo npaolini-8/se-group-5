@@ -184,7 +184,7 @@ class MainWindow(QMainWindow):
         self.warehouse_controller.switch_to(self, 'backup')
 
     def admin_panel_clicked(self):
-        self.warehouse_controller.switch_to(self, 'admin_panel')
+        self.warehouse_controller.switch_to(self, 'admin_window')
 
     def center_on_screen(self):
         geometry = self.screen().availableGeometry()

@@ -25,10 +25,10 @@ class WarehouseController():
             #self.app.backup_window.show()
             self.app.main_window.show()
             pass
-        elif win_name == 'admin_panel':
-            #self.app.admin_panel_window.show()
-            self.app.main_window.show()
-            pass
+        elif win_name == 'admin_window':
+            self.app.admin_window.show()
+            #self.app.main_window.show()
+            #pass
 
 
     def connect_user(self, username, password):
@@ -56,3 +56,34 @@ class WarehouseController():
             if item['isActive'] == True:
                 items.append({'Item Name': item['Name'], 'Stock': len(item['Items'])})
         return items
+
+    def get_users(self):
+        return self.warehouse.get_users()
+
+    #Validates input for admin window
+    def validate_new_username(self, username ):
+        if username is not None:
+            if self.warehouse.find_user(username) is not None:
+                return "Username is already in use"
+            else:
+                return "OK"
+        else:
+            return "Username required"
+
+    def validate_new_pw(self, password):
+        if password is None:
+            return "Password required"
+        else:
+            return "OK"
+        
+
+    #MVC wrappers, could flesh out for error handling
+    def create_new_user(self, username, password, role):
+        self.warehouse.create_user(username,password,role)
+    
+
+    def edit_user(self, username, password=None, role=None, newUsername=None, active=None, locked=None):
+        if password == "":
+            self.warehouse.edit_user(username,role=role,newUsername=newUsername, active=active, locked=locked)
+        else:
+            self.warehouse.edit_user(username,password=password,role=role,newUsername=newUsername, active=active,locked=locked)
