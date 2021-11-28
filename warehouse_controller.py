@@ -50,12 +50,22 @@ class WarehouseController():
             orders.append({'Order ID': order['_id'], 'Client': order['Client'], 'Status': order['Status'], 'Order Items': str([str(item['Count']) + ' ' + item['Item Name'] + 's' for item in order['Order Items']])})
         return orders
 
+    def get_item(self, item_name):
+        return self.warehouse.find_item(item_name)
+
     def get_items(self):
         items = []
         for item in self.warehouse.get_items():
             if item['isActive'] == True:
                 items.append({'Item Name': item['Name'], 'Stock': len(item['Items'])})
         return items
+    
+    def get_all_items(self):
+        # items = []
+        # for item in self.warehouse.get_items():
+        #         items.append({'Item Name': item['Name'], 'Stock': len(item['Items'])})
+        # return items
+        return  self.warehouse.get_items()
 
     def get_users(self):
         return self.warehouse.get_users()
@@ -75,6 +85,14 @@ class WarehouseController():
             return "Password required"
         else:
             return "OK"
+
+    def validate_new_item_name(self, item_name):
+        if item_name is None or item_name == "":
+            return "Item Name Required"
+        elif self.warehouse.find_item(item_name) is not None:
+            return "Item Name is already in use"
+        else:
+            return "OK"
         
 
     #MVC wrappers, could flesh out for error handling
@@ -87,3 +105,16 @@ class WarehouseController():
             self.warehouse.edit_user(username,role=role,newUsername=newUsername, active=active, locked=locked)
         else:
             self.warehouse.edit_user(username,password=password,role=role,newUsername=newUsername, active=active,locked=locked)
+
+    def create_new_item(self, item_name, item_desc, item_model, item_brand, isActive, item_weight=None, item_length=None, item_width=None, item_depth=None):
+        self.warehouse.create_main_item(item_name, item_desc, item_model, item_brand,isActive=isActive,length=item_length,width=item_width,depth=item_depth,weight=item_weight)
+
+    def edit_item( self, item_name, item_desc=None,item_model=None,item_brand=None,isActive=None,item_weight=None, item_length=None, item_width=None, item_depth=None, new_name=None):
+        self.warehouse.edit_main_item(item_name, description=item_desc,modelNumber=item_model,brand=item_brand,isActive=isActive,length=item_length,width=item_width,depth=item_depth,weight=item_weight,newName=new_name)
+
+    def create_sub_item(self, item_name):
+        self.warehouse.create_sub_item(item_name)
+
+    def delete_sub_item(self, item_name, barcode):
+        self.warehouse.delete_sub_item(item_name,barcode)
+    
