@@ -73,19 +73,14 @@ class Warehouse():
             outgoing.append(order)
         return outgoing
 
-    
-    def create_main_item(self, name, description, modelNumber, brand, isActive=True,length=None, width=None, depth=None, weight=None):
+    def create_main_item(self, name, description, modelNumber, brand, user):
         self.items_collection.insert_one(
             {
                 "Name": name,
                 "Description": description,
                 "Model Number": modelNumber,
                 "Brand": brand,
-                "isActive": isActive,
-                "Length": length,
-                "Width": width,
-                "Depth": depth,
-                "Weight":weight,
+                "isActive": True,
                 "Date modified": self.get_time(),
                 "Last modified by": user,
                 "Barcode Increment": 0,
@@ -93,7 +88,7 @@ class Warehouse():
             }
         )
 
-    def create_sub_item(self, Name, container=None):
+    def create_sub_item(self, Name, container):
         barcode = self.generate_barcode(Name, self.get_item_increment(Name)+1)
         self.items_collection.update_one(
             {"Name" : Name},
@@ -112,8 +107,7 @@ class Warehouse():
         self.increment_barcode_increment(Name)
         return barcode
 
-
-    def edit_main_item(self, Name, description=None, modelNumber=None, brand=None, isActive=None, length=None, width=None, depth=None, weight=None, newName=None)
+    def edit_main_item(self, Name, user, description=None, modelNumber=None, brand=None, isActive=None):
         edit_dict = {}
         if description is not None:
             edit_dict.update({"Description": description})
@@ -123,18 +117,7 @@ class Warehouse():
             edit_dict.update({"Brand": brand})
         if isActive is not None:
             edit_dict.update({"isActive": isActive})
-        if length is not None:
-            edit_dict.update({"Length":length})
-        if width is not None:
-            edit_dict.update({"Width":width})
-        if depth is not None:
-            edit_dict.update({"Depth":depth})
-        if weight is not None:
-            edit_dict.update({"Weight":weight})
-        if newName is not None:
-            edit_dict.update({"Name":newName})
-        edit_dict.update([("Date modified", self.get_time()),("Last modified by",user)])
-
+        edit_dict.update([("Date modified", self.get_time()),("Last modified by", user)])
 
         self.items_collection.update_one(
             {"Name" : Name},
