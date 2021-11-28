@@ -72,8 +72,9 @@ class Warehouse():
         for order in self.orders_collection.find({'Order Type': 'Outgoing'}):
             outgoing.append(order)
         return outgoing
+    
+    def create_main_item(self, user, name, description, modelNumber, brand, isActive=True,length=None, width=None, depth=None, weight=None):
 
-    def create_main_item(self, name, description, modelNumber, brand, user):
         self.items_collection.insert_one(
             {
                 "Name": name,
@@ -88,7 +89,8 @@ class Warehouse():
             }
         )
 
-    def create_sub_item(self, Name, container):
+    def create_sub_item(self, user, Name, container=None):
+
         barcode = self.generate_barcode(Name, self.get_item_increment(Name)+1)
         self.items_collection.update_one(
             {"Name" : Name},
@@ -99,7 +101,7 @@ class Warehouse():
                     "Container":container,
                     "Status":"Available",
                     "Date modified": self.get_time(),
-                    "Last modified by":"get_user()"
+                    "Last modified by":user
                     }
                 }
             }
@@ -107,7 +109,8 @@ class Warehouse():
         self.increment_barcode_increment(Name)
         return barcode
 
-    def edit_main_item(self, Name, user, description=None, modelNumber=None, brand=None, isActive=None):
+    def edit_main_item(self, user, Name, description=None, modelNumber=None, brand=None, isActive=None, length=None, width=None, depth=None, weight=None, newName=None):
+
         edit_dict = {}
         if description is not None:
             edit_dict.update({"Description": description})
