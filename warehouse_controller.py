@@ -15,6 +15,7 @@ class WarehouseController():
             self.app.login_window.show()
         elif win_name == 'main':
             self.app.main_window.show()
+            self.app.main_window.ui.user_lbl.setText('Logged in as ' + self.get_current_username())
         elif win_name == 'items':
             self.app.items_window.show()
         elif win_name == 'create_order':
@@ -22,13 +23,23 @@ class WarehouseController():
         elif win_name == 'process_order':
             self.app.orders_window.show()
         elif win_name == 'backup':
+            current.show()
             #self.app.backup_window.show()
-            self.app.main_window.show()
-            pass
+            #self.app.main_window.show()
+            #current.show()
+            
+
         elif win_name == 'admin_window':
             self.app.admin_window.show()
             #self.app.main_window.show()
             #pass
+
+
+    def get_current_username(self):
+        return self.current_user["Username"]
+
+    def get_current_role(self):
+        return self.current_user["Role"] #could be Admin, User
 
 
     def connect_user(self, username, password):
@@ -86,6 +97,7 @@ class WarehouseController():
         else:
             return "OK"
 
+
     def validate_new_item_name(self, item_name):
         if item_name is None or item_name == "":
             return "Item Name Required"
@@ -93,16 +105,17 @@ class WarehouseController():
             return "Item Name is already in use"
         else:
             return "OK"
-        
+
 
     #MVC wrappers, could flesh out for error handling
     def create_new_user(self, username, password, role):
-        self.warehouse.create_user(username,password,role)
-    
+        self.warehouse.create_user(username,password,role, self.get_current_username())
+
+
 
     def edit_user(self, username, password=None, role=None, newUsername=None, active=None, locked=None):
         if password == "":
-            self.warehouse.edit_user(username,role=role,newUsername=newUsername, active=active, locked=locked)
+            self.warehouse.edit_user(username, self.get_current_username(), role=role,newUsername=newUsername, active=active, locked=locked)
         else:
             self.warehouse.edit_user(username,password=password,role=role,newUsername=newUsername, active=active,locked=locked)
 

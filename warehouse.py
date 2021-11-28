@@ -49,7 +49,7 @@ class Warehouse():
 
         for user in self.users_collection.find({}):
             users.append(user)
-        
+
         return users
 
     def find_user(self, username):
@@ -73,6 +73,7 @@ class Warehouse():
             outgoing.append(order)
         return outgoing
 
+    
     def create_main_item(self, name, description, modelNumber, brand, isActive=True,length=None, width=None, depth=None, weight=None):
         self.items_collection.insert_one(
             {
@@ -86,7 +87,7 @@ class Warehouse():
                 "Depth": depth,
                 "Weight":weight,
                 "Date modified": self.get_time(),
-                "Last modified by": "getUser()",
+                "Last modified by": user,
                 "Barcode Increment": 0,
                 "Items": []
             }
@@ -111,7 +112,8 @@ class Warehouse():
         self.increment_barcode_increment(Name)
         return barcode
 
-    def edit_main_item(self, Name, description=None, modelNumber=None, brand=None, isActive=None, length=None, width=None, depth=None, weight=None, newName=None):
+
+    def edit_main_item(self, Name, description=None, modelNumber=None, brand=None, isActive=None, length=None, width=None, depth=None, weight=None, newName=None)
         edit_dict = {}
         if description is not None:
             edit_dict.update({"Description": description})
@@ -131,7 +133,8 @@ class Warehouse():
             edit_dict.update({"Weight":weight})
         if newName is not None:
             edit_dict.update({"Name":newName})
-        edit_dict.update([("Date modified", self.get_time()),("Last modified by","getUser()")])
+        edit_dict.update([("Date modified", self.get_time()),("Last modified by",user)])
+
 
         self.items_collection.update_one(
             {"Name" : Name},
@@ -141,13 +144,13 @@ class Warehouse():
     def delete_main_item(self, name):
         self.items_collection.delete_one({"Name":name})
 
-    def edit_sub_item(self, Name, barcode, container=None, status=None):
+    def edit_sub_item(self, Name, barcode, user, container=None, status=None):
         edit_dict = {}
         if container is not None:
             edit_dict.update({"Items.$[subitem].Container": container})
         if status is not None:
             edit_dict.update({"Items.$[subitem].Status": status})
-        edit_dict.update([("Items.$[subitem].Date modified", self.get_time()),("Items.$[subitem].Last modified by","getUser()")])
+        edit_dict.update([("Items.$[subitem].Date modified", self.get_time()),("Items.$[subitem].Last modified by", user)])
 
         self.items_collection.update_one(
             {
@@ -174,7 +177,7 @@ class Warehouse():
             }
         )
 
-    def create_user(self, username, password, role):
+    def create_user(self, username, password, role, user):
         self.users_collection.insert_one(
             {
                 "Username": username,
@@ -183,11 +186,11 @@ class Warehouse():
                 "isActive": True,
                 "isLocked": False,
                 "Date modified": self.get_time(),
-                "Last modified by": "getUser()",
+                "Last modified by": user,
             }
         )
 
-    def edit_user(self, username, password=None, role=None, newUsername=None, active=None, locked=None):
+    def edit_user(self, username, user, password=None, role=None, newUsername=None, active=None, locked=None):
         edit_dict = {}
         if password is not None:
             edit_dict.update({"Password": password})
@@ -199,7 +202,7 @@ class Warehouse():
             edit_dict.update({"isActive": active})
         if locked is not None:
             edit_dict.update({"isLocked":locked})
-        edit_dict.update([("Date modified",self.get_time()),("Last modified by","getUser()")])
+        edit_dict.update([("Date modified",self.get_time()),("Last modified by", user)])
 
         self.users_collection.update_one(
             {"Username" : username},
@@ -238,7 +241,7 @@ class Warehouse():
             }
         )
 
-    def add_container_type( self, name, length, width, depth, max_weight ):
+    def add_container_type( self, name, length, width, depth, max_weight, user):
         self.containers_collection.insert_one(
             {
                 "name" : name,
@@ -247,7 +250,7 @@ class Warehouse():
                 "depth" : depth,
                 "max_weight" : max_weight,
                 "last_modified" : self.get_time(),
-                "last_modified_by" : "getUser()",
+                "last_modified_by" : user,
                 "containers" : [],
                 "id_increment" : 0
             }
@@ -256,7 +259,7 @@ class Warehouse():
     def find_container_type(self, name):
         return self.containers_collection.find_one({"name": name})
 
-    def add_container( self, name, x_loc, y_loc):
+    def add_container( self, name, x_loc, y_loc, user):
 
         #grab id increment for id generation, save, then increment
         container_type = self.find_container_type(name)
@@ -283,7 +286,7 @@ class Warehouse():
                         "x_loc" : x_loc,
                         "y_loc" : y_loc,
                         "last_modified" : self.get_time(),
-                        "last_modified_by" : "getUser()",
+                        "last_modified_by" : user,
                         "items" : []
 
                     }
