@@ -201,6 +201,8 @@ class ItemsWindow(QDialog):
         self.ui.item_table.clicked.connect(self.select_item)
         self.ui.barcode_table.clicked.connect(self.barcode_clicked)
         self.curr_barcode = ""
+        self.ui.edit_label.setText(self.new_item_string)
+        self.ui.active_check.setChecked(True)
 
     def init_buttons(self):
         self.ui.return_btn.clicked.connect(self.return_clicked)

@@ -73,14 +73,18 @@ class Warehouse():
             outgoing.append(order)
         return outgoing
 
-    def create_main_item(self, name, description, modelNumber, brand, user):
+    def create_main_item(self, user, name, description, modelNumber, brand, isActive=True,length=None,width=None,depth=None,weight=None):
         self.items_collection.insert_one(
             {
                 "Name": name,
                 "Description": description,
                 "Model Number": modelNumber,
                 "Brand": brand,
-                "isActive": True,
+                "isActive": isActive,
+                "Length" : length,
+                "Width" : width,
+                "Depth" : depth,
+                "Weight" : weight,
                 "Date modified": self.get_time(),
                 "Last modified by": user,
                 "Barcode Increment": 0,
