@@ -3,17 +3,38 @@ from PySide6.QtCore import *
 from PySide6.QtGui import *
 from PySide6.QtWidgets import *
 
+# -*- coding: utf-8 -*-
+
+################################################################################
+## Form generated from reading UI file 'main_windownWnsqj.ui'
+##
+## Created by: Qt User Interface Compiler version 6.2.1
+##
+## WARNING! All changes made in this file will be lost when recompiling UI file!
+################################################################################
+# -*- coding: utf-8 -*-
+'''
+from PySide6.QtCore import (QCoreApplication, QDate, QDateTime, QLocale,
+    QMetaObject, QObject, QPoint, QRect,
+    QSize, QTime, QUrl, Qt)
+from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
+    QFont, QFontDatabase, QGradient, QIcon,
+    QImage, QKeySequence, QLinearGradient, QPainter,
+    QPalette, QPixmap, QRadialGradient, QTransform)
+from PySide6.QtWidgets import (QApplication, QHeaderView, QLabel, QMainWindow,
+    QMenuBar, QPushButton, QSizePolicy, QStatusBar,
+    QTableWidget, QTableWidgetItem, QVBoxLayout, QWidget)
+'''
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
         MainWindow.resize(800, 600)
-        MainWindow.setStyleSheet("background-color:#808000")
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.verticalLayoutWidget = QWidget(self.centralwidget)
         self.verticalLayoutWidget.setObjectName(u"verticalLayoutWidget")
-        self.verticalLayoutWidget.setGeometry(QRect(20, 50, 261, 501))
+        self.verticalLayoutWidget.setGeometry(QRect(20, 50, 261, 451))
         self.verticalLayout = QVBoxLayout(self.verticalLayoutWidget)
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.verticalLayout.setContentsMargins(0, 0, 0, 0)
@@ -49,7 +70,7 @@ class Ui_MainWindow(object):
 
         self.verticalLayoutWidget_2 = QWidget(self.centralwidget)
         self.verticalLayoutWidget_2.setObjectName(u"verticalLayoutWidget_2")
-        self.verticalLayoutWidget_2.setGeometry(QRect(290, 10, 491, 531))
+        self.verticalLayoutWidget_2.setGeometry(QRect(290, 10, 491, 491))
         self.verticalLayout_2 = QVBoxLayout(self.verticalLayoutWidget_2)
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
         self.verticalLayout_2.setContentsMargins(0, 0, 0, 0)
@@ -82,11 +103,21 @@ class Ui_MainWindow(object):
         self.logout_btn.setGeometry(QRect(20, 10, 88, 34))
         self.user_lbl = QLabel(self.centralwidget)
         self.user_lbl.setObjectName(u"user_lbl")
-        self.user_lbl.setGeometry(QRect(120, 30, 161, 21))
+        self.user_lbl.setGeometry(QRect(120, 20, 161, 21))
+        font = QFont()
+        font.setPointSize(11)
+        self.user_lbl.setFont(font)
+        self.error_lbl = QLabel(self.centralwidget)
+        self.error_lbl.setObjectName(u"error_lbl")
+        self.error_lbl.setGeometry(QRect(30, 510, 751, 41))
+        font1 = QFont()
+        font1.setPointSize(11)
+        font1.setBold(True)
+        self.error_lbl.setFont(font1)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(MainWindow)
         self.menubar.setObjectName(u"menubar")
-        self.menubar.setGeometry(QRect(0, 0, 800, 22))
+        self.menubar.setGeometry(QRect(0, 0, 800, 19))
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QStatusBar(MainWindow)
         self.statusbar.setObjectName(u"statusbar")
@@ -100,21 +131,20 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))
         self.items_btn.setText(QCoreApplication.translate("MainWindow", u"Items", None))
-        self.items_btn.setStyleSheet("background-color:#000000; color:#cbd3d7;padding: 6px 2px;border: 1px solid #cbd3d7")
         self.create_order_btn.setText(QCoreApplication.translate("MainWindow", u"Create Order", None))
-        self.create_order_btn.setStyleSheet("background-color:#000000; color:#cbd3d7;padding: 6px 2px;border: 1px solid #cbd3d7")
         self.process_order_btn.setText(QCoreApplication.translate("MainWindow", u"Process Order", None))
-        self.process_order_btn.setStyleSheet("background-color:#000000; color:#cbd3d7;padding: 6px 2px;border: 1px solid #cbd3d7")
         self.backup_btn.setText(QCoreApplication.translate("MainWindow", u"Backup", None))
-        self.backup_btn.setStyleSheet("background-color:#000000; color:#cbd3d7;padding: 6px 2px;border: 1px solid #cbd3d7")
         self.admin_panel_btn.setText(QCoreApplication.translate("MainWindow", u"Admin Panel", None))
-        self.admin_panel_btn.setStyleSheet("background-color:#000000; color:#cbd3d7;padding: 6px 2px;border: 1px solid #cbd3d7")
         self.label.setText(QCoreApplication.translate("MainWindow", u"                                                      Incoming Orders", None))
         self.label_2.setText(QCoreApplication.translate("MainWindow", u"                                                      Outgoing Orders", None))
         self.logout_btn.setText(QCoreApplication.translate("MainWindow", u"Logout", None))
-        self.logout_btn.setStyleSheet("background-color:#000000; color:#cbd3d7;padding: 6px 2px;border: 1px solid #cbd3d7")
         self.user_lbl.setText("")
+        self.error_lbl.setText("")
     # retranslateUi
+
+
+
+
 
 
 class MainWindow(QMainWindow):
@@ -128,6 +158,11 @@ class MainWindow(QMainWindow):
         self.center_on_screen()
         self.ui.incoming_orders_tbl.setSelectionBehavior(QAbstractItemView.SelectionBehavior.SelectRows)
         self.ui.outgoing_orders_tbl.setSelectionBehavior(QAbstractItemView.SelectionBehavior.SelectRows)
+        self.ui.user_lbl.setStyleSheet("color: green;")
+        self.ui.error_lbl.setStyleSheet("color: red;")
+
+    def set_error(self, msg):
+        self.ui.error_lbl.setText(msg)
 
     def init_buttons(self):
         self.ui.logout_btn.clicked.connect(self.logout_clicked)
@@ -184,7 +219,11 @@ class MainWindow(QMainWindow):
         self.warehouse_controller.switch_to(self, 'backup')
 
     def admin_panel_clicked(self):
-        self.warehouse_controller.switch_to(self, 'admin_window')
+        if self.warehouse_controller.get_current_role() == "Admin":
+            self.warehouse_controller.switch_to(self, 'admin_window')
+        else:
+            self.set_error('Current user does not have admin access')
+
 
     def center_on_screen(self):
         geometry = self.screen().availableGeometry()
