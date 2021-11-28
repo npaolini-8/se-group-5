@@ -93,7 +93,7 @@ class Warehouse():
             }
         )
 
-    def create_sub_item(self, Name, container=None):
+    def create_sub_item(self, user, Name, container=None):
         barcode = self.generate_barcode(Name, self.get_item_increment(Name)+1)
         self.items_collection.update_one(
             {"Name" : Name},
@@ -104,7 +104,7 @@ class Warehouse():
                     "Container":container,
                     "Status":"Available",
                     "Date modified": self.get_time(),
-                    "Last modified by":"get_user()"
+                    "Last modified by":user
                     }
                 }
             }
