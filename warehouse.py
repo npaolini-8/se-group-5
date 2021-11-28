@@ -74,7 +74,7 @@ class Warehouse():
         return outgoing
 
     
-    def create_main_item(self, name, description, modelNumber, brand, isActive=True,length=None, width=None, depth=None, weight=None):
+    def create_main_item(self, user, name, description, modelNumber, brand, isActive=True,length=None, width=None, depth=None, weight=None):
         self.items_collection.insert_one(
             {
                 "Name": name,
@@ -113,7 +113,7 @@ class Warehouse():
         return barcode
 
 
-    def edit_main_item(self, Name, description=None, modelNumber=None, brand=None, isActive=None, length=None, width=None, depth=None, weight=None, newName=None)
+    def edit_main_item(self, user, Name, description=None, modelNumber=None, brand=None, isActive=None, length=None, width=None, depth=None, weight=None, newName=None):
         edit_dict = {}
         if description is not None:
             edit_dict.update({"Description": description})
