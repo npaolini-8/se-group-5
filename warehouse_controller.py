@@ -60,6 +60,9 @@ class WarehouseController():
         for order in self.warehouse.get_outgoing_orders():
             orders.append({'Order ID': order['_id'], 'Client': order['Client'], 'Status': order['Status'], 'Order Items': str([str(item['Count']) + ' ' + item['Item Name'] + 's' for item in order['Order Items']])})
         return orders
+    
+    def get_item(self, item_name):
+        return self.warehouse.find_item(item_name)
 
     def get_items(self):
         items = []
@@ -67,6 +70,13 @@ class WarehouseController():
             if item['isActive'] == True:
                 items.append({'Item Name': item['Name'], 'Stock': len(item['Items'])})
         return items
+    
+    def get_all_items(self):
+        # items = []
+        # for item in self.warehouse.get_items():
+        #         items.append({'Item Name': item['Name'], 'Stock': len(item['Items'])})
+        # return items
+        return  self.warehouse.get_items()
 
     def get_users(self):
         return self.warehouse.get_users()
@@ -87,12 +97,17 @@ class WarehouseController():
         else:
             return "OK"
 
+    def validate_new_item_name(self, item_name):
+        if item_name is None or item_name == "":
+            return "Item Name Required"
+        elif self.warehouse.find_item(item_name) is not None:
+            return "Item Name is already in use"
+        else:
+            return "OK"
 
     #MVC wrappers, could flesh out for error handling
     def create_new_user(self, username, password, role):
         self.warehouse.create_user(username,password,role, self.get_current_username())
-
-
 
     def edit_user(self, username, password=None, role=None, newUsername=None, active=None, locked=None):
         if password == "":
