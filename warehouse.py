@@ -2,6 +2,8 @@ from pymongo import MongoClient # MongoDB Library to connect to database.
 from datetime import datetime # Used to get timestamps for database information
 from bson.objectid import ObjectId
 import ssl # Used to specify certificate connection for MongoDB
+import json # Used for backups
+import os.path # Used for file writing path
 
 
 class Warehouse():
@@ -328,5 +330,114 @@ class Warehouse():
             ]
         )
 
+    def create_backup(self):
+        items_list = list(self.items_collection.find())
+        orders_list = list(self.orders_collection.find())
+        orders_history_list = list(self.orders_history_collection.find())
+        users_list = list(self.users_collection.find())
+
+        for database in [self.items_collection, self.orders_collection, self.orders_history_collection, self.users_collection]:
+            database_list = list(database.find())
+            for kiefernumber1fan, document in enumerate(database_list):
+                document["_id"] = str(document["_id"])
+                if database in [self.orders_collection, self.orders_history_collection]:
+                    for item in document["Order Items"]:
+                        item["Item ID"] = str(item["Item ID"])
+
+            with open(f'./Backups/{database.name}_backup.txt', 'w') as backup_file:
+                json.dump(database_list, backup_file)
+
+    def clear_database(self, database):
+        database.delete_many({})
+
+    def import_backup(self, database_name, file):
+        with open(file, 'r') as backup_file:
+            backup_json = json.load(backup_file)
+            if database_name == 'Items':
+                database = self.items_collection
+                self.clear_database(database)
+                for document in backup_json:
+                    database.insert_one(
+                        {
+                            "_id": ObjectId(document["_id"]),
+                            "Name": document["Name"],
+                            "Description": document["Description"],
+                            "Model Number": document["Model Number"],
+                            "Brand": document["Brand"],
+                            "isActive": document["isActive"],
+                            "Barcode Increment": document["Barcode Increment"],
+                            "Depth": document["Depth"],
+                            "Length": document["Length"],
+                            "Weight": document["Weight"],
+                            "Width": document["Width"],
+                            "Date modified": self.get_time(),
+                            "Last modified by": "getUser()",
+                            "Items": document["Items"]
+                        }
+                    )
+
+            elif database_name == 'Orders':
+                database = self.orders_collection
+                self.clear_database(database)
+                for document in backup_json:
+                    items_dict_list = []
+                    for item in document["Order Items"]:
+                        items_dict_list.append(
+                            {
+                                'Item ID': ObjectId(item["Item ID"]),
+                                'Item Name': item["Item Name"],
+                                'Count': item["Count"]
+                            }
+                        )
+                    database.insert_one(
+                        {   "_id": ObjectId(document["_id"]),
+                            "Order Type": document["Order Type"],
+                            "Client": document["Client"],
+                            "Status": document["Status"],
+                            "Date modified": self.get_time(),
+                            "Last modified by": "getUser()",
+                            "Order Items": items_dict_list
+                        }
+                    )
+            
+            elif database_name == 'Orders History':
+                database = self.orders_history_collection
+                self.clear_database(database)
+                for document in backup_json:
+                    items_dict_list = []
+                    for item in document["Order Items"]:
+                        items_dict_list.append(
+                            {
+                                'Item ID': ObjectId(item["Item ID"]),
+                                'Item Name': item["Item Name"],
+                                'Count': item["Count"]
+                            }
+                        )
+                    database.insert_one(
+                        {   "_id": ObjectId(document["_id"]),
+                            "Order Type": document["Order Type"],
+                            "Client": document["Client"],
+                            "Status": document["Status"],
+                            "Date modified": self.get_time(),
+                            "Last modified by": "getUser()",
+                            "Order Items": items_dict_list
+                        }
+                    )
+
+            elif database_name == 'Users':
+                database = self.users_collection
+                self.clear_database(database)
+                for document in backup_json:
+                    database.insert_one(
+                        {   "_id": ObjectId(document["_id"]),
+                            "Username": document["Username"],
+                            "Password": document["Password"],
+                            "Role": document["Role"],
+                            "isActive": document["isActive"],
+                            "isLocked": document["isLocked"],
+                            "Date modified": self.get_time(),
+                            "Last modified": "getUser()"
+                        }
+                    )
+
 #warehouse = Warehouse()
-#warehouse.get_incoming_orders()

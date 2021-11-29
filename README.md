@@ -8,3 +8,5 @@ Pyside6: pip install pyside6
 pymongo: pip install pymongo
 
 dnspython: pip intall dnspython
+
+pandas: pip install pandas

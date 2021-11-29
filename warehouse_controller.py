@@ -126,3 +126,4 @@ class WarehouseController():
 
     def delete_sub_item(self, item_name, barcode):
         self.warehouse.delete_sub_item(item_name,barcode)
+        
