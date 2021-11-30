@@ -26,7 +26,7 @@
     <string>Return</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton">
+  <widget class="QPushButton" name="complete_btn">
    <property name="geometry">
     <rect>
      <x>10</x>
@@ -51,7 +51,7 @@
    <property name="title">
     <string>Pending</string>
    </property>
-   <widget class="QTableWidget" name="tableWidget">
+   <widget class="QTableWidget" name="orders_tbl">
     <property name="geometry">
      <rect>
       <x>0</x>
@@ -60,8 +60,13 @@
       <height>441</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <pointsize>8</pointsize>
+     </font>
+    </property>
    </widget>
-   <widget class="QRadioButton" name="radioButton">
+   <widget class="QRadioButton" name="in_radio">
     <property name="geometry">
      <rect>
       <x>70</x>
@@ -73,8 +78,11 @@
     <property name="text">
      <string>Incoming</string>
     </property>
+    <property name="checked">
+     <bool>true</bool>
+    </property>
    </widget>
-   <widget class="QRadioButton" name="radioButton_2">
+   <widget class="QRadioButton" name="out_radio">
     <property name="geometry">
      <rect>
       <x>160</x>
@@ -100,7 +108,7 @@
    <property name="title">
     <string>Items in Order</string>
    </property>
-   <widget class="QTableWidget" name="tableWidget_2">
+   <widget class="QTableWidget" name="items_tbl">
     <property name="geometry">
      <rect>
       <x>0</x>
@@ -108,6 +116,11 @@
       <width>251</width>
       <height>441</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>8</pointsize>
+     </font>
     </property>
    </widget>
   </widget>
@@ -117,58 +130,92 @@
      <x>580</x>
      <y>50</y>
      <width>201</width>
-     <height>461</height>
+     <height>451</height>
     </rect>
    </property>
    <property name="title">
     <string>Barcodes</string>
    </property>
-   <widget class="QTableWidget" name="tableWidget_3">
+   <widget class="QTableWidget" name="barcodes_tbl">
     <property name="geometry">
      <rect>
       <x>0</x>
       <y>20</y>
       <width>201</width>
-      <height>441</height>
+      <height>431</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>8</pointsize>
+     </font>
     </property>
    </widget>
   </widget>
-  <widget class="QPushButton" name="pushButton_2">
+  <widget class="QGroupBox" name="groupBox_4">
    <property name="geometry">
     <rect>
-     <x>549</x>
-     <y>530</y>
-     <width>61</width>
-     <height>41</height>
+     <x>550</x>
+     <y>510</y>
+     <width>231</width>
+     <height>81</height>
     </rect>
    </property>
-   <property name="text">
-    <string>PushButton</string>
+   <property name="title">
+    <string>Items Present</string>
    </property>
-  </widget>
-  <widget class="QPushButton" name="pushButton_3">
-   <property name="geometry">
-    <rect>
-     <x>690</x>
-     <y>530</y>
-     <width>61</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>PushButton</string>
-   </property>
-  </widget>
-  <widget class="QLCDNumber" name="lcdNumber">
-   <property name="geometry">
-    <rect>
-     <x>613</x>
-     <y>532</y>
-     <width>71</width>
-     <height>41</height>
-    </rect>
-   </property>
+   <widget class="QPushButton" name="minus_btn">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>20</y>
+      <width>61</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>36</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>-</string>
+    </property>
+   </widget>
+   <widget class="QLCDNumber" name="lcd_count">
+    <property name="geometry">
+     <rect>
+      <x>60</x>
+      <y>20</y>
+      <width>111</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="mode">
+     <enum>QLCDNumber::Dec</enum>
+    </property>
+    <property name="segmentStyle">
+     <enum>QLCDNumber::Flat</enum>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="plus_btn">
+    <property name="geometry">
+     <rect>
+      <x>170</x>
+      <y>20</y>
+      <width>61</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>28</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>+</string>
+    </property>
+   </widget>
   </widget>
  </widget>
  <resources/>
