@@ -181,6 +181,7 @@ class Warehouse():
             {
                 "Username": username,
                 "Password": password,
+                "Lock Counter": 0,
                 "Role": role,
                 "isActive": True,
                 "isLocked": False,
@@ -439,5 +440,21 @@ class Warehouse():
                             "Last modified": "getUser()"
                         }
                     )
+
+    def get_user_lock(self, username):
+        return self.find_user(username)["Lock Counter"]
+
+    def increment_user_lock(self, username):
+        self.users_collection.update_one(
+            {"Username": username},
+            {"$set": {"Lock Counter": self.get_user_lock(username)+1}}
+        )
+        return self.get_user_lock(username)
+
+    def clear_user_lock(self, username):
+        self.users_collection.update_one(
+            {"Username": username},
+            {"$set": {"Lock Counter": 0}}
+        )
 
 #warehouse = Warehouse()

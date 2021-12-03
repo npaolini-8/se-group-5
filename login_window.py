@@ -87,18 +87,24 @@ class LoginWindow(QMainWindow):
                 user = self.warehouse_controller.connect_user(self.userName.text(), self.passWord.text())  #Will cause exception if server is not connected -- will return None if no user with those credentials
 
                 if user == None:  #If user + password doesn't exist
+                    self.warehouse_controller.increment_user_lock(self.userName.text())
                     self.errorLbl.setStyleSheet("color: red;")
-                    self.errorLbl.setText("Invalid login credentials.\nPlease try again.")
+                    self.errorLbl.setText(f"Invalid login credentials.\nPlease try again.")
+                    
                 else:
-                    self.errorLbl.setStyleSheet("color: green;")
-                    self.errorLbl.setText("User found.  Logging in.")
-                    self.warehouse_controller.set_current_user(user)
+                    if self.warehouse_controller.get_user_lock(self.userName.text()) >= 3:
+                        self.errorLbl.setStyleSheet("color: red;")
+                        self.errorLbl.setText(f"Account is currently locked.\nPlease contact an administrator.")
+                    else:
+                        self.errorLbl.setStyleSheet("color: green;")
+                        self.errorLbl.setText("User found.  Logging in.")
+                        self.warehouse_controller.set_current_user(user)
 
-                    #Thread an animation to run before closing the login gui and opening main gui
-                    #worker = Worker(self.load_animation)
-                    #worker.signals.finished.connect(self.main_startup)
-                    #self.threadpool.start(worker)
-                    self.main_startup()
+                        #Thread an animation to run before closing the login gui and opening main gui
+                        #worker = Worker(self.load_animation)
+                        #worker.signals.finished.connect(self.main_startup)
+                        #self.threadpool.start(worker)
+                        self.main_startup()
 
             except Exception as e:
                 print(e)
