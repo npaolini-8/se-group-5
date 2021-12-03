@@ -1,5 +1,6 @@
 from warehouse import Warehouse
 from application import Application
+from bson.objectid import ObjectId
 
 class WarehouseController():
     def __init__(self):
@@ -27,12 +28,18 @@ class WarehouseController():
             #self.app.backup_window.show()
             #self.app.main_window.show()
             #current.show()
-            
+
 
         elif win_name == 'admin_window':
             self.app.admin_window.show()
             #self.app.main_window.show()
             #pass
+
+    def complete_order(self, order_id):
+        id = ObjectId(order_id)
+        order = self.warehouse.find_order(id)
+        self.warehouse.archive_order(order)
+        self.warehouse.delete_order(id)
 
 
     def get_current_username(self):
@@ -49,6 +56,12 @@ class WarehouseController():
     def set_current_user(self, new_user):
         self.current_user = new_user
 
+    def get_incoming_orders_raw(self):
+        return self.warehouse.get_incoming_orders()
+
+    def get_outgoing_orders_raw(self):
+        return self.warehouse.get_outgoing_orders()
+
     def get_incoming_orders(self):  #Formatted purposefully
         orders = []
         for order in self.warehouse.get_incoming_orders():
@@ -64,6 +77,9 @@ class WarehouseController():
     def get_item(self, item_name):
         return self.warehouse.find_item(item_name)
 
+    def get_items_raw(self):
+        return self.warehouse.get_items()
+
     def get_items(self):
         items = []
         for item in self.warehouse.get_items():
@@ -77,6 +93,34 @@ class WarehouseController():
         #         items.append({'Item Name': item['Name'], 'Stock': len(item['Items'])})
         # return items
         return  self.warehouse.get_items()
+
+    def get_item(self, name):
+        return self.warehouse.find_item(name)
+
+    def get_items_from_order(self, order):
+        return order['Order Items']
+
+    def get_items_raw_by_name(self, name):
+        items = []
+        for item in self.warehouse.get_items():
+            if item['isActive'] == True:
+                items.append({'Item Name': item['Name'], 'Stock': len(item['Items'])})
+        return items
+
+
+    def get_order(self, id_string):
+        return self.warehouse.find_order(ObjectId(id_string))
+
+
+    def get_barcodes(self, item_type):
+        main_item = self.get_item(item_type)
+        barcodes = []
+        if main_item == None:
+            return []
+        for item in main_item['Items']:
+            barcodes.append(item['Barcode'])
+        return barcodes
+
 
     def get_users(self):
         return self.warehouse.get_users()

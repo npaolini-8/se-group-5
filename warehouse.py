@@ -16,6 +16,9 @@ class Warehouse():
         self.orders_history_collection = self.warehouse_database["orders_history"]
         self.containers_collection = self.warehouse_database["containers"]
 
+    def find_order(self, id):
+        return self.orders_collection.find_one({"_id": id})
+
     def get_time(self):
         return datetime.now().strftime("%d/%m/%Y %H:%M:%S")
 
@@ -36,15 +39,12 @@ class Warehouse():
     def num_items(self):
         return self.items_collection.count()
 
-    def get_items(self, max = 100):
+    def get_items(self):
         items = []
-        count = 0
         for item in self.items_collection.find({}):
             items.append(item)
-            count += 1
-            if count == max:
-                break
         return items
+
 
     def get_users(self):
         users = []
@@ -211,6 +211,14 @@ class Warehouse():
 
     def delete_user(self, username):
         self.users_collection.delete_one({"Username": username})
+
+    def delete_order(self, id):
+        self.orders_collection.delete_one({'_id': id})
+
+    def archive_order(self, order):
+        order['Status'] = 'Complete'
+        order['Date modified'] = self.get_time()
+        self.orders_history_collection.insert_one(order)
 
     def create_order(self, order_type, client, status):
         inserted_result = self.orders_collection.insert_one(
