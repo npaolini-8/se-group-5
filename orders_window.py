@@ -252,7 +252,21 @@ class OrdersWindow(QDialog):
 
 
     def save_barcodes_clicked(self):
-        pass
+        order_row = self.ui.orders_tbl.currentRow()
+        id = str(self.ui.orders_tbl.item(order_row, 0).text())
+        if not id in self.edited_orders:
+            self.edited_orders[id] = {}
+        item_row = self.ui.items_tbl.currentRow()
+        item_name = str(self.ui.items_tbl.item(item_row, 0).text())
+
+        added_dict = {}
+        for i in range(self.ui.barcodes_tbl.rowCount()):
+            added_dict[str(self.ui.barcodes_tbl.item(i, 0).text())] = str(self.ui.barcodes_tbl.item(i, 1).text())
+        self.edited_orders[id][item_name] = (str(int(self.ui.incoming_lcd_count.value())), added_dict)
+
+        self.set_item(self.ui.items_tbl, 2, item_row, self.edited_orders[id][item_name][0])
+        self.set_item(self.ui.items_tbl, 3, item_row, 'Yes')
+
 
     def save_count_clicked(self):
         order_row = self.ui.orders_tbl.currentRow()
@@ -262,9 +276,9 @@ class OrdersWindow(QDialog):
         item_row = self.ui.items_tbl.currentRow()
         item_name = str(self.ui.items_tbl.item(item_row, 0).text())
 
-        self.edited_orders[id][item_name] = str(int(self.ui.incoming_lcd_count.value()))
+        self.edited_orders[id][item_name] = (str(int(self.ui.incoming_lcd_count.value())), None)
 
-        self.set_item(self.ui.items_tbl, 2, item_row, self.edited_orders[id][item_name])
+        self.set_item(self.ui.items_tbl, 2, item_row, self.edited_orders[id][item_name][0])
         self.set_item(self.ui.items_tbl, 3, item_row, 'Yes')
 
 
@@ -295,13 +309,26 @@ class OrdersWindow(QDialog):
             items = self.edited_orders[id]
             for i in range(len(table_contents[0])):
                 if table_contents[0][i] in items.keys():
-                    table_contents[2][i] = items[table_contents[0][i]]
+                    table_contents[2][i] = items[table_contents[0][i]][0]
                     table_contents[3][i] = 'Yes'
         self.refresh_table(self.ui.items_tbl, table_contents)
 
+    def refresh_barcodes_table(self, barcodes):
+        order_row = self.ui.orders_tbl.currentRow()
+        id = str(self.ui.orders_tbl.item(order_row, 0).text())
+
+        item_row = self.ui.items_tbl.currentRow()
+        item_name = str(self.ui.items_tbl.item(item_row, 0).text())
+
+        table_contents = [barcodes, ['No'] * len(barcodes)]
 
 
-
+        if id in self.edited_orders and item_name in self.edited_orders[id]:
+            barcodes_dict = self.edited_orders[id][item_name][1]
+            for i in range(len(table_contents[0])):
+                if table_contents[0][i] in barcodes_dict.keys():
+                    table_contents[1][i] = barcodes_dict[table_contents[0][i]]
+        self.refresh_table(self.ui.barcodes_tbl, table_contents)
 
 
     def item_selected(self, item):
@@ -322,7 +349,8 @@ class OrdersWindow(QDialog):
         else:
             self.ui.stacked_widget.setCurrentIndex(1)
             barcodes = self.warehouse_controller.get_barcodes(base_item['Item Name'])
-            self.refresh_table(self.ui.barcodes_tbl, [barcodes, ['No'] * len(barcodes)])
+            self.refresh_barcodes_table(barcodes)
+
 
 
         self.ui.incoming_lcd_count.display(self.ui.items_tbl.item(row, 1).text())
