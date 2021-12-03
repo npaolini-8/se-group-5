@@ -33,6 +33,7 @@ class Application(QApplication):
         self.admin_window = AdminWindow(self.warehouse_controller)
 
         if skipLogin:
+            self.warehouse_controller.set_current_user(self.warehouse_controller.connect_user('admin', 'admin'))
             self.main_window.show()
         else:
             self.login_window.show()
