@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
+    <width>814</width>
     <height>600</height>
    </rect>
   </property>
@@ -43,13 +43,13 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>50</y>
+     <y>70</y>
      <width>251</width>
-     <height>461</height>
+     <height>441</height>
     </rect>
    </property>
    <property name="title">
-    <string>Pending</string>
+    <string>Orders</string>
    </property>
    <widget class="QTableWidget" name="orders_tbl">
     <property name="geometry">
@@ -69,11 +69,16 @@
    <widget class="QRadioButton" name="in_radio">
     <property name="geometry">
      <rect>
-      <x>70</x>
+      <x>50</x>
       <y>0</y>
       <width>81</width>
       <height>20</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>8</pointsize>
+     </font>
     </property>
     <property name="text">
      <string>Incoming</string>
@@ -85,11 +90,16 @@
    <widget class="QRadioButton" name="out_radio">
     <property name="geometry">
      <rect>
-      <x>160</x>
+      <x>130</x>
       <y>0</y>
       <width>91</width>
       <height>20</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>8</pointsize>
+     </font>
     </property>
     <property name="text">
      <string>Outgoing</string>
@@ -100,9 +110,9 @@
    <property name="geometry">
     <rect>
      <x>290</x>
-     <y>50</y>
+     <y>70</y>
      <width>251</width>
-     <height>461</height>
+     <height>441</height>
     </rect>
    </property>
    <property name="title">
@@ -124,98 +134,236 @@
     </property>
    </widget>
   </widget>
-  <widget class="QGroupBox" name="groupBox_3">
+  <widget class="QStackedWidget" name="stacked_widget">
    <property name="geometry">
     <rect>
-     <x>580</x>
-     <y>50</y>
-     <width>201</width>
-     <height>451</height>
+     <x>570</x>
+     <y>90</y>
+     <width>231</width>
+     <height>421</height>
     </rect>
    </property>
-   <property name="title">
-    <string>Barcodes</string>
+   <property name="currentIndex">
+    <number>1</number>
    </property>
-   <widget class="QTableWidget" name="barcodes_tbl">
-    <property name="geometry">
-     <rect>
-      <x>0</x>
-      <y>20</y>
-      <width>201</width>
-      <height>431</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>8</pointsize>
-     </font>
-    </property>
+   <widget class="QWidget" name="page">
+    <widget class="QPushButton" name="save_count_btn">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>100</y>
+       <width>231</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Save Present Item Count</string>
+     </property>
+    </widget>
+    <widget class="QGroupBox" name="groupBox_4">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>231</width>
+       <height>81</height>
+      </rect>
+     </property>
+     <property name="title">
+      <string>Items Present</string>
+     </property>
+     <widget class="QPushButton" name="minus_btn">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>20</y>
+        <width>61</width>
+        <height>61</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>36</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>-</string>
+      </property>
+     </widget>
+     <widget class="QLCDNumber" name="incoming_lcd_count">
+      <property name="geometry">
+       <rect>
+        <x>60</x>
+        <y>20</y>
+        <width>111</width>
+        <height>61</height>
+       </rect>
+      </property>
+      <property name="mode">
+       <enum>QLCDNumber::Dec</enum>
+      </property>
+      <property name="segmentStyle">
+       <enum>QLCDNumber::Flat</enum>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="plus_btn">
+      <property name="geometry">
+       <rect>
+        <x>170</x>
+        <y>20</y>
+        <width>61</width>
+        <height>61</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>28</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>+</string>
+      </property>
+     </widget>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="page_2">
+    <widget class="QGroupBox" name="groupBox_3">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>150</y>
+       <width>231</width>
+       <height>271</height>
+      </rect>
+     </property>
+     <property name="title">
+      <string>Barcodes</string>
+     </property>
+     <widget class="QTableWidget" name="barcodes_tbl">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>20</y>
+        <width>231</width>
+        <height>251</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>8</pointsize>
+       </font>
+      </property>
+      <property name="selectionMode">
+       <enum>QAbstractItemView::SingleSelection</enum>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QPushButton" name="save_barcodes_btn">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>100</y>
+       <width>231</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Save Barcode Selections</string>
+     </property>
+    </widget>
+    <widget class="QGroupBox" name="groupBox_5">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>231</width>
+       <height>81</height>
+      </rect>
+     </property>
+     <property name="title">
+      <string>Items Present</string>
+     </property>
+     <widget class="QLCDNumber" name="outgoing_lcd_count">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>20</y>
+        <width>231</width>
+        <height>61</height>
+       </rect>
+      </property>
+      <property name="mode">
+       <enum>QLCDNumber::Dec</enum>
+      </property>
+      <property name="segmentStyle">
+       <enum>QLCDNumber::Flat</enum>
+      </property>
+     </widget>
+    </widget>
    </widget>
   </widget>
-  <widget class="QGroupBox" name="groupBox_4">
+  <widget class="QRadioButton" name="com_radio">
    <property name="geometry">
     <rect>
-     <x>550</x>
-     <y>510</y>
-     <width>231</width>
-     <height>81</height>
+     <x>140</x>
+     <y>50</y>
+     <width>91</width>
+     <height>20</height>
     </rect>
    </property>
-   <property name="title">
-    <string>Items Present</string>
+   <property name="font">
+    <font>
+     <pointsize>8</pointsize>
+    </font>
    </property>
-   <widget class="QPushButton" name="minus_btn">
-    <property name="geometry">
-     <rect>
-      <x>0</x>
-      <y>20</y>
-      <width>61</width>
-      <height>61</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>36</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>-</string>
-    </property>
-   </widget>
-   <widget class="QLCDNumber" name="lcd_count">
-    <property name="geometry">
-     <rect>
-      <x>60</x>
-      <y>20</y>
-      <width>111</width>
-      <height>61</height>
-     </rect>
-    </property>
-    <property name="mode">
-     <enum>QLCDNumber::Dec</enum>
-    </property>
-    <property name="segmentStyle">
-     <enum>QLCDNumber::Flat</enum>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="plus_btn">
-    <property name="geometry">
-     <rect>
-      <x>170</x>
-      <y>20</y>
-      <width>61</width>
-      <height>61</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>28</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>+</string>
-    </property>
-   </widget>
+   <property name="text">
+    <string>Complete</string>
+   </property>
+  </widget>
+  <widget class="QRadioButton" name="pend_radio">
+   <property name="geometry">
+    <rect>
+     <x>60</x>
+     <y>50</y>
+     <width>91</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>8</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>Pending</string>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="error_lbl">
+   <property name="geometry">
+    <rect>
+     <x>270</x>
+     <y>540</y>
+     <width>531</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>22</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
   </widget>
  </widget>
  <resources/>
