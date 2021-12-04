@@ -238,7 +238,7 @@ class AdminWindow(QDialog):
         self.ui.admin_radio.setChecked(False)
         self.ui.active_check.setChecked(True)
         self.ui.lock_check.setChecked(False)
-        self.set_error("")
+        self.set_error("",True)
 
     #"" represents new user account
     def create_new_clicked(self):
@@ -249,7 +249,7 @@ class AdminWindow(QDialog):
         self.ui.active_check.setChecked(True)
         self.ui.lock_check.setChecked(False)
         self.ui.user_name_line.setFocus()
-        self.set_error("")
+        self.set_error("",True)
 
     def filter_users(self):
         filter_string = self.ui.user_search_bar.text()
@@ -307,8 +307,12 @@ class AdminWindow(QDialog):
 
         return role
     
-    def set_error(self,error):
+    def set_error(self,error, good):
         self.ui.err_label.setText(error)
+        if good:
+            self.ui.err_label.setStyleSheet("color: green;")
+        else:
+            self.ui.err_label.setStyleSheet("color: red;")
 
     def save_user(self):
 
@@ -319,32 +323,32 @@ class AdminWindow(QDialog):
         active = self.ui.active_check.isChecked()
 
         if role is None:
-            self.set_error("Role Required")
+            self.set_error("Role Required",False)
         elif username is None or username == "":
-            self.set_error("Username required")
+            self.set_error("Username required",False)
         elif self.curr_user == "": #new user case
-            if password is None or password == "":
-                self.set_error("Password required")
-            elif self.warehouse_controller.validate_new_username( username ) != "OK":
-                self.set_error("Username in use")
+            if self.warehouse_controller.validate_new_username( username ) != "OK":
+                self.set_error("Username in use",False)
+            #elif password is None or password == "": #removing for now, setting pw to None
+            #    self.set_error("Password required")    
             else: #valid new user input
                 self.warehouse_controller.create_new_user(username,password,role)
                 self.clear_form()
                 self.refresh_form()
-                self.set_error("New User Created")
-        else: #updating existing user
+                self.set_error("New User Created",True)
+        else: #updating existing user passing empty strings for PWs
             if username != self.curr_user: #changing username
                 if self.warehouse_controller.validate_new_username( username ) != "OK":
-                    self.set_error("Username in use")
+                    self.set_error("Username in use",False)
                 else: #valid username change
                     self.warehouse_controller.edit_user(self.curr_user, password=password,role=role,newUsername=username,active=active,locked=locked)
                     self.clear_form()
-                    self.set_error(self.curr_user + " updated to new username: " + username)
+                    self.set_error(self.curr_user + " updated to new username: " + username,True)
                     self.refresh_form()
                     
             else: #updating user, username staying the same
                 self.warehouse_controller.edit_user(self.curr_user, password=password,role=role,active=active,locked=locked)
                 self.clear_form()
-                self.set_error(self.curr_user + " updated")
+                self.set_error(self.curr_user + " updated",True)
                 self.refresh_form()
                 

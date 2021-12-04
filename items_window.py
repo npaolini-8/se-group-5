@@ -518,8 +518,11 @@ class ItemsWindow(QDialog):
                         #self.items[i]["Items"].append({"Barcode": barcode,"Container":None,"Status":"Available"})
                         self.items[i]["Items"] = new_barcode_list
 
-
-                self.set_error("New " + self.curr_item + " created!",True)
+                if count == 1:
+                    self.set_error("New " + self.curr_item + " created!",True)
+                else:
+                    self.ui.barcode_count_lbl.setText("1")
+                    self.set_error( str(count) + " new " + self.curr_item + "s created!",True)
             
 
     def find_item_in_table(self, item_name):

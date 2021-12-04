@@ -193,7 +193,10 @@ class Warehouse():
     def edit_user(self, username, user, password=None, role=None, newUsername=None, active=None, locked=None):
         edit_dict = {}
         if password is not None:
-            edit_dict.update({"Password": password})
+            if password == "":
+                edit_dict.update({"Password": None})
+            else:
+                edit_dict.update({"Password": password})
         if role is not None:
             edit_dict.update({"Role":role})
         if newUsername is not None:

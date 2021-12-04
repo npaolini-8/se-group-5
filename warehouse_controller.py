@@ -170,16 +170,16 @@ class WarehouseController():
             return False
 
     #MVC wrappers, could flesh out for error handling
-    def create_new_user(self, username, password, role):
-        self.warehouse.create_user(username,password,role, self.get_current_username())
+    def create_new_user(self, username, password, role): # setting pw to None for new users for now
+        self.warehouse.create_user(username,None,role, self.get_current_username())
 
     def edit_user(self, username, password=None, role=None, newUsername=None, active=None, locked=None):
         if locked == False:
             self.warehouse.clear_user_lock(username)
         if password == "":
             self.warehouse.edit_user(username, self.get_current_username(), role=role,newUsername=newUsername, active=active, locked=locked)
-        else:
-            self.warehouse.edit_user(username, self.get_current_username(), password=password,role=role,newUsername=newUsername, active=active,locked=locked)
+        else: #setting to empty string for null convert for now
+            self.warehouse.edit_user(username, self.get_current_username(), password="",role=role,newUsername=newUsername, active=active,locked=locked)
     
     def create_new_item(self, item_name, item_desc, item_model, item_brand, isActive, item_weight=None, item_length=None, item_width=None, item_depth=None):
         self.warehouse.create_main_item(self.get_current_username(), item_name, item_desc, item_model, item_brand,isActive=isActive,length=item_length,width=item_width,depth=item_depth,weight=item_weight)
