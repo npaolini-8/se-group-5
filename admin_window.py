@@ -161,6 +161,11 @@ class AdminWindow(QDialog):
 
         self.ui.users_table.setColumnCount(4)
         self.ui.users_table.setHorizontalHeaderLabels(["Username", "Active?","Locked?", "Role"])
+        header = self.ui.users_table.horizontalHeader()
+        header.setSectionResizeMode(0, QHeaderView.Stretch)
+        header.setSectionResizeMode(1, QHeaderView.ResizeToContents)
+        header.setSectionResizeMode(2, QHeaderView.ResizeToContents)
+        header.setSectionResizeMode(3, QHeaderView.ResizeToContents)
 
         self.refresh_table()
 
@@ -190,6 +195,11 @@ class AdminWindow(QDialog):
             active_item = QTableWidgetItem(str(user["isActive"]))
             lock_item = QTableWidgetItem(str(user["isLocked"]))
             role_item = QTableWidgetItem(user["Role"])
+
+            name_item.setFlags(name_item.flags() ^ Qt.ItemIsEditable)
+            active_item.setFlags(active_item.flags() ^ Qt.ItemIsEditable)
+            lock_item.setFlags(lock_item.flags() ^ Qt.ItemIsEditable)
+            role_item.setFlags(role_item.flags() ^ Qt.ItemIsEditable)
 
             self.ui.users_table.setItem(i, 0, name_item)
             self.ui.users_table.setItem(i, 1, active_item)

@@ -174,6 +174,8 @@ class WarehouseController():
         self.warehouse.create_user(username,password,role, self.get_current_username())
 
     def edit_user(self, username, password=None, role=None, newUsername=None, active=None, locked=None):
+        if locked == False:
+            self.warehouse.clear_user_lock(username)
         if password == "":
             self.warehouse.edit_user(username, self.get_current_username(), role=role,newUsername=newUsername, active=active, locked=locked)
         else:
