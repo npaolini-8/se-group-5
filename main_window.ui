@@ -14,7 +14,7 @@
    <string>MainWindow</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-color:#AEB7BC;</string>
+   <string notr="true">background-color:#6f6464;</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QWidget" name="verticalLayoutWidget">
@@ -36,7 +36,7 @@
         </size>
        </property>
        <property name="styleSheet">
-        <string notr="true">background-color: #4CAF50;
+        <string notr="true">background-color: #41B3A3;
 color: white;
 border-radius: 8px;
 font-size: 18px;
@@ -60,7 +60,7 @@ font-weight: bold;
         </size>
        </property>
        <property name="styleSheet">
-        <string notr="true">background-color: #4CAF50;
+        <string notr="true">background-color:  #41B3A3;
 color: white;
 border-radius: 8px;
 font-size: 18px;
@@ -84,7 +84,7 @@ font-weight: bold;
         </size>
        </property>
        <property name="styleSheet">
-        <string notr="true">background-color: #4CAF50;
+        <string notr="true">background-color:  #41B3A3;
 color: white;
 border-radius: 8px;
 font-size: 18px;
@@ -108,7 +108,7 @@ font-weight: bold;
         </size>
        </property>
        <property name="styleSheet">
-        <string notr="true">background-color: #4CAF50;
+        <string notr="true">background-color:  #41B3A3;
 color: white;
 border-radius: 8px;
 font-size: 18px;
@@ -132,7 +132,7 @@ font-weight: bold;
         </size>
        </property>
        <property name="styleSheet">
-        <string notr="true">background-color: #4CAF50;
+        <string notr="true">background-color:  #41B3A3;
 color: white;
 border-radius: 8px;
 font-size: 18px;
@@ -162,7 +162,7 @@ font-weight: bold;
      <item>
       <widget class="QLabel" name="label">
        <property name="styleSheet">
-        <string notr="true">background-color: #4CAF50;
+        <string notr="true">background-color:  #41B3A3;
 color: white;
 border-radius: 8px;
 font-size: 18px;
@@ -198,7 +198,7 @@ padding-bottom: 15px;
      <item>
       <widget class="QLabel" name="label_2">
        <property name="styleSheet">
-        <string notr="true">background-color: #4CAF50;
+        <string notr="true">background-color:  #41B3A3;
 color: white;
 border-radius: 8px;
 font-size: 18px;
@@ -242,7 +242,7 @@ padding-bottom: 15px;
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color: #4CAF50;
+     <string notr="true">background-color:  #41B3A3;
 color: white;
 border-radius: 8px;
 font-size: 16px;
