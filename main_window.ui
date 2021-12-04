@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background-color:#AEB7BC;</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QWidget" name="verticalLayoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>50</y>
+      <width>261</width>
+      <height>501</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="verticalLayout">
+     <item>
+      <widget class="QPushButton" name="items_btn">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>80</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: #4CAF50;
+color: white;
+border-radius: 8px;
+font-size: 18px;
+font-family: Arial, Helvetica, sans-serif;
+font-weight: bold;
+
+
+</string>
+       </property>
+       <property name="text">
+        <string>Items</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="create_order_btn">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>80</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: #4CAF50;
+color: white;
+border-radius: 8px;
+font-size: 18px;
+font-family: Arial, Helvetica, sans-serif;
+font-weight: bold;
+
+
+</string>
+       </property>
+       <property name="text">
+        <string>Create Order</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="process_order_btn">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>80</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: #4CAF50;
+color: white;
+border-radius: 8px;
+font-size: 18px;
+font-family: Arial, Helvetica, sans-serif;
+font-weight: bold;
+
+
+</string>
+       </property>
+       <property name="text">
+        <string>Process Order</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="backup_btn">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>80</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: #4CAF50;
+color: white;
+border-radius: 8px;
+font-size: 18px;
+font-family: Arial, Helvetica, sans-serif;
+font-weight: bold;
+
+
+</string>
+       </property>
+       <property name="text">
+        <string>Backup</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="admin_panel_btn">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>80</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: #4CAF50;
+color: white;
+border-radius: 8px;
+font-size: 18px;
+font-family: Arial, Helvetica, sans-serif;
+font-weight: bold;
+
+
+</string>
+       </property>
+       <property name="text">
+        <string>Admin Panel</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QWidget" name="verticalLayoutWidget_2">
+    <property name="geometry">
+     <rect>
+      <x>290</x>
+      <y>10</y>
+      <width>491</width>
+      <height>531</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="verticalLayout_2">
+     <item>
+      <widget class="QLabel" name="label">
+       <property name="styleSheet">
+        <string notr="true">background-color: #4CAF50;
+color: white;
+border-radius: 8px;
+font-size: 18px;
+font-family: Arial, Helvetica, sans-serif;
+font-weight: bold;
+padding-bottom: 15px;
+
+
+</string>
+       </property>
+       <property name="text">
+        <string>                                   Incoming Orders</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QTableWidget" name="incoming_orders_tbl">
+       <property name="styleSheet">
+        <string notr="true">background-color: white;
+
+
+
+</string>
+       </property>
+       <property name="editTriggers">
+        <set>QAbstractItemView::NoEditTriggers</set>
+       </property>
+       <property name="sortingEnabled">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_2">
+       <property name="styleSheet">
+        <string notr="true">background-color: #4CAF50;
+color: white;
+border-radius: 8px;
+font-size: 18px;
+font-family: Arial, Helvetica, sans-serif;
+font-weight: bold;
+padding-bottom: 15px;
+
+
+</string>
+       </property>
+       <property name="text">
+        <string>                                 Outgoing Orders</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QTableWidget" name="outgoing_orders_tbl">
+       <property name="styleSheet">
+        <string notr="true">background-color: white;
+
+
+</string>
+       </property>
+       <property name="editTriggers">
+        <set>QAbstractItemView::NoEditTriggers</set>
+       </property>
+       <property name="sortingEnabled">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QPushButton" name="logout_btn">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>10</y>
+      <width>88</width>
+      <height>34</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: #4CAF50;
+color: white;
+border-radius: 8px;
+font-size: 16px;
+font-family: Arial, Helvetica, sans-serif;
+font-weight: bold;
+
+
+</string>
+    </property>
+    <property name="text">
+     <string>Logout</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="user_lbl">
+    <property name="geometry">
+     <rect>
+      <x>120</x>
+      <y>30</y>
+      <width>161</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>800</width>
+     <height>26</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
