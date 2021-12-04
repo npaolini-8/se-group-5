@@ -9,7 +9,7 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
 from PySide6.QtWidgets import (QApplication, QCheckBox, QDialog, QHBoxLayout,
     QHeaderView, QLabel, QLineEdit, QPushButton,
     QSizePolicy, QSpacerItem, QTableWidget, QTableWidgetItem,
-    QTextEdit, QVBoxLayout, QWidget, QAbstractItemView)
+    QTextEdit, QVBoxLayout, QWidget, QAbstractItemView, QHeaderView)
 
 class Ui_ItemWindow(object):
     def setupUi(self, ItemWindow):
@@ -126,12 +126,17 @@ class Ui_ItemWindow(object):
 
         self.verticalLayoutWidget_3 = QWidget(ItemWindow)
         self.verticalLayoutWidget_3.setObjectName(u"verticalLayoutWidget_3")
-        self.verticalLayoutWidget_3.setGeometry(QRect(550, 70, 241, 441))
+        self.verticalLayoutWidget_3.setGeometry(QRect(550, 70, 252, 441))
         self.barcode_info_vlayout = QVBoxLayout(self.verticalLayoutWidget_3)
         self.barcode_info_vlayout.setObjectName(u"barcode_info_vlayout")
         self.barcode_info_vlayout.setContentsMargins(0, 0, 0, 0)
         self.barcode_ops_hlayout = QHBoxLayout()
         self.barcode_ops_hlayout.setObjectName(u"barcode_ops_hlayout")
+        self.barcode_count_lbl = QLineEdit(self.verticalLayoutWidget_3)
+        self.barcode_count_lbl.setObjectName(u"barcode_count_lbl")
+
+        self.barcode_ops_hlayout.addWidget(self.barcode_count_lbl)
+
         self.new_barcode_btn = QPushButton(self.verticalLayoutWidget_3)
         self.new_barcode_btn.setObjectName(u"new_barcode_btn")
 
@@ -179,10 +184,12 @@ class Ui_ItemWindow(object):
         self.active_check.setText(QCoreApplication.translate("ItemWindow", u"Active Item", None))
         self.error_label.setText("")
         self.save_item_btn.setText(QCoreApplication.translate("ItemWindow", u"Save Item Type", None))
+        self.barcode_count_lbl.setText(QCoreApplication.translate("ItemWindow", u"1", None))
         self.new_barcode_btn.setText(QCoreApplication.translate("ItemWindow", u"Create New Item", None))
         self.delete_item_btn.setText(QCoreApplication.translate("ItemWindow", u"Remove Item", None))
         self.barcode_search_line.setPlaceholderText(QCoreApplication.translate("ItemWindow", u"Search for a Barcode...", None))
     # retranslateUi
+
 
 
 class ItemsWindow(QDialog):
@@ -227,6 +234,9 @@ class ItemsWindow(QDialog):
 
         self.ui.item_table.setColumnCount(2)
         self.ui.item_table.setHorizontalHeaderLabels(["Item Name", "Stock"])
+        header = self.ui.item_table.horizontalHeader()
+        header.setSectionResizeMode(0, QHeaderView.Stretch)
+        header.setSectionResizeMode(1, QHeaderView.ResizeToContents)
 
         self.refresh_item_table()
 
@@ -235,6 +245,9 @@ class ItemsWindow(QDialog):
         self.ui.barcode_table.setSelectionMode(QAbstractItemView.SingleSelection)
         self.ui.barcode_table.setColumnCount(2)
         self.ui.barcode_table.setHorizontalHeaderLabels(["Barcode", "Status"])
+        header = self.ui.barcode_table.horizontalHeader()
+        header.setSectionResizeMode(0, QHeaderView.ResizeToContents)
+        header.setSectionResizeMode(1, QHeaderView.ResizeToContents)
 
     def return_clicked(self):
         self.warehouse_controller.switch_to(self, 'main')
@@ -294,7 +307,7 @@ class ItemsWindow(QDialog):
         self.curr_barcode = ""
         self.ui.item_name_line.setText(item)
         self.ui.edit_label.setText("Editing: " + item)
-        self.set_error("")
+        self.set_error("", True)
         #clear dimension fields to account for null cases
         self.ui.item_length.setText("")
         self.ui.item_width.setText("")
@@ -358,132 +371,155 @@ class ItemsWindow(QDialog):
         
 
     def new_item_type_clicked(self):
+        if not(self.warehouse_controller.access_check("Supervisor")):
+            self.set_error("Insufficient Access",False)
+        else:
+            self.clear_form("new")
+            self.curr_item = ""
+            self.curr_barcode = ""
+            self.ui.edit_label.setText(self.new_item_string)
+            self.ui.item_name_line.setFocus()
 
-        self.clear_form("new")
-        self.curr_item = ""
-        self.curr_barcode = ""
-        self.ui.edit_label.setText(self.new_item_string)
-        self.ui.item_name_line.setFocus()
-
-    def set_error(self,error):
+    def set_error(self,error, good):
         self.ui.error_label.setText(error)
+        if good:
+            self.ui.error_label.setStyleSheet("color: green;")
+        else:
+            self.ui.error_label.setStyleSheet("color: red;")
         
     def save_item(self):
-        #try/catch for catching non-numerical input into dimensions/weight
-        #try:
-            #required fields
-            item_name = self.ui.item_name_line.text()
-            item_desc = self.ui.item_desc.toPlainText()
-            item_model = self.ui.item_model.text()
-            item_brand = self.ui.item_brand.text()
-            item_active = self.ui.active_check.isChecked()
 
-            #dimension and weight fields not required, check before casting
-            #set to None to ensure type reliability in DB, dont want to set empty strings
-            dim_ok = True
-
-            item_length = self.ui.item_length.text()
-            if item_length != "":
-                try:
-                    item_length = float(item_length)
-                except ValueError:
-                    dim_ok = False
-            else:
-                item_length = None
+        if not(self.warehouse_controller.access_check("Supervisor")):
+            self.set_error("Insufficient Access",False)
+        else:
             
-            item_width = self.ui.item_width.text()
-            if item_width != "":
-                try:
-                    item_width = float(item_width)
-                except ValueError:
-                    dim_ok = False
-            else:
-                item_width = None
+            #try/catch for catching non-numerical input into dimensions/weight
+            #try:
+                #required fields
+                item_name = self.ui.item_name_line.text()
+                item_desc = self.ui.item_desc.toPlainText()
+                item_model = self.ui.item_model.text()
+                item_brand = self.ui.item_brand.text()
+                item_active = self.ui.active_check.isChecked()
 
-            item_depth = self.ui.item_depth.text()
-            if item_depth != "":
-                try:
-                    item_depth = float(item_depth)
-                except ValueError:
-                    dim_ok = False
-            else:
-                item_depth = None
+                #dimension and weight fields not required, check before casting
+                #set to None to ensure type reliability in DB, dont want to set empty strings
+                dim_ok = True
 
-            item_weight = self.ui.item_weight.text()
-            #if item_weight is not None or item_weight != "":
-            if item_weight != "":
-                try:
-                    item_weight = float(item_weight)
-                except ValueError:
-                    dim_ok = False
-            else:
-                item_weight = None
+                item_length = self.ui.item_length.text()
+                if item_length != "":
+                    try:
+                        item_length = float(item_length)
+                    except ValueError:
+                        dim_ok = False
+                else:
+                    item_length = None
+                
+                item_width = self.ui.item_width.text()
+                if item_width != "":
+                    try:
+                        item_width = float(item_width)
+                    except ValueError:
+                        dim_ok = False
+                else:
+                    item_width = None
+
+                item_depth = self.ui.item_depth.text()
+                if item_depth != "":
+                    try:
+                        item_depth = float(item_depth)
+                    except ValueError:
+                        dim_ok = False
+                else:
+                    item_depth = None
+
+                item_weight = self.ui.item_weight.text()
+                #if item_weight is not None or item_weight != "":
+                if item_weight != "":
+                    try:
+                        item_weight = float(item_weight)
+                    except ValueError:
+                        dim_ok = False
+                else:
+                    item_weight = None
 
 
-            if dim_ok == False:
-                self.set_error("Dimensions and Weight must be Numbers")
+                if dim_ok == False:
+                    self.set_error("Dimensions and Weight must be Numbers")
 
-            #required field checks
-            elif item_desc is None or item_desc == "":
-                self.set_error("Item Description Required")
-            elif item_model is None or item_model == "":
-                self.set_error("Model Information Required")
-            elif item_brand is None or item_brand == "":
-                self.set_error("Item Brand Required")
-            elif item_name is None or item_name == "":
-                self.set_error("Item Name Required")
-            else: #required fields correct, check cases (I think you get some duplicated code either way you do this)
-                if self.curr_item == "": #new item being created
-                    if self.warehouse_controller.validate_new_item_name(item_name) != "OK":
-                        self.set_error("Item Name in Use")
-                    else: #input validated, create new item type
-                        self.warehouse_controller.create_new_item(item_name,item_desc,item_model,item_brand,item_active,item_weight=item_weight,item_length=item_length,item_width=item_width,item_depth=item_depth)
-                        self.clear_form()
-                        self.refresh_item_table()
-                        self.set_error("New Item Created: " + item_name) 
-                else: #editing existing item, cases separated for informative messaging
-                    if self.curr_item != item_name: #change item name case
+                #required field checks
+                elif item_desc is None or item_desc == "":
+                    self.set_error("Item Description Required",False)
+                elif item_model is None or item_model == "":
+                    self.set_error("Model Information Required",False)
+                elif item_brand is None or item_brand == "":
+                    self.set_error("Item Brand Required",False)
+                elif item_name is None or item_name == "":
+                    self.set_error("Item Name Required",False)
+                else: #required fields correct, check cases (I think you get some duplicated code either way you do this)
+                    if self.curr_item == "": #new item being created
                         if self.warehouse_controller.validate_new_item_name(item_name) != "OK":
-                            self.set_error("Item Name in Use")
-                        else: #new username OK
-                            self.warehouse_controller.edit_item(self.curr_item,item_desc=item_desc,item_model=item_model,item_brand=item_brand,isActive=item_active,item_weight=item_weight,item_length=item_length,item_width=item_width,item_depth=item_depth, new_name=item_name)
+                            self.set_error("Item Name in Use",False)
+                        else: #input validated, create new item type
+                            self.warehouse_controller.create_new_item(item_name,item_desc,item_model,item_brand,item_active,item_weight=item_weight,item_length=item_length,item_width=item_width,item_depth=item_depth)
                             self.clear_form()
-                            self.set_error(self.curr_item + " updated to: " + item_name)
                             self.refresh_item_table()
-                    else: #edit existing item, no item name change
-                        self.warehouse_controller.edit_item(self.curr_item,item_desc=item_desc,item_model=item_model,item_brand=item_brand,isActive=item_active,item_weight=item_weight,item_length=item_length,item_width=item_width,item_depth=item_depth)
-                        self.clear_form()
-                        self.set_error(self.curr_item + " updated!")
-                        self.refresh_item_table()
+                            self.set_error("New Item Created: " + item_name, True) 
+                    else: #editing existing item, cases separated for informative messaging
+                        if self.curr_item != item_name: #change item name case
+                            if self.warehouse_controller.validate_new_item_name(item_name) != "OK":
+                                self.set_error("Item Name in Use",False)
+                            else: #new username OK
+                                self.warehouse_controller.edit_item(self.curr_item,item_desc=item_desc,item_model=item_model,item_brand=item_brand,isActive=item_active,item_weight=item_weight,item_length=item_length,item_width=item_width,item_depth=item_depth, new_name=item_name)
+                                self.clear_form()
+                                self.set_error(self.curr_item + " updated to: " + item_name,True)
+                                self.refresh_item_table()
+                        else: #edit existing item, no item name change
+                            self.warehouse_controller.edit_item(self.curr_item,item_desc=item_desc,item_model=item_model,item_brand=item_brand,isActive=item_active,item_weight=item_weight,item_length=item_length,item_width=item_width,item_depth=item_depth)
+                            self.clear_form()
+                            self.set_error(self.curr_item + " updated!",True)
+                            self.refresh_item_table()
 
-        
-        #except ValueError:
-        #    self.set_error("Dimensions and Weight must be Numbers")
+            
+            #except ValueError:
+            #    self.set_error("Dimensions and Weight must be Numbers")
 
     def barcode_clicked(self,barcode):
         row = barcode.row()
         self.curr_barcode = self.ui.barcode_table.item(row,0).text()
 
     def new_barcode_btn_clicked(self):
-        if self.curr_item == "": #make sure an item is selected
-            self.set_error("Select a pre-existing item type")
+        if not(self.warehouse_controller.access_check("Supervisor")):
+            self.set_error("Insufficient Access",False)
         else:
-            self.warehouse_controller.create_sub_item(self.curr_item)
-            new_barcode_list = self.warehouse_controller.get_item(self.curr_item)["Items"]
-            self.refresh_barcode_table(new_barcode_list)
-            #manually update item main table to reduce query frequency
-            #DESYNC POTENTIAL
-            row = self.find_item_in_table(self.curr_item)
-            item_count = int(self.ui.item_table.item(row,1).text())
-            self.ui.item_table.setItem(row,1,QTableWidgetItem(str(item_count+1)))
-            # need to edit the stored item list to maintain consistency
-            for i in range(len(self.items)):
-                if self.items[i]["Name"] == self.curr_item:
-                    barcode = self.ui.barcode_table.item(self.ui.barcode_table.rowCount()-1, 0).text()
-                    self.items[i]["Items"].append({"Barcode": barcode,"Container":None,"Status":"Available"})
+            if self.curr_item == "": #make sure an item is selected
+                self.set_error("Select a pre-existing item type",False)
+            #elif not(self.ui.barcode_count_lbl.text().isdigit()):
+            elif self.warehouse_controller.parseable_int_str(self.ui.barcode_count_lbl.text()) is not True:
+                self.set_error("Count must be a Non-Zero Number",False)
+            else:
+                #add appropriate number of subitems
+                count = int(self.ui.barcode_count_lbl.text())
+                for x in range(count):
+                    self.warehouse_controller.create_sub_item(self.curr_item)
+
+                #update barcode table, need to go out to the DB because of unpredictable increments
+                new_barcode_list = self.warehouse_controller.get_item(self.curr_item)["Items"]
+                self.refresh_barcode_table(new_barcode_list)
+                #manually update item main table to reduce query frequency
+                #DESYNC POTENTIAL
+                row = self.find_item_in_table(self.curr_item)
+                item_count = int(self.ui.item_table.item(row,1).text())
+                self.ui.item_table.setItem(row,1,QTableWidgetItem(str(item_count+count))) #changed from +1
+                # need to edit the stored item list to maintain consistency
+                for i in range(len(self.items)):
+                    if self.items[i]["Name"] == self.curr_item:
+                        #barcode = self.ui.barcode_table.item(self.ui.barcode_table.rowCount()-1, 0).text()
+                        #self.items[i]["Items"].append({"Barcode": barcode,"Container":None,"Status":"Available"})
+                        self.items[i]["Items"] = new_barcode_list
 
 
-            self.set_error("New " + self.curr_item + " created!")
+                self.set_error("New " + self.curr_item + " created!",True)
             
 
     def find_item_in_table(self, item_name):
@@ -495,26 +531,29 @@ class ItemsWindow(QDialog):
         return index
 
     def delete_item_btn_clicked(self):
-        if self.curr_item == "":
-            self.set_error("Please select a pre-existing item")
-        elif self.curr_barcode == "":
-            self.set_error("Please select a barcode to delete")
+        if not(self.warehouse_controller.access_check("Supervisor")):
+            self.set_error("Insufficient Access",False)
         else:
-            self.warehouse_controller.delete_sub_item(self.curr_item,self.curr_barcode)
-            new_barcode_list = self.warehouse_controller.get_item(self.curr_item)["Items"]
-            self.refresh_barcode_table(new_barcode_list)
-            #manually update item main table to reduce query frequency
-            #DESYNC POTENTIAL
-            row = self.find_item_in_table(self.curr_item)
-            item_count = int(self.ui.item_table.item(row,1).text())
-            self.ui.item_table.setItem(row,1,QTableWidgetItem(str(item_count-1)))
-            # need to edit the stored item list to maintain consistency
-            for i in range(len(self.items)):
-                if self.items[i]["Name"] == self.curr_item:
-                    for j in range(len(self.items[i]["Items"])):
-                        if self.items[i]["Items"][j]["Barcode"] == self.curr_barcode:
-                            del self.items[i]["Items"][j]
-                            break
-                    break
-            self.set_error(self.curr_barcode + " deleted!")
-            self.curr_barcode = ""
+            if self.curr_item == "":
+                self.set_error("Please select a pre-existing item",False)
+            elif self.curr_barcode == "":
+                self.set_error("Please select a barcode to delete",False)
+            else:
+                self.warehouse_controller.delete_sub_item(self.curr_item,self.curr_barcode)
+                new_barcode_list = self.warehouse_controller.get_item(self.curr_item)["Items"]
+                self.refresh_barcode_table(new_barcode_list)
+                #manually update item main table to reduce query frequency
+                #DESYNC POTENTIAL
+                row = self.find_item_in_table(self.curr_item)
+                item_count = int(self.ui.item_table.item(row,1).text())
+                self.ui.item_table.setItem(row,1,QTableWidgetItem(str(item_count-1)))
+                # need to edit the stored item list to maintain consistency
+                for i in range(len(self.items)):
+                    if self.items[i]["Name"] == self.curr_item:
+                        for j in range(len(self.items[i]["Items"])):
+                            if self.items[i]["Items"][j]["Barcode"] == self.curr_barcode:
+                                del self.items[i]["Items"][j]
+                                break
+                        break
+                self.set_error(self.curr_barcode + " deleted!",True)
+                self.curr_barcode = ""

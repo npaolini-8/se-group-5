@@ -1,6 +1,7 @@
 from warehouse import Warehouse
 from application import Application
 from bson.objectid import ObjectId
+import re
 
 class WarehouseController():
     def __init__(self):
@@ -48,6 +49,19 @@ class WarehouseController():
     def get_current_role(self):
         return self.current_user["Role"] #could be Admin, User
 
+    #give user, supervisor, admin
+    #returns true if role is >= role
+    def access_check(self, role):
+        if role == "User":
+            return True
+        elif role == "Supervisor":
+            if self.get_current_role() == "User":
+                return False
+            else:
+                return True
+        elif role == "Admin":
+            if self.get_current_role() == "Admin":
+                return True
 
     def connect_user(self, username, password):
         self.warehouse.cluster.server_info()  #This will fail if we don't have a connection to the server
@@ -148,6 +162,12 @@ class WarehouseController():
             return "Item Name is already in use"
         else:
             return "OK"
+
+    def parseable_int_str(self, string):
+        if re.match(r"^[1-9][0-9]*$", string):
+            return True
+        else:
+            return False
 
     #MVC wrappers, could flesh out for error handling
     def create_new_user(self, username, password, role):
