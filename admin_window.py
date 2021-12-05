@@ -12,26 +12,27 @@ from PySide6.QtWidgets import (QApplication, QCheckBox, QDialog, QHBoxLayout,
     QVBoxLayout, QWidget, QAbstractItemView, QLabel)
 
 class Ui_AdminWindow(object):
-    def setupUi(self, Dialog):
-        if not Dialog.objectName():
-            Dialog.setObjectName(u"Dialog")
-        Dialog.resize(800, 600)
+    def setupUi(self, AdminWindow):
+        if not AdminWindow.objectName():
+            AdminWindow.setObjectName(u"AdminWindow")
+        AdminWindow.resize(800, 600)
         sizePolicy = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(Dialog.sizePolicy().hasHeightForWidth())
-        Dialog.setSizePolicy(sizePolicy)
-        self.return_btn = QPushButton(Dialog)
+        sizePolicy.setHeightForWidth(AdminWindow.sizePolicy().hasHeightForWidth())
+        AdminWindow.setSizePolicy(sizePolicy)
+        self.return_btn = QPushButton(AdminWindow)
         self.return_btn.setObjectName(u"return_btn")
         self.return_btn.setGeometry(QRect(20, 10, 75, 24))
-        self.verticalLayoutWidget = QWidget(Dialog)
+        self.verticalLayoutWidget = QWidget(AdminWindow)
         self.verticalLayoutWidget.setObjectName(u"verticalLayoutWidget")
-        self.verticalLayoutWidget.setGeometry(QRect(350, 110, 281, 201))
+        self.verticalLayoutWidget.setGeometry(QRect(350, 100, 281, 201))
         self.verticalLayout = QVBoxLayout(self.verticalLayoutWidget)
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.verticalLayout.setContentsMargins(0, 0, 0, 0)
         self.curr_user_label = QLabel(self.verticalLayoutWidget)
         self.curr_user_label.setObjectName(u"curr_user_label")
+        self.curr_user_label.setAlignment(Qt.AlignCenter)
 
         self.verticalLayout.addWidget(self.curr_user_label)
 
@@ -95,7 +96,7 @@ class Ui_AdminWindow(object):
 
         self.verticalLayout.addWidget(self.save_user_button)
 
-        self.verticalLayoutWidget_2 = QWidget(Dialog)
+        self.verticalLayoutWidget_2 = QWidget(AdminWindow)
         self.verticalLayoutWidget_2.setObjectName(u"verticalLayoutWidget_2")
         self.verticalLayoutWidget_2.setGeometry(QRect(10, 100, 331, 321))
         self.verticalLayout_2 = QVBoxLayout(self.verticalLayoutWidget_2)
@@ -116,27 +117,75 @@ class Ui_AdminWindow(object):
 
         self.verticalLayout_2.addWidget(self.users_table)
 
+        self.verticalLayoutWidget_3 = QWidget(AdminWindow)
+        self.verticalLayoutWidget_3.setObjectName(u"verticalLayoutWidget_3")
+        self.verticalLayoutWidget_3.setGeometry(QRect(9, 440, 781, 80))
+        self.verticalLayout_3 = QVBoxLayout(self.verticalLayoutWidget_3)
+        self.verticalLayout_3.setObjectName(u"verticalLayout_3")
+        self.verticalLayout_3.setContentsMargins(0, 0, 0, 0)
+        self.db_fxn_lbl = QLabel(self.verticalLayoutWidget_3)
+        self.db_fxn_lbl.setObjectName(u"db_fxn_lbl")
+        self.db_fxn_lbl.setAlignment(Qt.AlignCenter)
 
-        self.retranslateUi(Dialog)
+        self.verticalLayout_3.addWidget(self.db_fxn_lbl)
 
-        QMetaObject.connectSlotsByName(Dialog)
+        self.db_bu_buttons = QHBoxLayout()
+        self.db_bu_buttons.setObjectName(u"db_bu_buttons")
+        self.bu_create_btn = QPushButton(self.verticalLayoutWidget_3)
+        self.bu_create_btn.setObjectName(u"bu_create_btn")
+
+        self.db_bu_buttons.addWidget(self.bu_create_btn)
+
+        self.restore_items_btn = QPushButton(self.verticalLayoutWidget_3)
+        self.restore_items_btn.setObjectName(u"restore_items_btn")
+
+        self.db_bu_buttons.addWidget(self.restore_items_btn)
+
+        self.restore_users_btn = QPushButton(self.verticalLayoutWidget_3)
+        self.restore_users_btn.setObjectName(u"restore_users_btn")
+
+        self.db_bu_buttons.addWidget(self.restore_users_btn)
+
+        self.pushButton_2 = QPushButton(self.verticalLayoutWidget_3)
+        self.pushButton_2.setObjectName(u"pushButton_2")
+
+        self.db_bu_buttons.addWidget(self.pushButton_2)
+
+        self.pushButton = QPushButton(self.verticalLayoutWidget_3)
+        self.pushButton.setObjectName(u"pushButton")
+
+        self.db_bu_buttons.addWidget(self.pushButton)
+
+
+        self.verticalLayout_3.addLayout(self.db_bu_buttons)
+
+
+        self.retranslateUi(AdminWindow)
+
+        QMetaObject.connectSlotsByName(AdminWindow)
     # setupUi
 
-    def retranslateUi(self, Dialog):
-        Dialog.setWindowTitle(QCoreApplication.translate("Dialog", u"Admin Panel", None))
-        self.return_btn.setText(QCoreApplication.translate("Dialog", u"Return", None))
-        self.curr_user_label.setText(QCoreApplication.translate("Dialog", u"Creating a New User", None))
-        self.user_name_line.setPlaceholderText(QCoreApplication.translate("Dialog", u"Username", None))
-        self.password_line.setPlaceholderText(QCoreApplication.translate("Dialog", u"Password", None))
-        self.user_radio.setText(QCoreApplication.translate("Dialog", u"User", None))
-        self.super_radio.setText(QCoreApplication.translate("Dialog", u"Supervisor", None))
-        self.admin_radio.setText(QCoreApplication.translate("Dialog", u"Admin", None))
-        self.active_check.setText(QCoreApplication.translate("Dialog", u"Is Active?", None))
-        self.lock_check.setText(QCoreApplication.translate("Dialog", u"Is Locked?", None))
+    def retranslateUi(self, AdminWindow):
+        AdminWindow.setWindowTitle(QCoreApplication.translate("AdminWindow", u"Admin Panel", None))
+        self.return_btn.setText(QCoreApplication.translate("AdminWindow", u"Return", None))
+        self.curr_user_label.setText(QCoreApplication.translate("AdminWindow", u"Creating a New User", None))
+        self.user_name_line.setPlaceholderText(QCoreApplication.translate("AdminWindow", u"Username", None))
+        self.password_line.setPlaceholderText(QCoreApplication.translate("AdminWindow", u"Password", None))
+        self.user_radio.setText(QCoreApplication.translate("AdminWindow", u"User", None))
+        self.super_radio.setText(QCoreApplication.translate("AdminWindow", u"Supervisor", None))
+        self.admin_radio.setText(QCoreApplication.translate("AdminWindow", u"Admin", None))
+        self.active_check.setText(QCoreApplication.translate("AdminWindow", u"Is Active?", None))
+        self.lock_check.setText(QCoreApplication.translate("AdminWindow", u"Is Locked?", None))
         self.err_label.setText("")
-        self.save_user_button.setText(QCoreApplication.translate("Dialog", u"Save User", None))
-        self.new_user_button.setText(QCoreApplication.translate("Dialog", u"Create a New User", None))
-        self.user_search_bar.setPlaceholderText(QCoreApplication.translate("Dialog", u"Search for a user...", None))
+        self.save_user_button.setText(QCoreApplication.translate("AdminWindow", u"Save User", None))
+        self.new_user_button.setText(QCoreApplication.translate("AdminWindow", u"Create a New User", None))
+        self.user_search_bar.setPlaceholderText(QCoreApplication.translate("AdminWindow", u"Search for a user...", None))
+        self.db_fxn_lbl.setText(QCoreApplication.translate("AdminWindow", u"Database Backup and Restore", None))
+        self.bu_create_btn.setText(QCoreApplication.translate("AdminWindow", u"Create Backup", None))
+        self.restore_items_btn.setText(QCoreApplication.translate("AdminWindow", u"Restore Items", None))
+        self.restore_users_btn.setText(QCoreApplication.translate("AdminWindow", u"Restore Users", None))
+        self.pushButton_2.setText(QCoreApplication.translate("AdminWindow", u"Restore Orders", None))
+        self.pushButton.setText(QCoreApplication.translate("AdminWindow", u"Restore Orders History", None))
     # retranslateUi
 
 
@@ -161,6 +210,11 @@ class AdminWindow(QDialog):
 
         self.ui.users_table.setColumnCount(4)
         self.ui.users_table.setHorizontalHeaderLabels(["Username", "Active?","Locked?", "Role"])
+        header = self.ui.users_table.horizontalHeader()
+        header.setSectionResizeMode(0, QHeaderView.Stretch)
+        header.setSectionResizeMode(1, QHeaderView.ResizeToContents)
+        header.setSectionResizeMode(2, QHeaderView.ResizeToContents)
+        header.setSectionResizeMode(3, QHeaderView.ResizeToContents)
 
         self.refresh_table()
 
@@ -190,6 +244,11 @@ class AdminWindow(QDialog):
             active_item = QTableWidgetItem(str(user["isActive"]))
             lock_item = QTableWidgetItem(str(user["isLocked"]))
             role_item = QTableWidgetItem(user["Role"])
+
+            name_item.setFlags(name_item.flags() ^ Qt.ItemIsEditable)
+            active_item.setFlags(active_item.flags() ^ Qt.ItemIsEditable)
+            lock_item.setFlags(lock_item.flags() ^ Qt.ItemIsEditable)
+            role_item.setFlags(role_item.flags() ^ Qt.ItemIsEditable)
 
             self.ui.users_table.setItem(i, 0, name_item)
             self.ui.users_table.setItem(i, 1, active_item)
@@ -228,7 +287,7 @@ class AdminWindow(QDialog):
         self.ui.admin_radio.setChecked(False)
         self.ui.active_check.setChecked(True)
         self.ui.lock_check.setChecked(False)
-        self.set_error("")
+        self.set_error("",True)
 
     #"" represents new user account
     def create_new_clicked(self):
@@ -239,7 +298,7 @@ class AdminWindow(QDialog):
         self.ui.active_check.setChecked(True)
         self.ui.lock_check.setChecked(False)
         self.ui.user_name_line.setFocus()
-        self.set_error("")
+        self.set_error("",True)
 
     def filter_users(self):
         filter_string = self.ui.user_search_bar.text()
@@ -297,8 +356,12 @@ class AdminWindow(QDialog):
 
         return role
     
-    def set_error(self,error):
+    def set_error(self,error, good):
         self.ui.err_label.setText(error)
+        if good:
+            self.ui.err_label.setStyleSheet("color: green;")
+        else:
+            self.ui.err_label.setStyleSheet("color: red;")
 
     def save_user(self):
 
@@ -309,32 +372,32 @@ class AdminWindow(QDialog):
         active = self.ui.active_check.isChecked()
 
         if role is None:
-            self.set_error("Role Required")
+            self.set_error("Role Required",False)
         elif username is None or username == "":
-            self.set_error("Username required")
+            self.set_error("Username required",False)
         elif self.curr_user == "": #new user case
-            if password is None or password == "":
-                self.set_error("Password required")
-            elif self.warehouse_controller.validate_new_username( username ) != "OK":
-                self.set_error("Username in use")
+            if self.warehouse_controller.validate_new_username( username ) != "OK":
+                self.set_error("Username in use",False)
+            #elif password is None or password == "": #removing for now, setting pw to None
+            #    self.set_error("Password required")    
             else: #valid new user input
                 self.warehouse_controller.create_new_user(username,password,role)
                 self.clear_form()
                 self.refresh_form()
-                self.set_error("New User Created")
-        else: #updating existing user
+                self.set_error("New User Created",True)
+        else: #updating existing user passing empty strings for PWs
             if username != self.curr_user: #changing username
                 if self.warehouse_controller.validate_new_username( username ) != "OK":
-                    self.set_error("Username in use")
+                    self.set_error("Username in use",False)
                 else: #valid username change
                     self.warehouse_controller.edit_user(self.curr_user, password=password,role=role,newUsername=username,active=active,locked=locked)
                     self.clear_form()
-                    self.set_error(self.curr_user + " updated to new username: " + username)
+                    self.set_error(self.curr_user + " updated to new username: " + username,True)
                     self.refresh_form()
                     
             else: #updating user, username staying the same
                 self.warehouse_controller.edit_user(self.curr_user, password=password,role=role,active=active,locked=locked)
                 self.clear_form()
-                self.set_error(self.curr_user + " updated")
+                self.set_error(self.curr_user + " updated",True)
                 self.refresh_form()
                 

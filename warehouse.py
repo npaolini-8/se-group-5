@@ -2,6 +2,8 @@ from pymongo import MongoClient # MongoDB Library to connect to database.
 from datetime import datetime # Used to get timestamps for database information
 from bson.objectid import ObjectId
 import ssl # Used to specify certificate connection for MongoDB
+import json # Used for backups
+import os.path # Used for file writing path
 
 
 class Warehouse():
@@ -73,14 +75,18 @@ class Warehouse():
             outgoing.append(order)
         return outgoing
 
-    def create_main_item(self, name, description, modelNumber, brand, user):
+    def create_main_item(self, user, name, description, modelNumber, brand, isActive=True,length=None,width=None,depth=None,weight=None):
         self.items_collection.insert_one(
             {
                 "Name": name,
                 "Description": description,
                 "Model Number": modelNumber,
                 "Brand": brand,
-                "isActive": True,
+                "isActive": isActive,
+                "Length" : length,
+                "Width" : width,
+                "Depth" : depth,
+                "Weight" : weight,
                 "Date modified": self.get_time(),
                 "Last modified by": user,
                 "Barcode Increment": 0,
@@ -88,7 +94,7 @@ class Warehouse():
             }
         )
 
-    def create_sub_item(self, Name, container):
+    def create_sub_item(self, user, Name, container=None):
         barcode = self.generate_barcode(Name, self.get_item_increment(Name)+1)
         self.items_collection.update_one(
             {"Name" : Name},
@@ -99,7 +105,7 @@ class Warehouse():
                     "Container":container,
                     "Status":"Available",
                     "Date modified": self.get_time(),
-                    "Last modified by":"get_user()"
+                    "Last modified by":user
                     }
                 }
             }
@@ -107,7 +113,7 @@ class Warehouse():
         self.increment_barcode_increment(Name)
         return barcode
 
-    def edit_main_item(self, Name, user, description=None, modelNumber=None, brand=None, isActive=None):
+    def edit_main_item(self, user, Name, description=None, modelNumber=None, brand=None, isActive=None,length=None,width=None,depth=None,weight=None,newName=None):
         edit_dict = {}
         if description is not None:
             edit_dict.update({"Description": description})
@@ -117,6 +123,16 @@ class Warehouse():
             edit_dict.update({"Brand": brand})
         if isActive is not None:
             edit_dict.update({"isActive": isActive})
+        if length is not None:
+            edit_dict.update({"Length": length})
+        if width is not None:
+            edit_dict.update({"Width": width})
+        if depth is not None:
+            edit_dict.update({"Depth": depth})
+        if weight is not None:
+            edit_dict.update({"Weight": weight})
+        if newName is not None:
+            edit_dict.update({"Name": newName})
         edit_dict.update([("Date modified", self.get_time()),("Last modified by", user)])
 
         self.items_collection.update_one(
@@ -165,6 +181,7 @@ class Warehouse():
             {
                 "Username": username,
                 "Password": password,
+                "Lock Counter": 0,
                 "Role": role,
                 "isActive": True,
                 "isLocked": False,
@@ -176,7 +193,10 @@ class Warehouse():
     def edit_user(self, username, user, password=None, role=None, newUsername=None, active=None, locked=None):
         edit_dict = {}
         if password is not None:
-            edit_dict.update({"Password": password})
+            if password == "":
+                edit_dict.update({"Password": None})
+            else:
+                edit_dict.update({"Password": password})
         if role is not None:
             edit_dict.update({"Role":role})
         if newUsername is not None:
@@ -322,5 +342,130 @@ class Warehouse():
             ]
         )
 
+    def create_backup(self):
+        items_list = list(self.items_collection.find())
+        orders_list = list(self.orders_collection.find())
+        orders_history_list = list(self.orders_history_collection.find())
+        users_list = list(self.users_collection.find())
+
+        for database in [self.items_collection, self.orders_collection, self.orders_history_collection, self.users_collection]:
+            database_list = list(database.find())
+            for kiefernumber1fan, document in enumerate(database_list):
+                document["_id"] = str(document["_id"])
+                if database in [self.orders_collection, self.orders_history_collection]:
+                    for item in document["Order Items"]:
+                        item["Item ID"] = str(item["Item ID"])
+
+            with open(f'./Backups/{database.name}_backup.txt', 'w') as backup_file:
+                json.dump(database_list, backup_file)
+
+    def clear_database(self, database):
+        database.delete_many({})
+
+    def import_backup(self, database_name, file):
+        with open(file, 'r') as backup_file:
+            backup_json = json.load(backup_file)
+            if database_name == 'Items':
+                database = self.items_collection
+                self.clear_database(database)
+                for document in backup_json:
+                    database.insert_one(
+                        {
+                            "_id": ObjectId(document["_id"]),
+                            "Name": document["Name"],
+                            "Description": document["Description"],
+                            "Model Number": document["Model Number"],
+                            "Brand": document["Brand"],
+                            "isActive": document["isActive"],
+                            "Barcode Increment": document["Barcode Increment"],
+                            "Depth": document["Depth"],
+                            "Length": document["Length"],
+                            "Weight": document["Weight"],
+                            "Width": document["Width"],
+                            "Date modified": self.get_time(),
+                            "Last modified by": "getUser()",
+                            "Items": document["Items"]
+                        }
+                    )
+
+            elif database_name == 'Orders':
+                database = self.orders_collection
+                self.clear_database(database)
+                for document in backup_json:
+                    items_dict_list = []
+                    for item in document["Order Items"]:
+                        items_dict_list.append(
+                            {
+                                'Item ID': ObjectId(item["Item ID"]),
+                                'Item Name': item["Item Name"],
+                                'Count': item["Count"]
+                            }
+                        )
+                    database.insert_one(
+                        {   "_id": ObjectId(document["_id"]),
+                            "Order Type": document["Order Type"],
+                            "Client": document["Client"],
+                            "Status": document["Status"],
+                            "Date modified": self.get_time(),
+                            "Last modified by": "getUser()",
+                            "Order Items": items_dict_list
+                        }
+                    )
+            
+            elif database_name == 'Orders History':
+                database = self.orders_history_collection
+                self.clear_database(database)
+                for document in backup_json:
+                    items_dict_list = []
+                    for item in document["Order Items"]:
+                        items_dict_list.append(
+                            {
+                                'Item ID': ObjectId(item["Item ID"]),
+                                'Item Name': item["Item Name"],
+                                'Count': item["Count"]
+                            }
+                        )
+                    database.insert_one(
+                        {   "_id": ObjectId(document["_id"]),
+                            "Order Type": document["Order Type"],
+                            "Client": document["Client"],
+                            "Status": document["Status"],
+                            "Date modified": self.get_time(),
+                            "Last modified by": "getUser()",
+                            "Order Items": items_dict_list
+                        }
+                    )
+
+            elif database_name == 'Users':
+                database = self.users_collection
+                self.clear_database(database)
+                for document in backup_json:
+                    database.insert_one(
+                        {   "_id": ObjectId(document["_id"]),
+                            "Username": document["Username"],
+                            "Password": document["Password"],
+                            "Role": document["Role"],
+                            "isActive": document["isActive"],
+                            "isLocked": document["isLocked"],
+                            "Date modified": self.get_time(),
+                            "Last modified": "getUser()"
+                        }
+                    )
+
+    def get_user_lock(self, username):
+        return self.find_user(username)["Lock Counter"]
+
+    def increment_user_lock(self, username):
+        self.users_collection.update_one(
+            {"Username": username},
+            {"$set": {"Lock Counter": self.get_user_lock(username)+1}}
+        )
+        return self.get_user_lock(username)
+
+    def clear_user_lock(self, username):
+        self.users_collection.update_one(
+            {"Username": username},
+            {"$set": {"Lock Counter": 0}}
+        )
+
 #warehouse = Warehouse()
-#warehouse.get_incoming_orders()

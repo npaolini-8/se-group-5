@@ -56,12 +56,6 @@ class Ui_MainWindow(object):
 
         self.verticalLayout.addWidget(self.process_order_btn)
 
-        self.backup_btn = QPushButton(self.verticalLayoutWidget)
-        self.backup_btn.setObjectName(u"backup_btn")
-        self.backup_btn.setMinimumSize(QSize(0, 80))
-
-        self.verticalLayout.addWidget(self.backup_btn)
-
         self.admin_panel_btn = QPushButton(self.verticalLayoutWidget)
         self.admin_panel_btn.setObjectName(u"admin_panel_btn")
         self.admin_panel_btn.setMinimumSize(QSize(0, 80))
@@ -76,6 +70,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_2.setContentsMargins(0, 0, 0, 0)
         self.label = QLabel(self.verticalLayoutWidget_2)
         self.label.setObjectName(u"label")
+        self.label.setAlignment(Qt.AlignCenter)
 
         self.verticalLayout_2.addWidget(self.label)
 
@@ -88,6 +83,7 @@ class Ui_MainWindow(object):
 
         self.label_2 = QLabel(self.verticalLayoutWidget_2)
         self.label_2.setObjectName(u"label_2")
+        self.label_2.setAlignment(Qt.AlignCenter)
 
         self.verticalLayout_2.addWidget(self.label_2)
 
@@ -115,10 +111,6 @@ class Ui_MainWindow(object):
         font1.setBold(True)
         self.error_lbl.setFont(font1)
         MainWindow.setCentralWidget(self.centralwidget)
-        self.menubar = QMenuBar(MainWindow)
-        self.menubar.setObjectName(u"menubar")
-        self.menubar.setGeometry(QRect(0, 0, 800, 19))
-        MainWindow.setMenuBar(self.menubar)
         self.statusbar = QStatusBar(MainWindow)
         self.statusbar.setObjectName(u"statusbar")
         MainWindow.setStatusBar(self.statusbar)
@@ -133,18 +125,13 @@ class Ui_MainWindow(object):
         self.items_btn.setText(QCoreApplication.translate("MainWindow", u"Items", None))
         self.create_order_btn.setText(QCoreApplication.translate("MainWindow", u"Create Order", None))
         self.process_order_btn.setText(QCoreApplication.translate("MainWindow", u"Process Order", None))
-        self.backup_btn.setText(QCoreApplication.translate("MainWindow", u"Backup", None))
         self.admin_panel_btn.setText(QCoreApplication.translate("MainWindow", u"Admin Panel", None))
-        self.label.setText(QCoreApplication.translate("MainWindow", u"                                                      Incoming Orders", None))
-        self.label_2.setText(QCoreApplication.translate("MainWindow", u"                                                      Outgoing Orders", None))
+        self.label.setText(QCoreApplication.translate("MainWindow", u"Incoming Orders", None))
+        self.label_2.setText(QCoreApplication.translate("MainWindow", u"Outgoing Orders", None))
         self.logout_btn.setText(QCoreApplication.translate("MainWindow", u"Logout", None))
         self.user_lbl.setText("")
         self.error_lbl.setText("")
     # retranslateUi
-
-
-
-
 
 
 class MainWindow(QMainWindow):
@@ -169,7 +156,7 @@ class MainWindow(QMainWindow):
         self.ui.items_btn.clicked.connect(self.items_clicked)
         self.ui.create_order_btn.clicked.connect(self.create_order_clicked)
         self.ui.process_order_btn.clicked.connect(self.process_order_clicked)
-        self.ui.backup_btn.clicked.connect(self.backup_clicked)
+        #self.ui.backup_btn.clicked.connect(self.backup_clicked)
         self.ui.admin_panel_btn.clicked.connect(self.admin_panel_clicked)
 
     def init_table(self, table, list):
@@ -215,8 +202,8 @@ class MainWindow(QMainWindow):
         if current_row >= 0:
             print(self.ui.outgoing_orders_tbl.item(current_row, 0).text())
 
-    def backup_clicked(self):
-        self.warehouse_controller.switch_to(self, 'backup')
+    # def backup_clicked(self):
+    #     self.warehouse_controller.switch_to(self, 'backup')
 
     def admin_panel_clicked(self):
         if self.warehouse_controller.get_current_role() == "Admin":
