@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Dialog</class>
- <widget class="QDialog" name="Dialog">
+ <class>LoginWindow</class>
+ <widget class="QDialog" name="LoginWindow">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -11,27 +11,53 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>PyDepot Login</string>
   </property>
   <widget class="QWidget" name="verticalLayoutWidget">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>10</y>
-     <width>771</width>
-     <height>571</height>
+     <x>130</x>
+     <y>150</y>
+     <width>511</width>
+     <height>221</height>
     </rect>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
-     <widget class="QLineEdit" name="username_line">
+     <widget class="QLabel" name="titleLbl">
+      <property name="text">
+       <string>PyDepot</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <spacer name="verticalSpacer">
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>20</width>
+        <height>40</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item>
+     <widget class="QLineEdit" name="userName">
       <property name="placeholderText">
        <string>Username...</string>
       </property>
      </widget>
     </item>
     <item>
-     <widget class="QLineEdit" name="password_line">
+     <widget class="QLineEdit" name="passWord">
+      <property name="echoMode">
+       <enum>QLineEdit::Password</enum>
+      </property>
       <property name="readOnly">
        <bool>false</bool>
       </property>
@@ -41,9 +67,22 @@
      </widget>
     </item>
     <item>
-     <widget class="QPushButton" name="login_btn">
+     <widget class="QPushButton" name="loginBtn">
       <property name="text">
        <string>Login</string>
+      </property>
+      <property name="default">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLabel" name="errorLbl">
+      <property name="text">
+       <string/>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
       </property>
      </widget>
     </item>

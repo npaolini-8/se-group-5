@@ -7,6 +7,7 @@ from login_window import LoginWindow
 from main_window import MainWindow
 from items_window import ItemsWindow
 from orders_window import OrdersWindow
+from admin_window import AdminWindow
 
 
 #Application controls all sub-windows
@@ -15,7 +16,7 @@ class Application(QApplication):
         super().__init__()
         self.setWindowIcon(QIcon('Resources/icon.png'))
         self.warehouse_controller = warehouse_controller
-        self.warehouse_controller.get_incoming_orders()
+        #self.warehouse_controller.get_incoming_orders()
         if len(argv) == 1 or argv[1] == 'n':  #n -- normal startup
             self.start()
         elif argv[1] == 'm':                #m -- skip to main window
@@ -29,8 +30,10 @@ class Application(QApplication):
         self.orders_window = OrdersWindow(self.warehouse_controller)
         self.items_window = ItemsWindow(self.warehouse_controller)
         self.create_order_window = CreateOrderWindow(self.warehouse_controller)
+        self.admin_window = AdminWindow(self.warehouse_controller)
 
         if skipLogin:
+            self.warehouse_controller.set_current_user(self.warehouse_controller.connect_user('admin', 'admin'))
             self.main_window.show()
         else:
             self.login_window.show()

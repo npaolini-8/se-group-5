@@ -20,7 +20,7 @@
       <x>20</x>
       <y>50</y>
       <width>261</width>
-      <height>501</height>
+      <height>451</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout">
@@ -64,19 +64,6 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="backup_btn">
-       <property name="minimumSize">
-        <size>
-         <width>0</width>
-         <height>80</height>
-        </size>
-       </property>
-       <property name="text">
-        <string>Backup</string>
-       </property>
-      </widget>
-     </item>
-     <item>
       <widget class="QPushButton" name="admin_panel_btn">
        <property name="minimumSize">
         <size>
@@ -97,14 +84,17 @@
       <x>290</x>
       <y>10</y>
       <width>491</width>
-      <height>531</height>
+      <height>491</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout_2">
      <item>
       <widget class="QLabel" name="label">
        <property name="text">
-        <string>                                                      Incoming Orders</string>
+        <string>Incoming Orders</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
        </property>
       </widget>
      </item>
@@ -121,7 +111,10 @@
      <item>
       <widget class="QLabel" name="label_2">
        <property name="text">
-        <string>                                                      Outgoing Orders</string>
+        <string>Outgoing Orders</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
        </property>
       </widget>
      </item>
@@ -154,25 +147,39 @@
     <property name="geometry">
      <rect>
       <x>120</x>
-      <y>30</y>
+      <y>20</y>
       <width>161</width>
       <height>21</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>11</pointsize>
+     </font>
     </property>
     <property name="text">
      <string/>
     </property>
    </widget>
-  </widget>
-  <widget class="QMenuBar" name="menubar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>800</width>
-     <height>22</height>
-    </rect>
-   </property>
+   <widget class="QLabel" name="error_lbl">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>510</y>
+      <width>751</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>11</pointsize>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
