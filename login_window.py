@@ -88,10 +88,8 @@ class LoginWindow(QMainWindow):
         #self.init_widgets()
         self.threadpool = QThreadPool()
         geometry = self.screen().availableGeometry()
-        self.dimensions = (geometry.width() * 0.35, geometry.height() * 0.35)
-        self.setFixedSize(self.dimensions[0], self.dimensions[1])
-        self.move((geometry.width() - self.dimensions[0]) / 2, (geometry.height() - self.dimensions[1]) / 2)
-
+        self.move((geometry.width() - self.geometry().width()) / 2, (geometry.height() - self.geometry().height()) / 2)
+        
     def init_buttons(self):
         self.ui.loginBtn.clicked.connect(self.try_to_login)
 
