@@ -64,19 +64,6 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="backup_btn">
-       <property name="minimumSize">
-        <size>
-         <width>0</width>
-         <height>80</height>
-        </size>
-       </property>
-       <property name="text">
-        <string>Backup</string>
-       </property>
-      </widget>
-     </item>
-     <item>
       <widget class="QPushButton" name="admin_panel_btn">
        <property name="minimumSize">
         <size>
@@ -104,7 +91,10 @@
      <item>
       <widget class="QLabel" name="label">
        <property name="text">
-        <string>                                                      Incoming Orders</string>
+        <string>Incoming Orders</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
        </property>
       </widget>
      </item>
@@ -121,7 +111,10 @@
      <item>
       <widget class="QLabel" name="label_2">
        <property name="text">
-        <string>                                                      Outgoing Orders</string>
+        <string>Outgoing Orders</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
        </property>
       </widget>
      </item>
@@ -187,16 +180,6 @@
      <string/>
     </property>
    </widget>
-  </widget>
-  <widget class="QMenuBar" name="menubar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>800</width>
-     <height>19</height>
-    </rect>
-   </property>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
