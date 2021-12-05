@@ -198,3 +198,6 @@ class WarehouseController():
 
     def increment_user_lock(self, username):
         self.warehouse.increment_user_lock(username)
+
+    def clear_user_lock(self, username):
+        self.warehouse.clear_user_lock(username)
