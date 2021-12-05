@@ -19,6 +19,7 @@ class WarehouseController():
             self.app.main_window.show()
             self.app.main_window.ui.user_lbl.setText('Logged in as ' + self.get_current_username())
         elif win_name == 'items':
+            self.app.items_window.refresh_item_table()
             self.app.items_window.show()
         elif win_name == 'create_order':
             self.app.create_order_window.show()
