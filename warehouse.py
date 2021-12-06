@@ -57,6 +57,12 @@ class Warehouse():
     def find_user(self, username):
         return self.users_collection.find_one({'Username': username})
 
+    def check_none_password(self, username) -> bool:
+        if self.users_collection.find_one({"Username":username,"Password":None}):
+            return True
+        else:
+            return False
+
     def increment_barcode_increment(self, Name):
         self.items_collection.update_one(
             {"Name": Name},
@@ -90,6 +96,7 @@ class Warehouse():
                 "Date modified": self.get_time(),
                 "Last modified by": user,
                 "Barcode Increment": 0,
+                "Pending Shipment": 0,
                 "Items": []
             }
         )
@@ -175,7 +182,7 @@ class Warehouse():
                 '$pull': {"Items": {"Barcode":barcode}}
             }
         )
-
+    #TODO: bret - generate salt field, add it here - generate salt
     def create_user(self, username, password, role, user):
         self.users_collection.insert_one(
             {
@@ -223,14 +230,14 @@ class Warehouse():
         order['Date modified'] = self.get_time()
         self.orders_history_collection.insert_one(order)
 
-    def create_order(self, order_type, client, status):
+    def create_order(self, order_type, client, status, user):
         inserted_result = self.orders_collection.insert_one(
             {
                 "Order Type": order_type,
                 "Client": client,
                 "Status": status,
                 "Date modified": self.get_time(),
-                "Last modified by": "getUser()",
+                "Last modified by": user,
                 "Order Items": []
             }
         )
@@ -239,6 +246,14 @@ class Warehouse():
     def add_to_order(self, order_id, item_name, count):
         item = self.find_item(item_name)
         obj = ObjectId(order_id)
+
+        self.items_collection.update_one(
+            {"_id" : item["_id"]},
+            {"$set":
+                {"Pending Shipment":item["Pending Shipment"] + count}
+            }
+        )
+
         self.orders_collection.update_one(
             {"_id" : obj},
             {"$push":
@@ -343,114 +358,60 @@ class Warehouse():
         )
 
     def create_backup(self):
-        items_list = list(self.items_collection.find())
-        orders_list = list(self.orders_collection.find())
-        orders_history_list = list(self.orders_history_collection.find())
-        users_list = list(self.users_collection.find())
-
         for database in [self.items_collection, self.orders_collection, self.orders_history_collection, self.users_collection]:
-            database_list = list(database.find())
-            for kiefernumber1fan, document in enumerate(database_list):
-                document["_id"] = str(document["_id"])
-                if database in [self.orders_collection, self.orders_history_collection]:
-                    for item in document["Order Items"]:
-                        item["Item ID"] = str(item["Item ID"])
+            while True:
+                try:
+                    database_list = list(database.find())
+                    for kiefernumber1fan, document in enumerate(database_list):
+                        document["_id"] = str(document["_id"])
+                        if database in [self.orders_collection, self.orders_history_collection]:
+                            for item in document["Order Items"]:
+                                item["Item ID"] = str(item["Item ID"])
 
-            with open(f'./Backups/{database.name}_backup.txt', 'w') as backup_file:
-                json.dump(database_list, backup_file)
+                    with open(f'./Backups/{database.name}_backup.txt', 'w') as backup_file:
+                        json.dump(database_list, backup_file)
+                        break
+                except:
+                    pass
 
     def clear_database(self, database):
         database.delete_many({})
 
-    def import_backup(self, database_name, file):
+    def import_backup(self, database, file):
+        if database == 'Users':
+            database = self.users_collection
+        elif database == 'Items':
+            database = self.items_collection
+        elif database == 'Orders':
+            database = self.orders_collection
+        elif database == 'Orders History':
+            database = self.orders_history_collection
+
         with open(file, 'r') as backup_file:
             backup_json = json.load(backup_file)
-            if database_name == 'Items':
-                database = self.items_collection
-                self.clear_database(database)
-                for document in backup_json:
-                    database.insert_one(
-                        {
-                            "_id": ObjectId(document["_id"]),
-                            "Name": document["Name"],
-                            "Description": document["Description"],
-                            "Model Number": document["Model Number"],
-                            "Brand": document["Brand"],
-                            "isActive": document["isActive"],
-                            "Barcode Increment": document["Barcode Increment"],
-                            "Depth": document["Depth"],
-                            "Length": document["Length"],
-                            "Weight": document["Weight"],
-                            "Width": document["Width"],
-                            "Date modified": self.get_time(),
-                            "Last modified by": "getUser()",
-                            "Items": document["Items"]
-                        }
-                    )
-
-            elif database_name == 'Orders':
-                database = self.orders_collection
-                self.clear_database(database)
-                for document in backup_json:
-                    items_dict_list = []
-                    for item in document["Order Items"]:
-                        items_dict_list.append(
-                            {
-                                'Item ID': ObjectId(item["Item ID"]),
-                                'Item Name': item["Item Name"],
-                                'Count': item["Count"]
-                            }
-                        )
-                    database.insert_one(
-                        {   "_id": ObjectId(document["_id"]),
-                            "Order Type": document["Order Type"],
-                            "Client": document["Client"],
-                            "Status": document["Status"],
-                            "Date modified": self.get_time(),
-                            "Last modified by": "getUser()",
-                            "Order Items": items_dict_list
-                        }
-                    )
-            
-            elif database_name == 'Orders History':
-                database = self.orders_history_collection
-                self.clear_database(database)
-                for document in backup_json:
-                    items_dict_list = []
-                    for item in document["Order Items"]:
-                        items_dict_list.append(
-                            {
-                                'Item ID': ObjectId(item["Item ID"]),
-                                'Item Name': item["Item Name"],
-                                'Count': item["Count"]
-                            }
-                        )
-                    database.insert_one(
-                        {   "_id": ObjectId(document["_id"]),
-                            "Order Type": document["Order Type"],
-                            "Client": document["Client"],
-                            "Status": document["Status"],
-                            "Date modified": self.get_time(),
-                            "Last modified by": "getUser()",
-                            "Order Items": items_dict_list
-                        }
-                    )
-
-            elif database_name == 'Users':
-                database = self.users_collection
-                self.clear_database(database)
-                for document in backup_json:
-                    database.insert_one(
-                        {   "_id": ObjectId(document["_id"]),
-                            "Username": document["Username"],
-                            "Password": document["Password"],
-                            "Role": document["Role"],
-                            "isActive": document["isActive"],
-                            "isLocked": document["isLocked"],
-                            "Date modified": self.get_time(),
-                            "Last modified": "getUser()"
-                        }
-                    )
+            dict_list = []
+            for document in backup_json:
+                document_dict = {}
+                for item in document:
+                    if item == '_id':
+                        document_dict.update({item: ObjectId(document[item])})
+                    elif item == 'Order Items':
+                        sub_item_dict_list = []
+                        for order_item in document["Order Items"]:
+                            sub_item_dict = {}
+                            for sub_item in order_item:
+                                if sub_item == 'Item ID':
+                                    sub_item_dict.update({sub_item: ObjectId(order_item[sub_item])})
+                                else:
+                                    sub_item_dict.update({sub_item: order_item[sub_item]})
+                            sub_item_dict_list.append(sub_item_dict)
+                        document_dict.update({item: sub_item_dict_list})
+                    else:
+                        document_dict.update({item: document[item]})
+                dict_list.append(document_dict)
+            self.clear_database(database)
+            for dict in dict_list:
+                database.insert_one(dict)
 
     def get_user_lock(self, username):
         return self.find_user(username)["Lock Counter"]
@@ -467,5 +428,5 @@ class Warehouse():
             {"Username": username},
             {"$set": {"Lock Counter": 0}}
         )
-
+        
 #warehouse = Warehouse()

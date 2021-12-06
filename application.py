@@ -16,7 +16,6 @@ class Application(QApplication):
         super().__init__()
         self.setWindowIcon(QIcon('Resources/icon.png'))
         self.warehouse_controller = warehouse_controller
-        #self.warehouse_controller.get_incoming_orders()
         if len(argv) == 1 or argv[1] == 'n':  #n -- normal startup
             self.start()
         elif argv[1] == 'm':                #m -- skip to main window
@@ -27,7 +26,7 @@ class Application(QApplication):
         self.threadpool = QThreadPool()
         self.login_window = LoginWindow(self.warehouse_controller)
         self.main_window = MainWindow(self.warehouse_controller)
-        self.orders_window = OrdersWindow(self.warehouse_controller)
+        self.order_processing_window = OrdersWindow(self.warehouse_controller)
         self.items_window = ItemsWindow(self.warehouse_controller)
         self.create_order_window = CreateOrderWindow(self.warehouse_controller)
         self.admin_window = AdminWindow(self.warehouse_controller)

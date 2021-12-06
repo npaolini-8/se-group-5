@@ -14,16 +14,20 @@ class WarehouseController():
     def switch_to(self, current, win_name):
         current.hide()
         if win_name == 'login':
+            self.app.login_window.clear_input()
             self.app.login_window.show()
         elif win_name == 'main':
+            self.app.main_window.refresh_tables()
             self.app.main_window.show()
             self.app.main_window.ui.user_lbl.setText('Logged in as ' + self.get_current_username())
         elif win_name == 'items':
+            self.app.items_window.refresh_item_table()
             self.app.items_window.show()
         elif win_name == 'create_order':
+            self.app.create_order_window.refresh_table()
             self.app.create_order_window.show()
         elif win_name == 'process_order':
-            self.app.orders_window.show()
+            self.app.order_processing_window.show()
         elif win_name == 'backup':
             current.show()
             #self.app.backup_window.show()
@@ -40,6 +44,8 @@ class WarehouseController():
         id = ObjectId(order_id)
         order = self.warehouse.find_order(id)
         self.warehouse.archive_order(order)
+        #if order['Order Type'] == "Incoming":
+
         self.warehouse.delete_order(id)
 
 
@@ -62,7 +68,7 @@ class WarehouseController():
         elif role == "Admin":
             if self.get_current_role() == "Admin":
                 return True
-
+    #TODO: bred - encrypt given password and then check with DB
     def connect_user(self, username, password):
         self.warehouse.cluster.server_info()  #This will fail if we don't have a connection to the server
         return self.warehouse.users_collection.find_one({"Username": username,"Password": password}) #BretC1, bananafish6
@@ -87,7 +93,7 @@ class WarehouseController():
         for order in self.warehouse.get_outgoing_orders():
             orders.append({'Order ID': order['_id'], 'Client': order['Client'], 'Status': order['Status'], 'Order Items': str([str(item['Count']) + ' ' + item['Item Name'] + 's' for item in order['Order Items']])})
         return orders
-    
+
     def get_item(self, item_name):
         return self.warehouse.find_item(item_name)
 
@@ -98,15 +104,15 @@ class WarehouseController():
         items = []
         for item in self.warehouse.get_items():
             if item['isActive'] == True:
-                items.append({'Item Name': item['Name'], 'Stock': len(item['Items'])})
+                items.append({'Item Name': item['Name'], 'Stock': (len(item['Items'])-item['Pending Shipment'])})
         return items
-    
+
     def get_all_items(self):
         # items = []
         # for item in self.warehouse.get_items():
         #         items.append({'Item Name': item['Name'], 'Stock': len(item['Items'])})
         # return items
-        return  self.warehouse.get_items()
+        return self.warehouse.get_items()
 
     def get_item(self, name):
         return self.warehouse.find_item(name)
@@ -180,7 +186,10 @@ class WarehouseController():
             self.warehouse.edit_user(username, self.get_current_username(), role=role,newUsername=newUsername, active=active, locked=locked)
         else: #setting to empty string for null convert for now
             self.warehouse.edit_user(username, self.get_current_username(), password="",role=role,newUsername=newUsername, active=active,locked=locked)
-    
+    #TODO: bret - save encrypted PW
+    def set_new_pw(self, username, password):
+        self.warehouse.edit_user(username, self.get_current_username(), password=password)
+
     def create_new_item(self, item_name, item_desc, item_model, item_brand, isActive, item_weight=None, item_length=None, item_width=None, item_depth=None):
         self.warehouse.create_main_item(self.get_current_username(), item_name, item_desc, item_model, item_brand,isActive=isActive,length=item_length,width=item_width,depth=item_depth,weight=item_weight)
 
@@ -201,3 +210,35 @@ class WarehouseController():
 
     def clear_user_lock(self, username):
         self.warehouse.clear_user_lock(username)
+        
+    def set_none_password(self, username, user):
+        self.warehouse.edit_user(username, user, password=None)
+
+    def check_none_password(self, username):
+        if self.warehouse.find_user(username)["Password"] == None:
+            # promp new password by swapping windows to new password window etc
+            pass
+
+    def create_order(self, order_type, client, status):
+        return self.warehouse.create_order(order_type, client, status, self.get_current_username())
+
+    def check_none_password(self,username) -> bool:
+        return self.warehouse.check_none_password(username)
+
+    def find_user(self, username):
+        return self.warehouse.find_user(username)
+
+    def create_backup(self):
+        self.warehouse.create_backup()
+
+    def restore_items(self):
+        self.warehouse.import_backup("Items", r".\Backups\items_backup.txt")
+
+    def restore_users(self):
+        self.warehouse.import_backup("Users", r".\Backups\users_backup.txt")
+
+    def restore_orders(self):
+        self.warehouse.import_backup("Orders", r".\Backups\orders_backup.txt")
+
+    def restore_orders_history(self):
+        self.warehouse.import_backup("Orders History", r".\Backups\orders_history_backup.txt")
