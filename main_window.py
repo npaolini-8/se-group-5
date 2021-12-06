@@ -184,8 +184,55 @@ class MainWindow(QMainWindow):
                 count += 1
 
     def init_tables(self):
-        self.init_table(self.ui.incoming_orders_tbl, self.warehouse_controller.get_incoming_orders())
-        self.init_table(self.ui.outgoing_orders_tbl, self.warehouse_controller.get_outgoing_orders())
+        #self.init_table(self.ui.incoming_orders_tbl, self.warehouse_controller.get_incoming_orders())
+        #self.init_table(self.ui.outgoing_orders_tbl, self.warehouse_controller.get_outgoing_orders())
+
+        self.ui.incoming_orders_tbl.setColumnCount(4)
+        self.ui.outgoing_orders_tbl.setColumnCount(4)
+        
+        self.ui.incoming_orders_tbl.setHorizontalHeaderLabels(["Order ID", "Client", "Status", "Item Count"])
+        self.ui.outgoing_orders_tbl.setHorizontalHeaderLabels(["Order ID", "Client", "Status", "Item Count"])
+
+        self.ui.incoming_orders_tbl.verticalHeader().setVisible(False)
+        self.ui.outgoing_orders_tbl.verticalHeader().setVisible(False)
+
+        self.refresh_tables()
+
+    def refresh_tables(self):
+        incoming = self.warehouse_controller.get_incoming_orders_raw()
+        outgoing = self.warehouse_controller.get_outgoing_orders_raw()
+
+        self.load_table(self.ui.incoming_orders_tbl, incoming)
+        self.load_table(self.ui.outgoing_orders_tbl, outgoing)
+
+    def load_table(self, table:QTableWidget, order_list:list):
+        table.setRowCount(len(order_list))
+
+        i = 0
+        for list_item in order_list:
+            id_item = QTableWidgetItem(list_item["_id"].__str__())
+            client_item = QTableWidgetItem(list_item["Client"])
+            status_item = QTableWidgetItem(list_item["Status"])
+
+            sum = 0
+            for item in list_item["Order Items"]:
+                sum += item["Count"]
+
+            count_item = QTableWidgetItem(str(sum))
+
+            id_item.setFlags(id_item.flags() ^ Qt.ItemIsEditable)
+            client_item.setFlags(client_item.flags() ^ Qt.ItemIsEditable)
+            status_item.setFlags(status_item.flags() ^ Qt.ItemIsEditable)
+            count_item.setFlags(count_item.flags() ^ Qt.ItemIsEditable)
+
+            table.setItem(i,0,id_item)
+            table.setItem(i,1,client_item)
+            table.setItem(i,2,status_item)
+            table.setItem(i,3,count_item)
+
+            i += 1
+
+
 
     def logout_clicked(self):
         self.warehouse_controller.switch_to(self, 'login')

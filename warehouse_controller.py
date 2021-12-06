@@ -14,8 +14,10 @@ class WarehouseController():
     def switch_to(self, current, win_name):
         current.hide()
         if win_name == 'login':
+            self.app.login_window.clear_input()
             self.app.login_window.show()
         elif win_name == 'main':
+            self.app.main_window.refresh_tables()
             self.app.main_window.show()
             self.app.main_window.ui.user_lbl.setText('Logged in as ' + self.get_current_username())
         elif win_name == 'items':
