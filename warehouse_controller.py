@@ -27,7 +27,7 @@ class WarehouseController():
             self.app.create_order_window.refresh_table()
             self.app.create_order_window.show()
         elif win_name == 'process_order':
-            self.app.orders_window.show()
+            self.app.order_processing_window.show()
         elif win_name == 'backup':
             current.show()
             #self.app.backup_window.show()
@@ -44,6 +44,8 @@ class WarehouseController():
         id = ObjectId(order_id)
         order = self.warehouse.find_order(id)
         self.warehouse.archive_order(order)
+        #if order['Order Type'] == "Incoming":
+
         self.warehouse.delete_order(id)
 
 
@@ -91,7 +93,7 @@ class WarehouseController():
         for order in self.warehouse.get_outgoing_orders():
             orders.append({'Order ID': order['_id'], 'Client': order['Client'], 'Status': order['Status'], 'Order Items': str([str(item['Count']) + ' ' + item['Item Name'] + 's' for item in order['Order Items']])})
         return orders
-    
+
     def get_item(self, item_name):
         return self.warehouse.find_item(item_name)
 
@@ -104,13 +106,13 @@ class WarehouseController():
             if item['isActive'] == True:
                 items.append({'Item Name': item['Name'], 'Stock': len(item['Items'])})
         return items
-    
+
     def get_all_items(self):
         # items = []
         # for item in self.warehouse.get_items():
         #         items.append({'Item Name': item['Name'], 'Stock': len(item['Items'])})
         # return items
-        return  self.warehouse.get_items()
+        return self.warehouse.get_items()
 
     def get_item(self, name):
         return self.warehouse.find_item(name)
@@ -184,7 +186,7 @@ class WarehouseController():
             self.warehouse.edit_user(username, self.get_current_username(), role=role,newUsername=newUsername, active=active, locked=locked)
         else: #setting to empty string for null convert for now
             self.warehouse.edit_user(username, self.get_current_username(), password="",role=role,newUsername=newUsername, active=active,locked=locked)
-    
+
     def create_new_item(self, item_name, item_desc, item_model, item_brand, isActive, item_weight=None, item_length=None, item_width=None, item_depth=None):
         self.warehouse.create_main_item(self.get_current_username(), item_name, item_desc, item_model, item_brand,isActive=isActive,length=item_length,width=item_width,depth=item_depth,weight=item_weight)
 
@@ -205,7 +207,7 @@ class WarehouseController():
 
     def clear_user_lock(self, username):
         self.warehouse.clear_user_lock(username)
-
+        
     def set_none_password(self, username, user):
         self.warehouse.edit_user(username, user, password=None)
 
@@ -213,3 +215,4 @@ class WarehouseController():
         if self.warehouse.find_user(username)["Password"] == None:
             # promp new password by swapping windows to new password window etc
             pass
+
