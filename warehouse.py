@@ -243,16 +243,17 @@ class Warehouse():
         )
         return str(inserted_result.inserted_id)
 
-    def add_to_order(self, order_id, item_name, count):
+    def add_to_order(self, order_id, item_name, count, order_type):
         item = self.find_item(item_name)
         obj = ObjectId(order_id)
 
-        self.items_collection.update_one(
-            {"_id" : item["_id"]},
-            {"$set":
-                {"Pending Shipment":item["Pending Shipment"] + count}
-            }
-        )
+        if order_type == "Outgoing":
+            self.items_collection.update_one(
+                {"_id" : item["_id"]},
+                {"$set":
+                    {"Pending Shipment":item["Pending Shipment"] + count}
+                }
+            )
 
         self.orders_collection.update_one(
             {"_id" : obj},
