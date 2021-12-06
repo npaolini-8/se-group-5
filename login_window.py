@@ -195,3 +195,9 @@ class LoginWindow(QMainWindow):
         else:
             self.ui.errorLbl.setStyleSheet("color: red;")
             self.ui.errorLbl.setText("One or more fields are blank.")
+
+    def clear_input(self):
+        self.ui.userName.setText("")
+        self.ui.passWord.setText("")
+        self.ui.errorLbl.setText("")
+        self.ui.userName.setFocus()

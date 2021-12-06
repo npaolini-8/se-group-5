@@ -14,13 +14,17 @@ class WarehouseController():
     def switch_to(self, current, win_name):
         current.hide()
         if win_name == 'login':
+            self.app.login_window.clear_input()
             self.app.login_window.show()
         elif win_name == 'main':
+            self.app.main_window.refresh_tables()
             self.app.main_window.show()
             self.app.main_window.ui.user_lbl.setText('Logged in as ' + self.get_current_username())
         elif win_name == 'items':
+            self.app.items_window.refresh_item_table()
             self.app.items_window.show()
         elif win_name == 'create_order':
+            self.app.create_order_window.refresh_table()
             self.app.create_order_window.show()
         elif win_name == 'process_order':
             self.app.order_processing_window.show()
@@ -203,3 +207,12 @@ class WarehouseController():
 
     def clear_user_lock(self, username):
         self.warehouse.clear_user_lock(username)
+        
+    def set_none_password(self, username, user):
+        self.warehouse.edit_user(username, user, password=None)
+
+    def check_none_password(self, username):
+        if self.warehouse.find_user(username)["Password"] == None:
+            # promp new password by swapping windows to new password window etc
+            pass
+
