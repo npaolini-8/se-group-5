@@ -309,6 +309,9 @@
    </widget>
   </widget>
   <widget class="QRadioButton" name="com_radio">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>140</x>
@@ -327,6 +330,9 @@
    </property>
   </widget>
   <widget class="QRadioButton" name="pend_radio">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>60</x>

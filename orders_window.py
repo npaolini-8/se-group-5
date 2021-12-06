@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'orders_windowtGvLeQ.ui'
+## Form generated from reading UI file 'order_processing_windownNKlLf.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.2.1
 ##
@@ -111,10 +111,12 @@ class Ui_Dialog(object):
         self.stacked_widget.addWidget(self.page_2)
         self.com_radio = QRadioButton(Dialog)
         self.com_radio.setObjectName(u"com_radio")
+        self.com_radio.setEnabled(False)
         self.com_radio.setGeometry(QRect(140, 50, 91, 20))
         self.com_radio.setFont(font)
         self.pend_radio = QRadioButton(Dialog)
         self.pend_radio.setObjectName(u"pend_radio")
+        self.pend_radio.setEnabled(False)
         self.pend_radio.setGeometry(QRect(60, 50, 91, 20))
         self.pend_radio.setFont(font)
         self.pend_radio.setChecked(True)
@@ -122,7 +124,7 @@ class Ui_Dialog(object):
         self.error_lbl.setObjectName(u"error_lbl")
         self.error_lbl.setGeometry(QRect(270, 540, 531, 31))
         font3 = QFont()
-        font3.setPointSize(12)
+        font3.setPointSize(22)
         self.error_lbl.setFont(font3)
 
         self.retranslateUi(Dialog)
@@ -241,14 +243,34 @@ class OrdersWindow(QDialog):
 
 
     def complete_clicked(self):
-        order_row = self.ui.orders_tbl.currentRow()
-        id = str(self.ui.orders_tbl.item(order_row, 0).text())
         if self.all_items_done():
+            order_row = self.ui.orders_tbl.currentRow()
+            id = str(self.ui.orders_tbl.item(order_row, 0).text())
+            order = self.warehouse_controller.get_order(id)
+
+            order_type = order['Order Type']
+            for i in range(self.ui.items_tbl.rowCount()):
+                item_name = self.ui.items_tbl.item(i, 0).text()
+                if order_type == 'Incoming':
+                    items_to_add = int(self.ui.items_tbl.item(i, 2).text())
+                    for j in range(items_to_add):
+                        self.warehouse_controller.create_sub_item(item_name)
+                elif order_type == 'Outgoing':
+                    added_dict = self.edited_orders[id][item_name][1]
+                    barcodes_to_add = []
+                    for barcode in added_dict:
+                        if added_dict[barcode] == 'Yes':
+                            barcodes_to_add.append(barcode)
+                    for barcode in barcodes_to_add:
+                        self.warehouse_controller.delete_sub_item(item_name, barcode)
+
+
             self.warehouse_controller.complete_order(id)
             self.set_error('Order archived.', is_good = True)
+            self.reset_to_start_state(set_radios = False, incoming = self.is_incoming_checked())
         else:
             self.set_error('All items of order must be marked as done.')
-        self.reset_to_start_state(set_radios = False, incoming = self.is_incoming_checked())
+
 
 
     def save_barcodes_clicked(self):
@@ -298,6 +320,7 @@ class OrdersWindow(QDialog):
         self.refresh_items_table()
         self.clear_table(self.ui.barcodes_tbl)
         self.clear_all_lcds()
+        self.ui.error_lbl.setText('')
 
     def refresh_items_table(self):
         order_row = self.ui.orders_tbl.currentRow()
