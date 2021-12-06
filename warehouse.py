@@ -90,6 +90,7 @@ class Warehouse():
                 "Date modified": self.get_time(),
                 "Last modified by": user,
                 "Barcode Increment": 0,
+                "Pending Shipment": 0,
                 "Items": []
             }
         )
@@ -223,14 +224,14 @@ class Warehouse():
         order['Date modified'] = self.get_time()
         self.orders_history_collection.insert_one(order)
 
-    def create_order(self, order_type, client, status):
+    def create_order(self, order_type, client, status, user):
         inserted_result = self.orders_collection.insert_one(
             {
                 "Order Type": order_type,
                 "Client": client,
                 "Status": status,
                 "Date modified": self.get_time(),
-                "Last modified by": "getUser()",
+                "Last modified by": user,
                 "Order Items": []
             }
         )
@@ -239,6 +240,14 @@ class Warehouse():
     def add_to_order(self, order_id, item_name, count):
         item = self.find_item(item_name)
         obj = ObjectId(order_id)
+
+        self.items_collection.update_one(
+            {"_id" : item["_id"]},
+            {"$set":
+                {"Pending Shipment":item["Pending Shipment"] + count}
+            }
+        )
+
         self.orders_collection.update_one(
             {"_id" : obj},
             {"$push":

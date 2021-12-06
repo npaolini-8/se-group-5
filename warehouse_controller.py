@@ -213,3 +213,6 @@ class WarehouseController():
         if self.warehouse.find_user(username)["Password"] == None:
             # promp new password by swapping windows to new password window etc
             pass
+
+    def create_order(self, order_type, client, status):
+        return self.warehouse.create_order(order_type, client, status, self.get_current_username())
