@@ -104,7 +104,7 @@ class WarehouseController():
         items = []
         for item in self.warehouse.get_items():
             if item['isActive'] == True:
-                items.append({'Item Name': item['Name'], 'Stock': len(item['Items'])})
+                items.append({'Item Name': item['Name'], 'Stock': (len(item['Items'])-item['Pending Shipment'])})
         return items
 
     def get_all_items(self):
@@ -227,3 +227,18 @@ class WarehouseController():
 
     def find_user(self, username):
         return self.warehouse.find_user(username)
+
+    def create_backup(self):
+        self.warehouse.create_backup()
+
+    def restore_items(self):
+        self.warehouse.import_backup("Items", r".\Backups\items_backup.txt")
+
+    def restore_users(self):
+        self.warehouse.import_backup("Users", r".\Backups\users_backup.txt")
+
+    def restore_orders(self):
+        self.warehouse.import_backup("Orders", r".\Backups\orders_backup.txt")
+
+    def restore_orders_history(self):
+        self.warehouse.import_backup("Orders History", r".\Backups\orders_history_backup.txt")

@@ -146,15 +146,15 @@ class Ui_AdminWindow(object):
 
         self.db_bu_buttons.addWidget(self.restore_users_btn)
 
-        self.pushButton_2 = QPushButton(self.verticalLayoutWidget_3)
-        self.pushButton_2.setObjectName(u"pushButton_2")
+        self.restore_orders_btn = QPushButton(self.verticalLayoutWidget_3)
+        self.restore_orders_btn.setObjectName(u"restore_orders_btn")
 
-        self.db_bu_buttons.addWidget(self.pushButton_2)
+        self.db_bu_buttons.addWidget(self.restore_orders_btn)
 
-        self.pushButton = QPushButton(self.verticalLayoutWidget_3)
-        self.pushButton.setObjectName(u"pushButton")
+        self.restore_orders_history_btn = QPushButton(self.verticalLayoutWidget_3)
+        self.restore_orders_history_btn.setObjectName(u"restore_orders_history_btn")
 
-        self.db_bu_buttons.addWidget(self.pushButton)
+        self.db_bu_buttons.addWidget(self.restore_orders_history_btn)
 
 
         self.verticalLayout_3.addLayout(self.db_bu_buttons)
@@ -184,8 +184,8 @@ class Ui_AdminWindow(object):
         self.bu_create_btn.setText(QCoreApplication.translate("AdminWindow", u"Create Backup", None))
         self.restore_items_btn.setText(QCoreApplication.translate("AdminWindow", u"Restore Items", None))
         self.restore_users_btn.setText(QCoreApplication.translate("AdminWindow", u"Restore Users", None))
-        self.pushButton_2.setText(QCoreApplication.translate("AdminWindow", u"Restore Orders", None))
-        self.pushButton.setText(QCoreApplication.translate("AdminWindow", u"Restore Orders History", None))
+        self.restore_orders_btn.setText(QCoreApplication.translate("AdminWindow", u"Restore Orders", None))
+        self.restore_orders_history_btn.setText(QCoreApplication.translate("AdminWindow", u"Restore Orders History", None))
     # retranslateUi
 
 
@@ -261,6 +261,11 @@ class AdminWindow(QDialog):
         self.ui.return_btn.clicked.connect(self.return_clicked)
         self.ui.new_user_button.clicked.connect(self.create_new_clicked)
         self.ui.save_user_button.clicked.connect(self.save_user)
+        self.ui.bu_create_btn.clicked.connect(self.create_backups)
+        self.ui.restore_items_btn.clicked.connect(self.warehouse_controller.restore_items)
+        self.ui.restore_users_btn.clicked.connect(self.warehouse_controller.restore_users)
+        self.ui.restore_orders_btn.clicked.connect(self.warehouse_controller.restore_orders)
+        self.ui.restore_orders_history_btn.clicked.connect(self.warehouse_controller.restore_orders_history)
 
     def return_clicked(self):
         self.warehouse_controller.switch_to(self, 'main')
@@ -401,3 +406,5 @@ class AdminWindow(QDialog):
                 self.set_error(self.curr_user + " updated",True)
                 self.refresh_form()
                 
+    def create_backups(self):
+        self.warehouse_controller.create_backup()
