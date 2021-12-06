@@ -57,6 +57,12 @@ class Warehouse():
     def find_user(self, username):
         return self.users_collection.find_one({'Username': username})
 
+    def check_none_password(self, username) -> bool:
+        if self.users_collection.find_one({"Username":username,"Password":None}):
+            return True
+        else:
+            return False
+
     def increment_barcode_increment(self, Name):
         self.items_collection.update_one(
             {"Name": Name},
@@ -176,7 +182,7 @@ class Warehouse():
                 '$pull': {"Items": {"Barcode":barcode}}
             }
         )
-
+    #TODO: bret - generate salt field, add it here
     def create_user(self, username, password, role, user):
         self.users_collection.insert_one(
             {

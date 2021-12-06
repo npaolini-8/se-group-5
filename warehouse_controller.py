@@ -68,7 +68,7 @@ class WarehouseController():
         elif role == "Admin":
             if self.get_current_role() == "Admin":
                 return True
-
+    #TODO: bred - encrypt given password and then check with DB
     def connect_user(self, username, password):
         self.warehouse.cluster.server_info()  #This will fail if we don't have a connection to the server
         return self.warehouse.users_collection.find_one({"Username": username,"Password": password}) #BretC1, bananafish6
@@ -186,6 +186,9 @@ class WarehouseController():
             self.warehouse.edit_user(username, self.get_current_username(), role=role,newUsername=newUsername, active=active, locked=locked)
         else: #setting to empty string for null convert for now
             self.warehouse.edit_user(username, self.get_current_username(), password="",role=role,newUsername=newUsername, active=active,locked=locked)
+    #TODO: bret - save encrypted PW
+    def set_new_pw(self, username, password):
+        self.warehouse.edit_user(username, self.get_current_username(), password=password)
 
     def create_new_item(self, item_name, item_desc, item_model, item_brand, isActive, item_weight=None, item_length=None, item_width=None, item_depth=None):
         self.warehouse.create_main_item(self.get_current_username(), item_name, item_desc, item_model, item_brand,isActive=isActive,length=item_length,width=item_width,depth=item_depth,weight=item_weight)
@@ -218,3 +221,9 @@ class WarehouseController():
 
     def create_order(self, order_type, client, status):
         return self.warehouse.create_order(order_type, client, status, self.get_current_username())
+
+    def check_none_password(self,username) -> bool:
+        return self.warehouse.check_none_password(username)
+
+    def find_user(self, username):
+        return self.warehouse.find_user(username)

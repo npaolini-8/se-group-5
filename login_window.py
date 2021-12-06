@@ -89,6 +89,10 @@ class LoginWindow(QMainWindow):
         self.threadpool = QThreadPool()
         geometry = self.screen().availableGeometry()
         self.move((geometry.width() - self.geometry().width()) / 2, (geometry.height() - self.geometry().height()) / 2)
+        self.reset_mode = False
+        self.one_pw_entered = False
+        self.temp_pw = ""
+        self.reset_fail_count = 0
         
     def init_buttons(self):
         self.ui.loginBtn.clicked.connect(self.try_to_login)
@@ -161,40 +165,98 @@ class LoginWindow(QMainWindow):
         self.ui.errorLbl.setText("")
         self.warehouse_controller.switch_to(self, 'main')
 
+    def set_error(self, error, is_good):
+        self.ui.errorLbl.setText(error)
+        if is_good:
+            self.ui.errorLbl.setStyleSheet("color: green;")
+        else:
+            self.ui.errorLbl.setStyleSheet("color: red;")
+
+    def valid_pw( self,password ):
+        if len(password) >= 8:
+            return True
+        else:
+            return False
+
     def try_to_login(self):
         valid = not (len(self.ui.userName.text()) == 0 or len(self.ui.passWord.text()) == 0)
         
         if valid:  #If username and password fields aren't empty
             try:
-                user = self.warehouse_controller.connect_user(self.ui.userName.text(), self.ui.passWord.text())  #Will cause exception if server is not connected -- will return None if no user with those credentials
+                if self.warehouse_controller.check_none_password(self.ui.userName.text()): #password reset mode
+                    if not(self.reset_mode):
+                        self.reset_mode = True
+                        self.set_error("Account flagged for password reset, please enter new password", True)
+                        self.ui.passWord.setText("")
+                        #self.ui.userName.setReadOnly(True)
+                    elif self.reset_mode and not(self.one_pw_entered): #need to enter valid password
+                        if self.valid_pw(self.ui.passWord.text()): #new pw OK
+                            self.temp_pw = self.ui.passWord.text()
+                            self.one_pw_entered = True
+                            self.set_error("Please re-enter new password", True)
+                            self.ui.passWord.setText("")
+                        else: #pw did not meet reqs
+                            self.set_error("Please enter a valid password", False)
+                            self.ui.passWord.setText("")
+                    elif self.reset_mode and self.one_pw_entered: #need to enter password again
+                        if self.ui.passWord.text() == self.temp_pw: #second pw accepted
+                            self.set_error("New password accepted", True)
 
-                if user == None:  #If user + password doesn't exist
-                    self.warehouse_controller.increment_user_lock(self.ui.userName.text())
-                    self.ui.errorLbl.setStyleSheet("color: red;")
-                    self.ui.errorLbl.setText(f"Invalid login credentials.\nPlease try again.")
-                    
+                            user = self.warehouse_controller.find_user(self.ui.userName.text())
+                            self.warehouse_controller.set_current_user(user)
+                            self.warehouse_controller.clear_user_lock(user["Username"])
+
+                            self.warehouse_controller.set_new_pw(self.ui.userName.text(), password=self.temp_pw)
+
+                            self.ui.userName.setReadOnly(False)
+                            self.reset_mode = False
+                            self.one_pw_entered = False
+                            self.temp_pw = ""
+                            self.reset_fail_count = 0
+                            self.main_startup()
+                        elif self.reset_fail_count >= 5: #safegaurd in case they forget first pw
+                            self.set_error("Too many failures, restarting password reset- Please enter a new Password", False)
+                            self.reset_fail_count = 0
+                            self.one_pw_entered = False
+                            self.ui.passWord.setText("")
+                        else: #second pw does not match first
+                            self.set_error("Please enter the same password again", False)
+                            self.reset_fail_count += 1
+                            self.ui.passWord.setText("")
+
+                
                 else:
-                    if self.warehouse_controller.get_user_lock(self.ui.userName.text()) >= 3:
-                        self.ui.errorLbl.setStyleSheet("color: red;")
-                        self.ui.errorLbl.setText(f"Account is currently locked.\nPlease contact an administrator.")
-                    else:
-                        self.ui.errorLbl.setStyleSheet("color: green;")
-                        self.ui.errorLbl.setText("User found.  Logging in.")
-                        self.warehouse_controller.set_current_user(user)
-                        self.warehouse_controller.clear_user_lock(user["Username"])
-                        #Thread an animation to run before closing the login gui and opening main gui
-                        #worker = Worker(self.load_animation)
-                        #worker.signals.finished.connect(self.main_startup)
-                        #self.threadpool.start(worker)
-                        self.main_startup()
+                    user = self.warehouse_controller.connect_user(self.ui.userName.text(), self.ui.passWord.text())  #Will cause exception if server is not connected -- will return None if no user with those credentials
 
+                    if user == None:  #If user + password doesn't exist
+                        self.warehouse_controller.increment_user_lock(self.ui.userName.text())
+                        self.ui.errorLbl.setStyleSheet("color: red;")
+                        self.ui.errorLbl.setText(f"Invalid login credentials.\nPlease try again.")
+                        
+                    else:
+                        if self.warehouse_controller.get_user_lock(self.ui.userName.text()) >= 3:
+                            self.ui.errorLbl.setStyleSheet("color: red;")
+                            self.ui.errorLbl.setText(f"Account is currently locked.\nPlease contact an administrator.")
+                        else:
+                            self.ui.errorLbl.setStyleSheet("color: green;")
+                            self.ui.errorLbl.setText("User found.  Logging in.")
+                            self.warehouse_controller.set_current_user(user)
+                            self.warehouse_controller.clear_user_lock(user["Username"])
+                            #Thread an animation to run before closing the login gui and opening main gui
+                            #worker = Worker(self.load_animation)
+                            #worker.signals.finished.connect(self.main_startup)
+                            #self.threadpool.start(worker)
+                            self.main_startup()
             except Exception as e:
                 #print(e)
                 self.ui.errorLbl.setStyleSheet("color: red;")
                 self.ui.errorLbl.setText("Server error - Server may be down.")
         else:
-            self.ui.errorLbl.setStyleSheet("color: red;")
-            self.ui.errorLbl.setText("One or more fields are blank.")
+            if self.reset_mode:
+                self.set_error("Please enter a new password", False)
+            else:
+                self.ui.errorLbl.setStyleSheet("color: red;")
+                self.ui.errorLbl.setText("One or more fields are blank.")
 
     def clear_input(self):
         self.ui.userName.setText("")
