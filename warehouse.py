@@ -343,11 +343,6 @@ class Warehouse():
         )
 
     def create_backup(self):
-        items_list = list(self.items_collection.find())
-        orders_list = list(self.orders_collection.find())
-        orders_history_list = list(self.orders_history_collection.find())
-        users_list = list(self.users_collection.find())
-
         for database in [self.items_collection, self.orders_collection, self.orders_history_collection, self.users_collection]:
             database_list = list(database.find())
             for kiefernumber1fan, document in enumerate(database_list):
@@ -467,5 +462,5 @@ class Warehouse():
             {"Username": username},
             {"$set": {"Lock Counter": 0}}
         )
-
+        
 #warehouse = Warehouse()

@@ -202,3 +202,11 @@ class WarehouseController():
 
     def clear_user_lock(self, username):
         self.warehouse.clear_user_lock(username)
+
+    def set_none_password(self, username, user):
+        self.warehouse.edit_user(username, user, password=None)
+
+    def check_none_password(self, username):
+        if self.warehouse.find_user(username)["Password"] == None:
+            # promp new password by swapping windows to new password window etc
+            pass
