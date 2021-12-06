@@ -140,6 +140,14 @@ class CreateOrderWindow(QDialog):
         self.plus_minus_btn.addButton(self.ui.minus_btn)
         self.plus_minus_btn.buttonClicked.connect(self.choose_amount)
         self.ui.submit_order_btn.clicked.connect(self.create_order)
+        self.ui.incoming_radio.clicked.connect(self.radio_checked)
+        self.ui.outgoing_radio.clicked.connect(self.radio_checked)
+
+    def radio_checked(self):
+        self.ui.order_items_tbl.setRowCount(0)
+        self.ui.order_items_tbl.insertRow(self.ui.order_items_tbl.rowCount())
+        self.ui.client_line.setText('')
+        self.init_table(self.ui.search_tbl, self.warehouse_controller.get_items())
 
     def return_clicked(self):
         self.warehouse_controller.switch_to(self, 'main')
@@ -156,30 +164,48 @@ class CreateOrderWindow(QDialog):
             self.ui.search_tbl.setRowHidden(row, not filtered)
 
     def add_to_order(self):
-        try:
-            row = self.ui.search_tbl.currentRow()
-            item_col0 = QTableWidgetItem(self.ui.search_tbl.item(row, 0))
-            item_col1 = QTableWidgetItem(self.ui.search_tbl.item(row, 1))
+        if self.ui.outgoing_radio.isChecked():
+            try:
+                row = self.ui.search_tbl.currentRow()
+                item_col0 = QTableWidgetItem(self.ui.search_tbl.item(row, 0))
+                item_col1 = QTableWidgetItem(self.ui.search_tbl.item(row, 1))
 
-            if self.ui.order_items_tbl.item(0, 0) is None or self.ui.order_items_tbl.item(0, 0).text() == '':
-                if int(item_col1.text()) != 0:
-                    if int(item_col1.text()) >= int(self.ui.count_line.text()):
-                        self.ui.order_items_tbl.setItem(0, 0, item_col0)
-                        amountItem = QTableWidgetItem(self.ui.count_line.text())
-                        self.ui.order_items_tbl.setItem(0, 1, amountItem)
-                        newStockItem = QTableWidgetItem(str(int(item_col1.text())-int(self.ui.count_line.text())))
-                        self.ui.search_tbl.setItem(row, 1, newStockItem)
-            else:
-                if int(item_col1.text()) != 0:
-                    if int(item_col1.text()) >= int(self.ui.count_line.text()):
-                        self.ui.order_items_tbl.insertRow(self.ui.order_items_tbl.rowCount())
-                        self.ui.order_items_tbl.setItem(self.ui.order_items_tbl.rowCount()-1, 0, item_col0)
-                        amountItem = QTableWidgetItem(self.ui.count_line.text())
-                        self.ui.order_items_tbl.setItem(self.ui.order_items_tbl.rowCount()-1, 1, amountItem)
-                        newStockItem = QTableWidgetItem(str(int(item_col1.text())-int(self.ui.count_line.text())))
-                        self.ui.search_tbl.setItem(row, 1, newStockItem)
-        except ValueError: # This error comes up when you haven't selected an item yet.
-            pass
+                if self.ui.order_items_tbl.item(0, 0) is None or self.ui.order_items_tbl.item(0, 0).text() == '':
+                    if int(item_col1.text()) != 0:
+                        if int(item_col1.text()) >= int(self.ui.count_line.text()):
+                            self.ui.order_items_tbl.setItem(0, 0, item_col0)
+                            amountItem = QTableWidgetItem(self.ui.count_line.text())
+                            self.ui.order_items_tbl.setItem(0, 1, amountItem)
+                            newStockItem = QTableWidgetItem(str(int(item_col1.text())-int(self.ui.count_line.text())))
+                            self.ui.search_tbl.setItem(row, 1, newStockItem)
+                else:
+                    if int(item_col1.text()) != 0:
+                        if int(item_col1.text()) >= int(self.ui.count_line.text()):
+                            self.ui.order_items_tbl.insertRow(self.ui.order_items_tbl.rowCount())
+                            self.ui.order_items_tbl.setItem(self.ui.order_items_tbl.rowCount()-1, 0, item_col0)
+                            amountItem = QTableWidgetItem(self.ui.count_line.text())
+                            self.ui.order_items_tbl.setItem(self.ui.order_items_tbl.rowCount()-1, 1, amountItem)
+                            newStockItem = QTableWidgetItem(str(int(item_col1.text())-int(self.ui.count_line.text())))
+                            self.ui.search_tbl.setItem(row, 1, newStockItem)
+            except ValueError: # This error comes up when you haven't selected an item yet.
+                pass
+        elif self.ui.incoming_radio.isChecked():
+            try:
+                row = self.ui.search_tbl.currentRow()
+                item_col0 = QTableWidgetItem(self.ui.search_tbl.item(row, 0))
+                item_col1 = QTableWidgetItem(self.ui.search_tbl.item(row, 1))
+
+                if self.ui.order_items_tbl.item(0, 0) is None or self.ui.order_items_tbl.item(0, 0).text() == '':
+                    self.ui.order_items_tbl.setItem(0, 0, item_col0)
+                    amountItem = QTableWidgetItem(self.ui.count_line.text())
+                    self.ui.order_items_tbl.setItem(0, 1, amountItem)
+                else:
+                    self.ui.order_items_tbl.insertRow(self.ui.order_items_tbl.rowCount())
+                    self.ui.order_items_tbl.setItem(self.ui.order_items_tbl.rowCount()-1, 0, item_col0)
+                    amountItem = QTableWidgetItem(self.ui.count_line.text())
+                    self.ui.order_items_tbl.setItem(self.ui.order_items_tbl.rowCount()-1, 1, amountItem)
+            except ValueError: # This error comes up when you haven't selected an item yet.
+                pass
 
     def remove_from_order(self):
         try:
@@ -201,19 +227,29 @@ class CreateOrderWindow(QDialog):
             pass
 
     def choose_amount(self, btn):
-        try:
-            current_amount = int(self.ui.count_line.text())
-            row = self.ui.search_tbl.currentRow()
-            item_col1 = QTableWidgetItem(self.ui.search_tbl.item(row, 1))
-            if btn.objectName() == 'plus_btn':
-                if current_amount < int(item_col1.text()):
+        if self.ui.outgoing_radio.isChecked():
+            try:
+                current_amount = int(self.ui.count_line.text())
+                row = self.ui.search_tbl.currentRow()
+                item_col1 = QTableWidgetItem(self.ui.search_tbl.item(row, 1))
+                if btn.objectName() == 'plus_btn':
+                    if current_amount < int(item_col1.text()):
+                        self.ui.count_line.setText(str(current_amount+1))
+                elif btn.objectName() == 'minus_btn':
+                    if current_amount > 0:
+                        self.ui.count_line.setText(str(current_amount-1))
+            except ValueError: # This error comes up when you haven't selected an item yet.
+                pass
+        elif self.ui.incoming_radio.isChecked():
+            try:
+                current_amount = int(self.ui.count_line.text())
+                row = self.ui.search_tbl.currentRow()
+                if btn.objectName() == 'plus_btn':
                     self.ui.count_line.setText(str(current_amount+1))
-            elif btn.objectName() == 'minus_btn':
-                if current_amount > 0:
+                elif btn.objectName() == 'minus_btn':
                     self.ui.count_line.setText(str(current_amount-1))
-        except ValueError: # This error comes up when you haven't selected an item yet.
-            pass
-
+            except ValueError: # This error comes up when you haven't selected an item yet.
+                pass
 
     def create_order(self):
         if self.ui.incoming_radio.isChecked():
