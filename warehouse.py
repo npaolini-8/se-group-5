@@ -182,7 +182,7 @@ class Warehouse():
                 '$pull': {"Items": {"Barcode":barcode}}
             }
         )
-    #TODO: bret - generate salt field, add it here
+    #TODO: bret - generate salt field, add it here - generate salt
     def create_user(self, username, password, role, user):
         self.users_collection.insert_one(
             {
