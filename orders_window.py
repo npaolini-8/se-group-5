@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'order_processing_windownNKlLf.ui'
+## Form generated from reading UI file 'order_processing_windowYOBHJW.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.2.1
 ##
@@ -124,7 +124,7 @@ class Ui_Dialog(object):
         self.error_lbl.setObjectName(u"error_lbl")
         self.error_lbl.setGeometry(QRect(270, 540, 531, 31))
         font3 = QFont()
-        font3.setPointSize(22)
+        font3.setPointSize(14)
         self.error_lbl.setFont(font3)
 
         self.retranslateUi(Dialog)
@@ -286,7 +286,8 @@ class OrdersWindow(QDialog):
             added_dict[str(self.ui.barcodes_tbl.item(i, 0).text())] = str(self.ui.barcodes_tbl.item(i, 1).text())
         self.edited_orders[id][item_name] = (str(int(self.ui.incoming_lcd_count.value())), added_dict)
 
-        self.set_item(self.ui.items_tbl, 2, item_row, self.edited_orders[id][item_name][0])
+        #self.set_item(self.ui.items_tbl, 2, item_row, self.edited_orders[id][item_name][0])
+        self.set_item(self.ui.items_tbl, 2, item_row, str(int(self.ui.outgoing_lcd_count.value())))
         self.set_item(self.ui.items_tbl, 3, item_row, 'Yes')
 
 
@@ -377,7 +378,8 @@ class OrdersWindow(QDialog):
 
 
         self.ui.incoming_lcd_count.display(self.ui.items_tbl.item(row, 1).text())
-        self.ui.outgoing_lcd_count.display(self.ui.items_tbl.item(row, 1).text())
+        #self.ui.outgoing_lcd_count.display(self.ui.items_tbl.item(row, 1).text())
+        self.ui.outgoing_lcd_count.display(0)
         self.lcds_empty = False
         self.ui.save_barcodes_btn.setEnabled(True)
         self.ui.save_count_btn.setEnabled(True)
@@ -387,8 +389,10 @@ class OrdersWindow(QDialog):
         is_added = self.ui.barcodes_tbl.item(row, 1).text()
         if is_added == 'No':
             self.set_item(self.ui.barcodes_tbl, 1, row, 'Yes')
+            self.ui.outgoing_lcd_count.display(int(self.ui.outgoing_lcd_count.value() + 1))
         else:
             self.set_item(self.ui.barcodes_tbl, 1, row, 'No')
+            self.ui.outgoing_lcd_count.display(int(self.ui.outgoing_lcd_count.value() - 1))
 
 
 
