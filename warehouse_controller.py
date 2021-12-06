@@ -24,6 +24,7 @@ class WarehouseController():
             self.app.items_window.refresh_item_table()
             self.app.items_window.show()
         elif win_name == 'create_order':
+            self.app.create_order_window.refresh_table()
             self.app.create_order_window.show()
         elif win_name == 'process_order':
             self.app.orders_window.show()

@@ -241,7 +241,10 @@ class MainWindow(QMainWindow):
         self.warehouse_controller.switch_to(self, 'items')
 
     def create_order_clicked(self):
-        self.warehouse_controller.switch_to(self, 'create_order')
+        if self.warehouse_controller.access_check("Supervisor"):
+            self.warehouse_controller.switch_to(self, 'create_order')
+        else:
+            self.set_error('Current user does not have Supervisor access')
 
     def process_order_clicked(self):
         self.warehouse_controller.switch_to(self, 'process_order')
@@ -256,7 +259,7 @@ class MainWindow(QMainWindow):
         if self.warehouse_controller.get_current_role() == "Admin":
             self.warehouse_controller.switch_to(self, 'admin_window')
         else:
-            self.set_error('Current user does not have admin access')
+            self.set_error('Current user does not have Admin access')
 
 
     def center_on_screen(self):

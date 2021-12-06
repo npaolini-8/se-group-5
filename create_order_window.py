@@ -289,12 +289,13 @@ class CreateOrderWindow(QDialog):
             for key in list[i]:
                 item = QTableWidgetItem(list[i][key].__str__())
                 #item.setFlags(Qt.ItemIsDragEnabled)
-                #item.setFlags(item.flags() != Qt.ItemIsEditable)
+                item.setFlags(item.flags() ^ Qt.ItemIsEditable)
                 table.setItem(i, count, item)
                 count += 1
 
+    def refresh_table(self):
+        self.init_table(self.ui.search_tbl, self.warehouse_controller.get_items())
     
-
     def init_tables(self):
         self.ui.search_tbl.setSelectionBehavior(QAbstractItemView.SelectionBehavior.SelectRows)
         self.ui.search_tbl.setSelectionMode(QAbstractItemView.SingleSelection)
