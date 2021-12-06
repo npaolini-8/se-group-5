@@ -261,7 +261,7 @@ class CreateOrderWindow(QDialog):
         for row in range(self.ui.order_items_tbl.rowCount()):
             item_name = self.ui.order_items_tbl.item(row, 0).text()
             item_count = int(self.ui.order_items_tbl.item(row,  1).text())
-            self.warehouse_controller.warehouse.add_to_order(order_id, item_name, item_count)
+            self.warehouse_controller.warehouse.add_to_order(order_id, item_name, item_count, order_type)
         
         self.ui.order_items_tbl.setRowCount(0)
         self.ui.order_items_tbl.insertRow(self.ui.order_items_tbl.rowCount())
