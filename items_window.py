@@ -232,11 +232,12 @@ class ItemsWindow(QDialog):
         #     col_count = len(self.items[0].keys())
         #     headers = self.items[0].keys()
 
-        self.ui.item_table.setColumnCount(2)
-        self.ui.item_table.setHorizontalHeaderLabels(["Item Name", "Stock"])
+        self.ui.item_table.setColumnCount(3)
+        self.ui.item_table.setHorizontalHeaderLabels(["Item Name", "Stock", "Pending"])
         header = self.ui.item_table.horizontalHeader()
         header.setSectionResizeMode(0, QHeaderView.Stretch)
-        header.setSectionResizeMode(1, QHeaderView.ResizeToContents)
+        header.setSectionResizeMode(1, QHeaderView.Stretch)
+        header.setSectionResizeMode(2, QHeaderView.ResizeToContents)
 
         self.refresh_item_table()
 
@@ -269,11 +270,16 @@ class ItemsWindow(QDialog):
 
             name_item = QTableWidgetItem(item['Name'])
             stock_item = QTableWidgetItem(str(len(item['Items'])))
+            pending_item = QTableWidgetItem(str(item['Pending Shipment']))
             name_item.setFlags(name_item.flags() ^ Qt.ItemIsEditable)
             stock_item.setFlags(stock_item.flags() ^ Qt.ItemIsEditable)
+            pending_item.setFlags(pending_item.flags() ^ Qt.ItemIsEditable)
+
 
             self.ui.item_table.setItem( i, 0, name_item)
             self.ui.item_table.setItem( i, 1, stock_item)
+            self.ui.item_table.setItem( i, 2, pending_item)
+            #print(item['Pending Shipment'])
 
 
             i += 1
@@ -332,7 +338,7 @@ class ItemsWindow(QDialog):
                 self.ui.item_length.setText(str(item_info["Length"]))
             if item_info["Width"] is not None:
                 self.ui.item_width.setText(str(item_info["Width"]))
-            if item_info["Depth"] is not None:    
+            if item_info["Depth"] is not None:
                 self.ui.item_depth.setText(str(item_info["Depth"]))
             if item_info["Weight"] is not None:
                 self.ui.item_weight.setText(str(item_info["Weight"]))
@@ -341,7 +347,7 @@ class ItemsWindow(QDialog):
 
     def refresh_barcode_table(self, items):
         self.ui.barcode_table.setRowCount(len(items))
-        
+
         i = 0
         for item in items:
             barcode_item = QTableWidgetItem(item["Barcode"])
@@ -368,7 +374,7 @@ class ItemsWindow(QDialog):
 
         if mode == "normal":
             self.ui.item_search_line.setText("")
-        
+
 
     def new_item_type_clicked(self):
         if not(self.warehouse_controller.access_check("Supervisor")):
@@ -386,13 +392,13 @@ class ItemsWindow(QDialog):
             self.ui.error_label.setStyleSheet("color: green;")
         else:
             self.ui.error_label.setStyleSheet("color: red;")
-        
+
     def save_item(self):
 
         if not(self.warehouse_controller.access_check("Supervisor")):
             self.set_error("Insufficient Access",False)
         else:
-            
+
             #try/catch for catching non-numerical input into dimensions/weight
             #try:
                 #required fields
@@ -414,7 +420,7 @@ class ItemsWindow(QDialog):
                         dim_ok = False
                 else:
                     item_length = None
-                
+
                 item_width = self.ui.item_width.text()
                 if item_width != "":
                     try:
@@ -464,7 +470,7 @@ class ItemsWindow(QDialog):
                             self.warehouse_controller.create_new_item(item_name,item_desc,item_model,item_brand,item_active,item_weight=item_weight,item_length=item_length,item_width=item_width,item_depth=item_depth)
                             self.clear_form()
                             self.refresh_item_table()
-                            self.set_error("New Item Created: " + item_name, True) 
+                            self.set_error("New Item Created: " + item_name, True)
                     else: #editing existing item, cases separated for informative messaging
                         if self.curr_item != item_name: #change item name case
                             if self.warehouse_controller.validate_new_item_name(item_name) != "OK":
@@ -480,7 +486,7 @@ class ItemsWindow(QDialog):
                             self.set_error(self.curr_item + " updated!",True)
                             self.refresh_item_table()
 
-            
+
             #except ValueError:
             #    self.set_error("Dimensions and Weight must be Numbers")
 
@@ -523,7 +529,7 @@ class ItemsWindow(QDialog):
                 else:
                     self.ui.barcode_count_lbl.setText("1")
                     self.set_error( str(count) + " new " + self.curr_item + "s created!",True)
-            
+
 
     def find_item_in_table(self, item_name):
         index = -1
