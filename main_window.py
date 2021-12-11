@@ -190,9 +190,22 @@ class MainWindow(QMainWindow):
 
         self.ui.incoming_orders_tbl.setColumnCount(4)
         self.ui.outgoing_orders_tbl.setColumnCount(4)
-        
+
         self.ui.incoming_orders_tbl.setHorizontalHeaderLabels(["Order ID", "Client", "Status", "Item Count"])
         self.ui.outgoing_orders_tbl.setHorizontalHeaderLabels(["Order ID", "Client", "Status", "Item Count"])
+        
+        header = self.ui.incoming_orders_tbl.horizontalHeader()
+        header.setSectionResizeMode(0, QHeaderView.Stretch)
+        header.setSectionResizeMode(1, QHeaderView.ResizeToContents)
+        header.setSectionResizeMode(2, QHeaderView.ResizeToContents)
+        header.setSectionResizeMode(3, QHeaderView.ResizeToContents)
+
+        header = self.ui.outgoing_orders_tbl.horizontalHeader()
+        header.setSectionResizeMode(0, QHeaderView.Stretch)
+        header.setSectionResizeMode(1, QHeaderView.ResizeToContents)
+        header.setSectionResizeMode(2, QHeaderView.ResizeToContents)
+        header.setSectionResizeMode(3, QHeaderView.ResizeToContents)
+
 
         self.ui.incoming_orders_tbl.verticalHeader().setVisible(False)
         self.ui.outgoing_orders_tbl.verticalHeader().setVisible(False)
