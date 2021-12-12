@@ -308,51 +308,6 @@
     </widget>
    </widget>
   </widget>
-  <widget class="QRadioButton" name="com_radio">
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
-   <property name="geometry">
-    <rect>
-     <x>140</x>
-     <y>50</y>
-     <width>91</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>8</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>Complete</string>
-   </property>
-  </widget>
-  <widget class="QRadioButton" name="pend_radio">
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
-   <property name="geometry">
-    <rect>
-     <x>60</x>
-     <y>50</y>
-     <width>91</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>8</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>Pending</string>
-   </property>
-   <property name="checked">
-    <bool>true</bool>
-   </property>
-  </widget>
   <widget class="QLabel" name="error_lbl">
    <property name="geometry">
     <rect>
