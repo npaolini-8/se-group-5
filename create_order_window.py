@@ -290,10 +290,9 @@ class CreateOrderWindow(QDialog):
             self.ui.info_label.setStyleSheet("color: red;")
             self.ui.info_label.setText(f"Please input client name.")
             return
-        
-        order_id = self.warehouse_controller.create_order(order_type, client, 'Pending')
 
         try:
+            order_id = self.warehouse_controller.create_order(order_type, client, 'Pending')
             for row in range(self.ui.order_items_tbl.rowCount()):
                 item_name = self.ui.order_items_tbl.item(row, 0).text()
                 item_count = int(self.ui.order_items_tbl.item(row,  1).text())
