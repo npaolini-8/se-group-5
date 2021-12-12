@@ -21,15 +21,9 @@ class Ui_AdminWindow(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(AdminWindow.sizePolicy().hasHeightForWidth())
         AdminWindow.setSizePolicy(sizePolicy)
-        AdminWindow.setStyleSheet(u"background-color: #262626;")
         self.return_btn = QPushButton(AdminWindow)
         self.return_btn.setObjectName(u"return_btn")
         self.return_btn.setGeometry(QRect(20, 10, 75, 24))
-        font = QFont()
-        font.setPointSize(9)
-        font.setBold(True)
-        self.return_btn.setFont(font)
-        self.return_btn.setStyleSheet(u"QPushButton{background-color: #595959;color: #F2F2F2;border-radius: 4px;border: 1px solid #A6A6A6 } QPushButton::pressed {background-color: #ADC5D9;color: #F2F2F2;border-radius: 4px;}QPushButton:!pressed:hover{background-color: #0367A6;color: #F2F2F2;border-radius: 4px;}")
         self.verticalLayoutWidget = QWidget(AdminWindow)
         self.verticalLayoutWidget.setObjectName(u"verticalLayoutWidget")
         self.verticalLayoutWidget.setGeometry(QRect(350, 100, 281, 201))
@@ -38,23 +32,17 @@ class Ui_AdminWindow(object):
         self.verticalLayout.setContentsMargins(0, 0, 0, 0)
         self.curr_user_label = QLabel(self.verticalLayoutWidget)
         self.curr_user_label.setObjectName(u"curr_user_label")
-        font1 = QFont()
-        font1.setBold(True)
-        self.curr_user_label.setFont(font1)
-        self.curr_user_label.setStyleSheet(u"color: #F0F6EA")
         self.curr_user_label.setAlignment(Qt.AlignCenter)
 
         self.verticalLayout.addWidget(self.curr_user_label)
 
         self.user_name_line = QLineEdit(self.verticalLayoutWidget)
         self.user_name_line.setObjectName(u"user_name_line")
-        self.user_name_line.setStyleSheet(u"background-color: #595959;color: #F2F2F2;border-radius: 8px;font-size: 12px;")
 
         self.verticalLayout.addWidget(self.user_name_line)
 
         self.password_line = QLineEdit(self.verticalLayoutWidget)
         self.password_line.setObjectName(u"password_line")
-        self.password_line.setStyleSheet(u"background-color: #595959;color: #F2F2F2;border-radius: 8px;font-size: 12px;")
 
         self.verticalLayout.addWidget(self.password_line)
 
@@ -62,22 +50,16 @@ class Ui_AdminWindow(object):
         self.horizontalLayout.setObjectName(u"horizontalLayout")
         self.user_radio = QRadioButton(self.verticalLayoutWidget)
         self.user_radio.setObjectName(u"user_radio")
-        self.user_radio.setFont(font1)
-        self.user_radio.setStyleSheet(u"color: #F0F6EA")
 
         self.horizontalLayout.addWidget(self.user_radio)
 
         self.super_radio = QRadioButton(self.verticalLayoutWidget)
         self.super_radio.setObjectName(u"super_radio")
-        self.super_radio.setFont(font1)
-        self.super_radio.setStyleSheet(u"color: #F0F6EA")
 
         self.horizontalLayout.addWidget(self.super_radio)
 
         self.admin_radio = QRadioButton(self.verticalLayoutWidget)
         self.admin_radio.setObjectName(u"admin_radio")
-        self.admin_radio.setFont(font1)
-        self.admin_radio.setStyleSheet(u"color: #F0F6EA")
 
         self.horizontalLayout.addWidget(self.admin_radio)
 
@@ -88,15 +70,11 @@ class Ui_AdminWindow(object):
         self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
         self.active_check = QCheckBox(self.verticalLayoutWidget)
         self.active_check.setObjectName(u"active_check")
-        self.active_check.setFont(font1)
-        self.active_check.setStyleSheet(u"color: #F0F6EA")
 
         self.horizontalLayout_2.addWidget(self.active_check)
 
         self.lock_check = QCheckBox(self.verticalLayoutWidget)
         self.lock_check.setObjectName(u"lock_check")
-        self.lock_check.setFont(font1)
-        self.lock_check.setStyleSheet(u"color: #F0F6EA")
 
         self.horizontalLayout_2.addWidget(self.lock_check)
 
@@ -115,8 +93,6 @@ class Ui_AdminWindow(object):
 
         self.save_user_button = QPushButton(self.verticalLayoutWidget)
         self.save_user_button.setObjectName(u"save_user_button")
-        self.save_user_button.setFont(font1)
-        self.save_user_button.setStyleSheet(u"QPushButton{background-color: #595959;color: #F2F2F2;border-radius: 4px;border: 1px solid #A6A6A6} QPushButton::pressed {background-color: #9DA65D;color: #F2F2F2;border-radius: 4px;}QPushButton:!pressed:hover{background-color: #6C733D;color: #F2F2F2;border-radius: 4px;}")
 
         self.verticalLayout.addWidget(self.save_user_button)
 
@@ -128,20 +104,16 @@ class Ui_AdminWindow(object):
         self.verticalLayout_2.setContentsMargins(0, 0, 0, 0)
         self.new_user_button = QPushButton(self.verticalLayoutWidget_2)
         self.new_user_button.setObjectName(u"new_user_button")
-        self.new_user_button.setFont(font)
-        self.new_user_button.setStyleSheet(u"QPushButton{background-color: #595959;color: #F2F2F2;border-radius: 4px;border: 1px solid #A6A6A6} QPushButton::pressed {background-color: #9DA65D;color: #F2F2F2;border-radius: 4px;}QPushButton:!pressed:hover{background-color: #6C733D;color: #F2F2F2;border-radius: 4px;}")
 
         self.verticalLayout_2.addWidget(self.new_user_button)
 
         self.user_search_bar = QLineEdit(self.verticalLayoutWidget_2)
         self.user_search_bar.setObjectName(u"user_search_bar")
-        self.user_search_bar.setStyleSheet(u"background-color: #595959;color: #F2F2F2;border-radius: 8px;font-size: 12px;")
 
         self.verticalLayout_2.addWidget(self.user_search_bar)
 
         self.users_table = QTableWidget(self.verticalLayoutWidget_2)
         self.users_table.setObjectName(u"users_table")
-        self.users_table.setStyleSheet(u"QTableWidget{background-color: #0D0D0D;color: #F2F2F2;border-radius: 4px;font-size: 12px;border: 1px solid;gridline-color: #595959 }QHeaderView::section{background-color: #A6A6A6;color: #F2F2F2;border-radius: 2px}")
 
         self.verticalLayout_2.addWidget(self.users_table)
 
@@ -153,8 +125,6 @@ class Ui_AdminWindow(object):
         self.verticalLayout_3.setContentsMargins(0, 0, 0, 0)
         self.db_fxn_lbl = QLabel(self.verticalLayoutWidget_3)
         self.db_fxn_lbl.setObjectName(u"db_fxn_lbl")
-        self.db_fxn_lbl.setFont(font1)
-        self.db_fxn_lbl.setStyleSheet(u"color: #F0F6EA")
         self.db_fxn_lbl.setAlignment(Qt.AlignCenter)
 
         self.verticalLayout_3.addWidget(self.db_fxn_lbl)
@@ -163,36 +133,26 @@ class Ui_AdminWindow(object):
         self.db_bu_buttons.setObjectName(u"db_bu_buttons")
         self.bu_create_btn = QPushButton(self.verticalLayoutWidget_3)
         self.bu_create_btn.setObjectName(u"bu_create_btn")
-        self.bu_create_btn.setFont(font1)
-        self.bu_create_btn.setStyleSheet(u"QPushButton{background-color: #595959;color: #F2F2F2;border-radius: 4px;border: 1px solid #A6A6A6 } QPushButton::pressed {background-color: #ADC5D9;color: #F2F2F2;border-radius: 4px;}QPushButton:!pressed:hover{background-color: #0367A6;color: #F2F2F2;border-radius: 4px;}")
 
         self.db_bu_buttons.addWidget(self.bu_create_btn)
 
         self.restore_items_btn = QPushButton(self.verticalLayoutWidget_3)
         self.restore_items_btn.setObjectName(u"restore_items_btn")
-        self.restore_items_btn.setFont(font1)
-        self.restore_items_btn.setStyleSheet(u"QPushButton{background-color: #595959;color: #F2F2F2;border-radius: 4px;border: 1px solid #A6A6A6 } QPushButton::pressed {background-color: #ADC5D9;color: #F2F2F2;border-radius: 4px;}QPushButton:!pressed:hover{background-color: #0367A6;color: #F2F2F2;border-radius: 4px;}")
 
         self.db_bu_buttons.addWidget(self.restore_items_btn)
 
         self.restore_users_btn = QPushButton(self.verticalLayoutWidget_3)
         self.restore_users_btn.setObjectName(u"restore_users_btn")
-        self.restore_users_btn.setFont(font1)
-        self.restore_users_btn.setStyleSheet(u"QPushButton{background-color: #595959;color: #F2F2F2;border-radius: 4px;border: 1px solid #A6A6A6 } QPushButton::pressed {background-color: #ADC5D9;color: #F2F2F2;border-radius: 4px;}QPushButton:!pressed:hover{background-color: #0367A6;color: #F2F2F2;border-radius: 4px;}")
 
         self.db_bu_buttons.addWidget(self.restore_users_btn)
 
         self.restore_orders_btn = QPushButton(self.verticalLayoutWidget_3)
         self.restore_orders_btn.setObjectName(u"restore_orders_btn")
-        self.restore_orders_btn.setFont(font1)
-        self.restore_orders_btn.setStyleSheet(u"QPushButton{background-color: #595959;color: #F2F2F2;border-radius: 4px;border: 1px solid #A6A6A6 } QPushButton::pressed {background-color: #ADC5D9;color: #F2F2F2;border-radius: 4px;}QPushButton:!pressed:hover{background-color: #0367A6;color: #F2F2F2;border-radius: 4px;}")
 
         self.db_bu_buttons.addWidget(self.restore_orders_btn)
 
         self.restore_orders_history_btn = QPushButton(self.verticalLayoutWidget_3)
         self.restore_orders_history_btn.setObjectName(u"restore_orders_history_btn")
-        self.restore_orders_history_btn.setFont(font1)
-        self.restore_orders_history_btn.setStyleSheet(u"QPushButton{background-color: #595959;color: #F2F2F2;border-radius: 4px;border: 1px solid #A6A6A6 } QPushButton::pressed {background-color: #ADC5D9;color: #F2F2F2;border-radius: 4px;}QPushButton:!pressed:hover{background-color: #0367A6;color: #F2F2F2;border-radius: 4px;}")
 
         self.db_bu_buttons.addWidget(self.restore_orders_history_btn)
 
@@ -227,10 +187,6 @@ class Ui_AdminWindow(object):
         self.restore_orders_btn.setText(QCoreApplication.translate("AdminWindow", u"Restore Orders", None))
         self.restore_orders_history_btn.setText(QCoreApplication.translate("AdminWindow", u"Restore Orders History", None))
     # retranslateUi
-
-
-
-
 
 
 

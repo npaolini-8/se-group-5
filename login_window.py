@@ -221,7 +221,7 @@ class LoginWindow(QDialog):
             self.ui.errorLbl.setStyleSheet("color: red;")
 
     def valid_pw( self,password ):
-        if len(password) >= 8:
+        if len(password) >= 8 and len(password) <= 30:
             return True
         else:
             return False
@@ -236,6 +236,7 @@ class LoginWindow(QDialog):
                         self.reset_mode = True
                         self.set_error("Account flagged for password reset, please enter new password", True)
                         self.ui.passWord.setText("")
+                        self.ui.passWord.setFocus()
                         #self.ui.userName.setReadOnly(True)
                     elif self.reset_mode and not(self.one_pw_entered): #need to enter valid password
                         if self.valid_pw(self.ui.passWord.text()): #new pw OK
@@ -243,9 +244,11 @@ class LoginWindow(QDialog):
                             self.one_pw_entered = True
                             self.set_error("Please re-enter new password", True)
                             self.ui.passWord.setText("")
+                            self.ui.passWord.setFocus()
                         else: #pw did not meet reqs
                             self.set_error("Please enter a valid password", False)
                             self.ui.passWord.setText("")
+                            self.ui.passWord.setFocus()
                     elif self.reset_mode and self.one_pw_entered: #need to enter password again
                         if self.ui.passWord.text() == self.temp_pw: #second pw accepted
                             self.set_error("New password accepted", True)
@@ -267,10 +270,12 @@ class LoginWindow(QDialog):
                             self.reset_fail_count = 0
                             self.one_pw_entered = False
                             self.ui.passWord.setText("")
+                            self.ui.userName.setFocus()
                         else: #second pw does not match first
                             self.set_error("Please enter the same password again", False)
                             self.reset_fail_count += 1
                             self.ui.passWord.setText("")
+                            self.ui.passWord.setFocus()
 
 
                 else:
@@ -281,15 +286,21 @@ class LoginWindow(QDialog):
                         self.ui.errorLbl.setStyleSheet("color: red;")
                         self.ui.errorLbl.setText(f"Invalid login credentials.\nPlease try again.")
 
+
+                        self.ui.userName.setFocus()
+                        
+
                     else:
                         if self.warehouse_controller.get_user_lock(self.ui.userName.text()) >= 3:
                             self.ui.errorLbl.setStyleSheet("color: red;")
                             self.ui.errorLbl.setText(f"Account is currently locked.\nPlease contact an administrator.")
+                            self.ui.userName.setFocus()
                         else:
                             self.ui.errorLbl.setStyleSheet("color: green;")
                             self.ui.errorLbl.setText("User found.  Logging in.")
                             self.warehouse_controller.set_current_user(user)
                             self.warehouse_controller.clear_user_lock(user["Username"])
+                            self.ui.userName.setFocus()
                             #Thread an animation to run before closing the login gui and opening main gui
                             #worker = Worker(self.load_animation)
                             #worker.signals.finished.connect(self.main_startup)
@@ -299,12 +310,15 @@ class LoginWindow(QDialog):
                 #print(e)
                 self.ui.errorLbl.setStyleSheet("color: red;")
                 self.ui.errorLbl.setText("Server error - Server may be down.")
+                self.ui.userName.setFocus()
         else:
             if self.reset_mode:
                 self.set_error("Please enter a new password", False)
+                self.ui.passWord.setFocus()
             else:
                 self.ui.errorLbl.setStyleSheet("color: red;")
                 self.ui.errorLbl.setText("One or more fields are blank.")
+                self.ui.userName.setFocus()
 
     def clear_input(self):
         self.ui.userName.setText("")
