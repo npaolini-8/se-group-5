@@ -15,7 +15,7 @@ class Ui_ItemWindow(object):
     def setupUi(self, ItemWindow):
         if not ItemWindow.objectName():
             ItemWindow.setObjectName(u"ItemWindow")
-        ItemWindow.resize(800, 600)
+        ItemWindow.resize(810, 600)
         sizePolicy = QSizePolicy(QSizePolicy.MinimumExpanding, QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -79,6 +79,31 @@ class Ui_ItemWindow(object):
 
         self.item_info_vlayout.addWidget(self.item_brand)
 
+        self.horizontalLayout_2 = QHBoxLayout()
+        self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
+        self.len_lbl = QLabel(self.verticalLayoutWidget_2)
+        self.len_lbl.setObjectName(u"len_lbl")
+
+        self.horizontalLayout_2.addWidget(self.len_lbl)
+
+        self.widthLbl = QLabel(self.verticalLayoutWidget_2)
+        self.widthLbl.setObjectName(u"widthLbl")
+
+        self.horizontalLayout_2.addWidget(self.widthLbl)
+
+        self.depth_lbl = QLabel(self.verticalLayoutWidget_2)
+        self.depth_lbl.setObjectName(u"depth_lbl")
+
+        self.horizontalLayout_2.addWidget(self.depth_lbl)
+
+        self.weight_lbl = QLabel(self.verticalLayoutWidget_2)
+        self.weight_lbl.setObjectName(u"weight_lbl")
+
+        self.horizontalLayout_2.addWidget(self.weight_lbl)
+
+
+        self.item_info_vlayout.addLayout(self.horizontalLayout_2)
+
         self.item_phys_atts_hlayout = QHBoxLayout()
         self.item_phys_atts_hlayout.setObjectName(u"item_phys_atts_hlayout")
         self.item_length = QLineEdit(self.verticalLayoutWidget_2)
@@ -104,10 +129,25 @@ class Ui_ItemWindow(object):
 
         self.item_info_vlayout.addLayout(self.item_phys_atts_hlayout)
 
+        self.active_pending_lo = QHBoxLayout()
+        self.active_pending_lo.setObjectName(u"active_pending_lo")
         self.active_check = QCheckBox(self.verticalLayoutWidget_2)
         self.active_check.setObjectName(u"active_check")
 
-        self.item_info_vlayout.addWidget(self.active_check)
+        self.active_pending_lo.addWidget(self.active_check)
+
+        self.pending_lbl = QLabel(self.verticalLayoutWidget_2)
+        self.pending_lbl.setObjectName(u"pending_lbl")
+
+        self.active_pending_lo.addWidget(self.pending_lbl)
+
+        self.pending_shipment_line = QLineEdit(self.verticalLayoutWidget_2)
+        self.pending_shipment_line.setObjectName(u"pending_shipment_line")
+
+        self.active_pending_lo.addWidget(self.pending_shipment_line)
+
+
+        self.item_info_vlayout.addLayout(self.active_pending_lo)
 
         self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
 
@@ -174,14 +214,19 @@ class Ui_ItemWindow(object):
         self.edit_label.setText("")
         self.item_name_line.setText("")
         self.item_name_line.setPlaceholderText(QCoreApplication.translate("ItemWindow", u"Item Name", None))
-        self.item_desc.setPlaceholderText("Item Description")
         self.item_model.setPlaceholderText(QCoreApplication.translate("ItemWindow", u"Model #", None))
         self.item_brand.setPlaceholderText(QCoreApplication.translate("ItemWindow", u"Brand", None))
+        self.len_lbl.setText(QCoreApplication.translate("ItemWindow", u"Length", None))
+        self.widthLbl.setText(QCoreApplication.translate("ItemWindow", u"Width", None))
+        self.depth_lbl.setText(QCoreApplication.translate("ItemWindow", u"Depth", None))
+        self.weight_lbl.setText(QCoreApplication.translate("ItemWindow", u"Weight", None))
         self.item_length.setPlaceholderText(QCoreApplication.translate("ItemWindow", u"Length", None))
         self.item_width.setPlaceholderText(QCoreApplication.translate("ItemWindow", u"Width", None))
         self.item_depth.setPlaceholderText(QCoreApplication.translate("ItemWindow", u"Depth", None))
         self.item_weight.setPlaceholderText(QCoreApplication.translate("ItemWindow", u"Weight", None))
         self.active_check.setText(QCoreApplication.translate("ItemWindow", u"Active Item", None))
+        self.pending_lbl.setText(QCoreApplication.translate("ItemWindow", u"Pending Shipment:", None))
+        self.pending_shipment_line.setPlaceholderText(QCoreApplication.translate("ItemWindow", u"Pending", None))
         self.error_label.setText("")
         self.save_item_btn.setText(QCoreApplication.translate("ItemWindow", u"Save Item Type", None))
         self.barcode_count_lbl.setText(QCoreApplication.translate("ItemWindow", u"1", None))
@@ -330,6 +375,8 @@ class ItemsWindow(QDialog):
         self.ui.item_desc.setText(item_info['Description'])
         self.ui.item_model.setText(item_info["Model Number"])
         self.ui.item_brand.setText(item_info['Brand'])
+        self.ui.pending_shipment_line.setText(str(item_info["Pending Shipment"]))
+        self.ui.pending_shipment_line.setReadOnly(False)
         self.refresh_barcode_table(item_info["Items"])
 
         #error checking for non-required fields, also for old data
@@ -368,6 +415,7 @@ class ItemsWindow(QDialog):
         self.ui.item_width.setText("")
         self.ui.item_depth.setText("")
         self.ui.item_weight.setText("")
+        self.ui.pending_shipment_line.setText("")
         self.ui.active_check.setChecked(True)
         self.ui.barcode_table.setRowCount(0)
         self.ui.error_label.setText("")
@@ -384,6 +432,8 @@ class ItemsWindow(QDialog):
             self.curr_item = ""
             self.curr_barcode = ""
             self.ui.edit_label.setText(self.new_item_string)
+            self.ui.pending_shipment_line.setText("0")
+            self.ui.pending_shipment_line.setReadOnly(True)
             self.ui.item_name_line.setFocus()
 
     def set_error(self,error, good):
@@ -449,9 +499,18 @@ class ItemsWindow(QDialog):
                 else:
                     item_weight = None
 
+                pending_shipment = self.ui.pending_shipment_line.text()
+                if pending_shipment != "":
+                    try:
+                        pending_shipment = int(pending_shipment)
+                    except ValueError:
+                        dim_ok = False
+                else:
+                    pending_shipment = None
+
 
                 if dim_ok == False:
-                    self.set_error("Dimensions and Weight must be Numbers")
+                    self.set_error("Dimensions/Weight/Pending must be Numbers",False)
 
                 #required field checks
                 elif item_desc is None or item_desc == "":
@@ -462,6 +521,8 @@ class ItemsWindow(QDialog):
                     self.set_error("Item Brand Required",False)
                 elif item_name is None or item_name == "":
                     self.set_error("Item Name Required",False)
+                elif pending_shipment == "":
+                    self.set_error("Pending Shipment is required",False)
                 else: #required fields correct, check cases (I think you get some duplicated code either way you do this)
                     if self.curr_item == "": #new item being created
                         if self.warehouse_controller.validate_new_item_name(item_name) != "OK":
@@ -476,12 +537,12 @@ class ItemsWindow(QDialog):
                             if self.warehouse_controller.validate_new_item_name(item_name) != "OK":
                                 self.set_error("Item Name in Use",False)
                             else: #new username OK
-                                self.warehouse_controller.edit_item(self.curr_item,item_desc=item_desc,item_model=item_model,item_brand=item_brand,isActive=item_active,item_weight=item_weight,item_length=item_length,item_width=item_width,item_depth=item_depth, new_name=item_name)
+                                self.warehouse_controller.edit_item(self.curr_item,item_desc=item_desc,item_model=item_model,item_brand=item_brand,isActive=item_active,item_weight=item_weight,item_length=item_length,item_width=item_width,item_depth=item_depth, new_name=item_name,pending=pending_shipment)
                                 self.clear_form()
                                 self.set_error(self.curr_item + " updated to: " + item_name,True)
                                 self.refresh_item_table()
                         else: #edit existing item, no item name change
-                            self.warehouse_controller.edit_item(self.curr_item,item_desc=item_desc,item_model=item_model,item_brand=item_brand,isActive=item_active,item_weight=item_weight,item_length=item_length,item_width=item_width,item_depth=item_depth)
+                            self.warehouse_controller.edit_item(self.curr_item,item_desc=item_desc,item_model=item_model,item_brand=item_brand,isActive=item_active,item_weight=item_weight,item_length=item_length,item_width=item_width,item_depth=item_depth,pending=pending_shipment)
                             self.clear_form()
                             self.set_error(self.curr_item + " updated!",True)
                             self.refresh_item_table()

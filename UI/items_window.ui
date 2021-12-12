@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
+    <width>810</width>
     <height>600</height>
    </rect>
   </property>
@@ -116,6 +116,38 @@
      </widget>
     </item>
     <item>
+     <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <item>
+       <widget class="QLabel" name="len_lbl">
+        <property name="text">
+         <string>Length</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="widthLbl">
+        <property name="text">
+         <string>Width</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="depth_lbl">
+        <property name="text">
+         <string>Depth</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="weight_lbl">
+        <property name="text">
+         <string>Weight</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item>
      <layout class="QHBoxLayout" name="item_phys_atts_hlayout">
       <item>
        <widget class="QLineEdit" name="item_length">
@@ -148,11 +180,29 @@
      </layout>
     </item>
     <item>
-     <widget class="QCheckBox" name="active_check">
-      <property name="text">
-       <string>Active Item</string>
-      </property>
-     </widget>
+     <layout class="QHBoxLayout" name="active_pending_lo">
+      <item>
+       <widget class="QCheckBox" name="active_check">
+        <property name="text">
+         <string>Active Item</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="pending_lbl">
+        <property name="text">
+         <string>Pending Shipment:</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="pending_shipment_line">
+        <property name="placeholderText">
+         <string>Pending</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </item>
     <item>
      <spacer name="verticalSpacer">

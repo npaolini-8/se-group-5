@@ -120,7 +120,7 @@ class Warehouse():
         self.increment_barcode_increment(Name)
         return barcode
 
-    def edit_main_item(self, user, Name, description=None, modelNumber=None, brand=None, isActive=None,length=None,width=None,depth=None,weight=None,newName=None):
+    def edit_main_item(self, user, Name, description=None, modelNumber=None, brand=None, isActive=None,length=None,width=None,depth=None,weight=None,newName=None,pending=None):
         edit_dict = {}
         if description is not None:
             edit_dict.update({"Description": description})
@@ -140,6 +140,8 @@ class Warehouse():
             edit_dict.update({"Weight": weight})
         if newName is not None:
             edit_dict.update({"Name": newName})
+        if pending is not None:
+            edit_dict.update({"Pending Shipment": pending})
         edit_dict.update([("Date modified", self.get_time()),("Last modified by", user)])
 
         self.items_collection.update_one(

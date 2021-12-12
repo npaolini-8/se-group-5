@@ -193,8 +193,8 @@ class WarehouseController():
     def create_new_item(self, item_name, item_desc, item_model, item_brand, isActive, item_weight=None, item_length=None, item_width=None, item_depth=None):
         self.warehouse.create_main_item(self.get_current_username(), item_name, item_desc, item_model, item_brand,isActive=isActive,length=item_length,width=item_width,depth=item_depth,weight=item_weight)
 
-    def edit_item( self, item_name, item_desc=None,item_model=None,item_brand=None,isActive=None,item_weight=None, item_length=None, item_width=None, item_depth=None, new_name=None):
-        self.warehouse.edit_main_item(self.get_current_username(),item_name, description=item_desc,modelNumber=item_model,brand=item_brand,isActive=isActive,length=item_length,width=item_width,depth=item_depth,weight=item_weight,newName=new_name)
+    def edit_item( self, item_name, item_desc=None,item_model=None,item_brand=None,isActive=None,item_weight=None, item_length=None, item_width=None, item_depth=None, new_name=None, pending=None):
+        self.warehouse.edit_main_item(self.get_current_username(),item_name, description=item_desc,modelNumber=item_model,brand=item_brand,isActive=isActive,length=item_length,width=item_width,depth=item_depth,weight=item_weight,newName=new_name, pending=pending)
 
     def create_sub_item(self, item_name):
         self.warehouse.create_sub_item(self.get_current_username(), item_name)
