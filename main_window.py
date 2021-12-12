@@ -2,18 +2,16 @@ from PySide6.QtCore import Qt
 from PySide6.QtCore import *
 from PySide6.QtGui import *
 from PySide6.QtWidgets import *
-
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'main_windownWnsqj.ui'
+## Form generated from reading UI file 'main_windoweDDtpy.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.2.1
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
-# -*- coding: utf-8 -*-
-'''
+
 from PySide6.QtCore import (QCoreApplication, QDate, QDateTime, QLocale,
     QMetaObject, QObject, QPoint, QRect,
     QSize, QTime, QUrl, Qt)
@@ -22,14 +20,15 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QHeaderView, QLabel, QMainWindow,
-    QMenuBar, QPushButton, QSizePolicy, QStatusBar,
-    QTableWidget, QTableWidgetItem, QVBoxLayout, QWidget)
-'''
+    QPushButton, QSizePolicy, QStatusBar, QTableWidget,
+    QTableWidgetItem, QVBoxLayout, QWidget)
+
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
         MainWindow.resize(800, 600)
+        MainWindow.setStyleSheet(u"background-color: #295B63;")
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.verticalLayoutWidget = QWidget(self.centralwidget)
@@ -41,24 +40,41 @@ class Ui_MainWindow(object):
         self.items_btn = QPushButton(self.verticalLayoutWidget)
         self.items_btn.setObjectName(u"items_btn")
         self.items_btn.setMinimumSize(QSize(0, 80))
+        self.items_btn.setStyleSheet(u"color: #B6E3F0;\n"
+"font-size: 12px;\n"
+"border-radoius: 25px;\n"
+"\n"
+"")
 
         self.verticalLayout.addWidget(self.items_btn)
 
         self.create_order_btn = QPushButton(self.verticalLayoutWidget)
         self.create_order_btn.setObjectName(u"create_order_btn")
         self.create_order_btn.setMinimumSize(QSize(0, 80))
+        self.create_order_btn.setStyleSheet(u"color: #B6E3F0;\n"
+"font-size: 12px;\n"
+"border-radius: 25px;\n"
+"background-color: #47767d;\n"
+"\n"
+"QPushButton::hover{\n"
+"	background-color: red;\n"
+"}")
 
         self.verticalLayout.addWidget(self.create_order_btn)
 
         self.process_order_btn = QPushButton(self.verticalLayoutWidget)
         self.process_order_btn.setObjectName(u"process_order_btn")
         self.process_order_btn.setMinimumSize(QSize(0, 80))
+        self.process_order_btn.setStyleSheet(u"color: #B6E3F0;\n"
+"font-size: 12px;")
 
         self.verticalLayout.addWidget(self.process_order_btn)
 
         self.admin_panel_btn = QPushButton(self.verticalLayoutWidget)
         self.admin_panel_btn.setObjectName(u"admin_panel_btn")
         self.admin_panel_btn.setMinimumSize(QSize(0, 80))
+        self.admin_panel_btn.setStyleSheet(u"color: #B6E3F0;\n"
+"font-size: 12px;")
 
         self.verticalLayout.addWidget(self.admin_panel_btn)
 
@@ -70,12 +86,18 @@ class Ui_MainWindow(object):
         self.verticalLayout_2.setContentsMargins(0, 0, 0, 0)
         self.label = QLabel(self.verticalLayoutWidget_2)
         self.label.setObjectName(u"label")
+        self.label.setStyleSheet(u"color: #B6E3F0;\n"
+"font-size: 12px;")
         self.label.setAlignment(Qt.AlignCenter)
 
         self.verticalLayout_2.addWidget(self.label)
 
         self.incoming_orders_tbl = QTableWidget(self.verticalLayoutWidget_2)
         self.incoming_orders_tbl.setObjectName(u"incoming_orders_tbl")
+        self.incoming_orders_tbl.setStyleSheet(u"background-color: #526c75;\n"
+"color: #B6E3F0;\n"
+"border-radius: 25px;\n"
+"font-size: 12px;")
         self.incoming_orders_tbl.setEditTriggers(QAbstractItemView.NoEditTriggers)
         self.incoming_orders_tbl.setSortingEnabled(True)
 
@@ -83,12 +105,18 @@ class Ui_MainWindow(object):
 
         self.label_2 = QLabel(self.verticalLayoutWidget_2)
         self.label_2.setObjectName(u"label_2")
+        self.label_2.setStyleSheet(u"color: #B6E3F0;\n"
+"font-size: 12px;")
         self.label_2.setAlignment(Qt.AlignCenter)
 
         self.verticalLayout_2.addWidget(self.label_2)
 
         self.outgoing_orders_tbl = QTableWidget(self.verticalLayoutWidget_2)
         self.outgoing_orders_tbl.setObjectName(u"outgoing_orders_tbl")
+        self.outgoing_orders_tbl.setStyleSheet(u"background-color: #526c75;\n"
+"color: #B6E3F0;\n"
+"border-radius: 25px;\n"
+"font-size: 12px;")
         self.outgoing_orders_tbl.setEditTriggers(QAbstractItemView.NoEditTriggers)
         self.outgoing_orders_tbl.setSortingEnabled(True)
         #self.outgoing_orders_tbl.row()
@@ -98,6 +126,8 @@ class Ui_MainWindow(object):
         self.logout_btn = QPushButton(self.centralwidget)
         self.logout_btn.setObjectName(u"logout_btn")
         self.logout_btn.setGeometry(QRect(20, 10, 88, 34))
+        self.logout_btn.setStyleSheet(u"color: #B6E3F0;\n"
+"font-size: 12px;")
         self.user_lbl = QLabel(self.centralwidget)
         self.user_lbl.setObjectName(u"user_lbl")
         self.user_lbl.setGeometry(QRect(120, 20, 161, 21))
@@ -133,6 +163,8 @@ class Ui_MainWindow(object):
         self.user_lbl.setText("")
         self.error_lbl.setText("")
     # retranslateUi
+
+
 
 
 class MainWindow(QMainWindow):

@@ -7,11 +7,17 @@
     <x>0</x>
     <y>0</y>
     <width>800</width>
-    <height>600</height>
+    <height>590</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: #295B63;
+
+
+</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QWidget" name="verticalLayoutWidget">
@@ -32,6 +38,13 @@
          <height>80</height>
         </size>
        </property>
+       <property name="styleSheet">
+        <string notr="true">color: #B6E3F0;
+font-size: 12px;
+border-radoius: 25px;
+
+</string>
+       </property>
        <property name="text">
         <string>Items</string>
        </property>
@@ -44,6 +57,13 @@
          <width>0</width>
          <height>80</height>
         </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">color: #B6E3F0;
+font-size: 12px;
+
+
+</string>
        </property>
        <property name="text">
         <string>Create Order</string>
@@ -58,6 +78,10 @@
          <height>80</height>
         </size>
        </property>
+       <property name="styleSheet">
+        <string notr="true">color: #B6E3F0;
+font-size: 12px;</string>
+       </property>
        <property name="text">
         <string>Process Order</string>
        </property>
@@ -70,6 +94,10 @@
          <width>0</width>
          <height>80</height>
         </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">color: #B6E3F0;
+font-size: 12px;</string>
        </property>
        <property name="text">
         <string>Admin Panel</string>
@@ -90,6 +118,10 @@
     <layout class="QVBoxLayout" name="verticalLayout_2">
      <item>
       <widget class="QLabel" name="label">
+       <property name="styleSheet">
+        <string notr="true">color: #B6E3F0;
+font-size: 12px;</string>
+       </property>
        <property name="text">
         <string>Incoming Orders</string>
        </property>
@@ -100,6 +132,12 @@
      </item>
      <item>
       <widget class="QTableWidget" name="incoming_orders_tbl">
+       <property name="styleSheet">
+        <string notr="true">background-color: #526c75;
+color: #B6E3F0;
+border-radius: 25px;
+font-size: 12px;</string>
+       </property>
        <property name="editTriggers">
         <set>QAbstractItemView::NoEditTriggers</set>
        </property>
@@ -110,6 +148,10 @@
      </item>
      <item>
       <widget class="QLabel" name="label_2">
+       <property name="styleSheet">
+        <string notr="true">color: #B6E3F0;
+font-size: 12px;</string>
+       </property>
        <property name="text">
         <string>Outgoing Orders</string>
        </property>
@@ -120,6 +162,12 @@
      </item>
      <item>
       <widget class="QTableWidget" name="outgoing_orders_tbl">
+       <property name="styleSheet">
+        <string notr="true">background-color: #526c75;
+color: #B6E3F0;
+border-radius: 25px;
+font-size: 12px;</string>
+       </property>
        <property name="editTriggers">
         <set>QAbstractItemView::NoEditTriggers</set>
        </property>
@@ -138,6 +186,10 @@
       <width>88</width>
       <height>34</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: #B6E3F0;
+font-size: 12px;</string>
     </property>
     <property name="text">
      <string>Logout</string>
