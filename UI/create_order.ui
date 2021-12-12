@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Order Creation</string>
   </property>
   <property name="styleSheet">
    <string notr="true">background-color: #295B63;
@@ -50,6 +50,9 @@ font-size: 12px;</string>
       <property name="text">
        <string>Incoming</string>
       </property>
+      <property name="checked">
+       <bool>true</bool>
+      </property>
      </widget>
     </item>
     <item>
@@ -79,9 +82,9 @@ font-size: 12px;</string>
     <item>
      <widget class="QLineEdit" name="search_bar_line">
       <property name="styleSheet">
-       <string notr="true">background-color: #526c75;
-color: #B6E3F0;
-border-radius: 25px;
+       <string notr="true">background-color: #4395a3;
+color: white;
+
 font-size: 12px;</string>
       </property>
       <property name="placeholderText">
@@ -214,7 +217,7 @@ font-size: 12px;</string>
     <rect>
      <x>370</x>
      <y>110</y>
-     <width>81</width>
+     <width>82</width>
      <height>171</height>
     </rect>
    </property>
@@ -245,6 +248,11 @@ font-size: 12px;</string>
         <width>0</width>
         <height>40</height>
        </size>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>14</pointsize>
+       </font>
       </property>
       <property name="styleSheet">
        <string notr="true">background-color: #031c1e;

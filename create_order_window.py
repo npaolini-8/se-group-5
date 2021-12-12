@@ -2,11 +2,10 @@ from PySide6.QtCore import *
 from PySide6.QtGui import *
 from PySide6.QtWidgets import *
 
-
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'create_orderkWltYH.ui'
+## Form generated from reading UI file 'create_orderzEJSDp.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.2.1
 ##
@@ -46,6 +45,7 @@ class Ui_Dialog(object):
         self.incoming_radio.setStyleSheet(u"\n"
 "color: #B6E3F0;\n"
 "font-size: 12px;")
+        self.incoming_radio.setChecked(True)
 
         self.horizontalLayout.addWidget(self.incoming_radio)
 
@@ -65,9 +65,9 @@ class Ui_Dialog(object):
         self.verticalLayout.setContentsMargins(0, 0, 0, 0)
         self.search_bar_line = QLineEdit(self.verticalLayoutWidget)
         self.search_bar_line.setObjectName(u"search_bar_line")
-        self.search_bar_line.setStyleSheet(u"background-color: #526c75;\n"
-"color: #B6E3F0;\n"
-"border-radius: 25px;\n"
+        self.search_bar_line.setStyleSheet(u"background-color: #4395a3;\n"
+"color: white;\n"
+"\n"
 "font-size: 12px;")
 
         self.verticalLayout.addWidget(self.search_bar_line)
@@ -130,7 +130,7 @@ class Ui_Dialog(object):
 "font-size: 12px;")
         self.verticalLayoutWidget_4 = QWidget(Dialog)
         self.verticalLayoutWidget_4.setObjectName(u"verticalLayoutWidget_4")
-        self.verticalLayoutWidget_4.setGeometry(QRect(370, 110, 81, 171))
+        self.verticalLayoutWidget_4.setGeometry(QRect(370, 110, 82, 171))
         self.verticalLayout_4 = QVBoxLayout(self.verticalLayoutWidget_4)
         self.verticalLayout_4.setSpacing(0)
         self.verticalLayout_4.setObjectName(u"verticalLayout_4")
@@ -145,6 +145,9 @@ class Ui_Dialog(object):
         self.count_line = QLineEdit(self.verticalLayoutWidget_4)
         self.count_line.setObjectName(u"count_line")
         self.count_line.setMinimumSize(QSize(0, 40))
+        font = QFont()
+        font.setPointSize(14)
+        self.count_line.setFont(font)
         self.count_line.setStyleSheet(u"background-color: #031c1e;\n"
 "color: #B6E3F0;\n"
 "")
@@ -162,13 +165,11 @@ class Ui_Dialog(object):
         self.remove_from_order_btn = QPushButton(Dialog)
         self.remove_from_order_btn.setObjectName(u"remove_from_order_btn")
         self.remove_from_order_btn.setGeometry(QRect(330, 350, 161, 51))
-        self.remove_from_order_btn.setStyleSheet(u"color: #B6E3F0;\n""font-size: 12px;")
-
+        self.remove_from_order_btn.setStyleSheet(u"color: #B6E3F0;\n"
+"font-size: 12px;")
         self.info_label = QLabel(Dialog)
         self.info_label.setObjectName(u"info_label")
         self.info_label.setGeometry(QRect(500, 10, 281, 16))
-
-
 
         self.retranslateUi(Dialog)
 
@@ -176,7 +177,7 @@ class Ui_Dialog(object):
     # setupUi
 
     def retranslateUi(self, Dialog):
-        Dialog.setWindowTitle(QCoreApplication.translate("Dialog", u"Dialog", None))
+        Dialog.setWindowTitle(QCoreApplication.translate("Dialog", u"Order Creation", None))
         self.return_btn.setText(QCoreApplication.translate("Dialog", u"Return", None))
         self.incoming_radio.setText(QCoreApplication.translate("Dialog", u"Incoming", None))
         self.outgoing_radio.setText(QCoreApplication.translate("Dialog", u"Outgoing", None))

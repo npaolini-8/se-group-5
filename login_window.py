@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'login_windowMdlRem.ui'
+## Form generated from reading UI file 'login_windowXJqGTn.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.2.1
 ##
@@ -39,6 +39,7 @@ class Ui_LoginWindow(object):
         self.titleLbl = QLabel(self.verticalLayoutWidget)
         self.titleLbl.setObjectName(u"titleLbl")
         font = QFont()
+        font.setFamilies([u"Serif"])
         font.setPointSize(20)
         self.titleLbl.setFont(font)
         self.titleLbl.setStyleSheet(u"color: #B6E3F0;")
@@ -54,6 +55,9 @@ class Ui_LoginWindow(object):
         self.userName.setObjectName(u"userName")
         self.userName.setMinimumSize(QSize(0, 30))
         self.userName.setBaseSize(QSize(0, 0))
+        font1 = QFont()
+        font1.setFamilies([u"Serif"])
+        self.userName.setFont(font1)
         self.userName.setStyleSheet(u"background-color: #526c75;\n"
 "color: #B6E3F0;\n"
 "border-radius: 8px;\n"
@@ -64,6 +68,7 @@ class Ui_LoginWindow(object):
         self.passWord = QLineEdit(self.verticalLayoutWidget)
         self.passWord.setObjectName(u"passWord")
         self.passWord.setMinimumSize(QSize(0, 30))
+        self.passWord.setFont(font1)
         self.passWord.setStyleSheet(u"background-color: #526c75;\n"
 "color: #B6E3F0;\n"
 "border-radius: 8px;\n"
@@ -76,17 +81,22 @@ class Ui_LoginWindow(object):
         self.loginBtn = QPushButton(self.verticalLayoutWidget)
         self.loginBtn.setObjectName(u"loginBtn")
         self.loginBtn.setMinimumSize(QSize(0, 80))
+        font2 = QFont()
+        font2.setFamilies([u"Serif"])
+        font2.setPointSize(26)
+        font2.setItalic(False)
+        self.loginBtn.setFont(font2)
         self.loginBtn.setStyleSheet(u"color: #B6E3F0;\n"
-"font-size: 12px;")
+"")
 
         self.verticalLayout.addWidget(self.loginBtn)
 
         self.errorLbl = QLabel(self.verticalLayoutWidget)
         self.errorLbl.setObjectName(u"errorLbl")
         self.errorLbl.setMaximumSize(QSize(16777215, 50))
-        font1 = QFont()
-        font1.setPointSize(14)
-        self.errorLbl.setFont(font1)
+        font3 = QFont()
+        font3.setPointSize(14)
+        self.errorLbl.setFont(font3)
         self.errorLbl.setAlignment(Qt.AlignCenter)
 
         self.verticalLayout.addWidget(self.errorLbl)

@@ -17,7 +17,10 @@
    </sizepolicy>
   </property>
   <property name="windowTitle">
-   <string>Warehouse Items</string>
+   <string>Item Manipulation</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: #295B63;</string>
   </property>
   <widget class="QPushButton" name="return_btn">
    <property name="geometry">
@@ -44,13 +47,26 @@
    <layout class="QVBoxLayout" name="item_search_vlayout">
     <item>
      <widget class="QLineEdit" name="item_search_line">
+      <property name="styleSheet">
+       <string notr="true">background-color: #4395a3;
+color: white;
+
+font-size: 12px;</string>
+      </property>
       <property name="placeholderText">
        <string>Search for an Item...</string>
       </property>
      </widget>
     </item>
     <item>
-     <widget class="QTableWidget" name="item_table"/>
+     <widget class="QTableWidget" name="item_table">
+      <property name="styleSheet">
+       <string notr="true">background-color: #526c75;
+color: #B6E3F0;
+border-radius: 25px;
+font-size: 12px;</string>
+      </property>
+     </widget>
     </item>
    </layout>
   </widget>
@@ -66,6 +82,12 @@
    <layout class="QVBoxLayout" name="item_info_vlayout">
     <item>
      <widget class="QPushButton" name="new_item_type_btn">
+      <property name="styleSheet">
+       <string notr="true">
+color: #B6E3F0;
+
+font-size: 12px;</string>
+      </property>
       <property name="text">
        <string>Create New Item Type</string>
       </property>
@@ -83,6 +105,18 @@
     </item>
     <item>
      <widget class="QLineEdit" name="item_name_line">
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>25</height>
+       </size>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: #526c75;
+color: #B6E3F0;
+
+font-size: 12px;</string>
+      </property>
       <property name="text">
        <string/>
       </property>
@@ -93,6 +127,12 @@
     </item>
     <item>
      <widget class="QTextEdit" name="item_desc">
+      <property name="styleSheet">
+       <string notr="true">background-color: #526c75;
+color: #B6E3F0;
+border-radius: 15px;
+font-size: 12px;</string>
+      </property>
       <property name="cursorWidth">
        <number>0</number>
       </property>
@@ -103,6 +143,12 @@
     </item>
     <item>
      <widget class="QLineEdit" name="item_model">
+      <property name="styleSheet">
+       <string notr="true">background-color: #526c75;
+color: #B6E3F0;
+
+font-size: 12px;</string>
+      </property>
       <property name="placeholderText">
        <string>Model #</string>
       </property>
@@ -110,6 +156,12 @@
     </item>
     <item>
      <widget class="QLineEdit" name="item_brand">
+      <property name="styleSheet">
+       <string notr="true">background-color: #526c75;
+color: #B6E3F0;
+
+font-size: 12px;</string>
+      </property>
       <property name="placeholderText">
        <string>Brand</string>
       </property>
@@ -151,6 +203,12 @@
      <layout class="QHBoxLayout" name="item_phys_atts_hlayout">
       <item>
        <widget class="QLineEdit" name="item_length">
+        <property name="styleSheet">
+         <string notr="true">background-color: #526c75;
+color: #B6E3F0;
+
+font-size: 12px;</string>
+        </property>
         <property name="placeholderText">
          <string>Length</string>
         </property>
@@ -158,6 +216,12 @@
       </item>
       <item>
        <widget class="QLineEdit" name="item_width">
+        <property name="styleSheet">
+         <string notr="true">background-color: #526c75;
+color: #B6E3F0;
+
+font-size: 12px;</string>
+        </property>
         <property name="placeholderText">
          <string>Width</string>
         </property>
@@ -165,6 +229,12 @@
       </item>
       <item>
        <widget class="QLineEdit" name="item_depth">
+        <property name="styleSheet">
+         <string notr="true">background-color: #526c75;
+color: #B6E3F0;
+
+font-size: 12px;</string>
+        </property>
         <property name="placeholderText">
          <string>Depth</string>
         </property>
@@ -172,6 +242,12 @@
       </item>
       <item>
        <widget class="QLineEdit" name="item_weight">
+        <property name="styleSheet">
+         <string notr="true">background-color: #526c75;
+color: #B6E3F0;
+
+font-size: 12px;</string>
+        </property>
         <property name="placeholderText">
          <string>Weight</string>
         </property>
@@ -197,6 +273,12 @@
       </item>
       <item>
        <widget class="QLineEdit" name="pending_shipment_line">
+        <property name="styleSheet">
+         <string notr="true">background-color: #526c75;
+color: #B6E3F0;
+
+font-size: 12px;</string>
+        </property>
         <property name="placeholderText">
          <string>Pending</string>
         </property>
@@ -229,6 +311,12 @@
     </item>
     <item>
      <widget class="QPushButton" name="save_item_btn">
+      <property name="styleSheet">
+       <string notr="true">
+color: #B6E3F0;
+
+font-size: 12px;</string>
+      </property>
       <property name="text">
        <string>Save Item Type</string>
       </property>
@@ -250,6 +338,12 @@
      <layout class="QHBoxLayout" name="barcode_ops_hlayout">
       <item>
        <widget class="QLineEdit" name="barcode_count_lbl">
+        <property name="styleSheet">
+         <string notr="true">background-color: #526c75;
+color: #B6E3F0;
+
+font-size: 12px;</string>
+        </property>
         <property name="text">
          <string>1</string>
         </property>
@@ -273,13 +367,26 @@
     </item>
     <item>
      <widget class="QLineEdit" name="barcode_search_line">
+      <property name="styleSheet">
+       <string notr="true">background-color: #4395a3;
+color: white;
+
+font-size: 12px;</string>
+      </property>
       <property name="placeholderText">
        <string>Search for a Barcode...</string>
       </property>
      </widget>
     </item>
     <item>
-     <widget class="QTableWidget" name="barcode_table"/>
+     <widget class="QTableWidget" name="barcode_table">
+      <property name="styleSheet">
+       <string notr="true">background-color: #526c75;
+color: #B6E3F0;
+border-radius: 25px;
+font-size: 12px;</string>
+      </property>
+     </widget>
     </item>
    </layout>
   </widget>

@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>PyDepot</string>
   </property>
   <property name="styleSheet">
    <string notr="true">background-color: #295B63;
@@ -41,7 +41,6 @@
        <property name="styleSheet">
         <string notr="true">color: #B6E3F0;
 font-size: 12px;
-border-radoius: 25px;
 
 </string>
        </property>

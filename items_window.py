@@ -10,6 +10,27 @@ from PySide6.QtWidgets import (QApplication, QCheckBox, QDialog, QHBoxLayout,
     QHeaderView, QLabel, QLineEdit, QPushButton,
     QSizePolicy, QSpacerItem, QTableWidget, QTableWidgetItem,
     QTextEdit, QVBoxLayout, QWidget, QAbstractItemView, QHeaderView)
+# -*- coding: utf-8 -*-
+
+################################################################################
+## Form generated from reading UI file 'items_windowWnOaOv.ui'
+##
+## Created by: Qt User Interface Compiler version 6.2.1
+##
+## WARNING! All changes made in this file will be lost when recompiling UI file!
+################################################################################
+
+from PySide6.QtCore import (QCoreApplication, QDate, QDateTime, QLocale,
+    QMetaObject, QObject, QPoint, QRect,
+    QSize, QTime, QUrl, Qt)
+from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
+    QFont, QFontDatabase, QGradient, QIcon,
+    QImage, QKeySequence, QLinearGradient, QPainter,
+    QPalette, QPixmap, QRadialGradient, QTransform)
+from PySide6.QtWidgets import (QApplication, QCheckBox, QDialog, QHBoxLayout,
+    QHeaderView, QLabel, QLineEdit, QPushButton,
+    QSizePolicy, QSpacerItem, QTableWidget, QTableWidgetItem,
+    QTextEdit, QVBoxLayout, QWidget)
 
 class Ui_ItemWindow(object):
     def setupUi(self, ItemWindow):
@@ -21,6 +42,7 @@ class Ui_ItemWindow(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(ItemWindow.sizePolicy().hasHeightForWidth())
         ItemWindow.setSizePolicy(sizePolicy)
+        ItemWindow.setStyleSheet(u"background-color: #295B63;")
         self.return_btn = QPushButton(ItemWindow)
         self.return_btn.setObjectName(u"return_btn")
         self.return_btn.setGeometry(QRect(10, 10, 75, 24))
@@ -32,11 +54,19 @@ class Ui_ItemWindow(object):
         self.item_search_vlayout.setContentsMargins(0, 0, 0, 0)
         self.item_search_line = QLineEdit(self.verticalLayoutWidget)
         self.item_search_line.setObjectName(u"item_search_line")
+        self.item_search_line.setStyleSheet(u"background-color: #4395a3;\n"
+"color: white;\n"
+"\n"
+"font-size: 12px;")
 
         self.item_search_vlayout.addWidget(self.item_search_line)
 
         self.item_table = QTableWidget(self.verticalLayoutWidget)
         self.item_table.setObjectName(u"item_table")
+        self.item_table.setStyleSheet(u"background-color: #526c75;\n"
+"color: #B6E3F0;\n"
+"border-radius: 25px;\n"
+"font-size: 12px;")
 
         self.item_search_vlayout.addWidget(self.item_table)
 
@@ -48,6 +78,10 @@ class Ui_ItemWindow(object):
         self.item_info_vlayout.setContentsMargins(0, 0, 0, 0)
         self.new_item_type_btn = QPushButton(self.verticalLayoutWidget_2)
         self.new_item_type_btn.setObjectName(u"new_item_type_btn")
+        self.new_item_type_btn.setStyleSheet(u"\n"
+"color: #B6E3F0;\n"
+"\n"
+"font-size: 12px;")
 
         self.item_info_vlayout.addWidget(self.new_item_type_btn)
 
@@ -59,11 +93,20 @@ class Ui_ItemWindow(object):
 
         self.item_name_line = QLineEdit(self.verticalLayoutWidget_2)
         self.item_name_line.setObjectName(u"item_name_line")
+        self.item_name_line.setMinimumSize(QSize(0, 25))
+        self.item_name_line.setStyleSheet(u"background-color: #526c75;\n"
+"color: #B6E3F0;\n"
+"\n"
+"font-size: 12px;")
 
         self.item_info_vlayout.addWidget(self.item_name_line)
 
         self.item_desc = QTextEdit(self.verticalLayoutWidget_2)
         self.item_desc.setObjectName(u"item_desc")
+        self.item_desc.setStyleSheet(u"background-color: #526c75;\n"
+"color: #B6E3F0;\n"
+"border-radius: 15px;\n"
+"font-size: 12px;")
         self.item_desc.setCursorWidth(0)
         self.item_desc.setPlaceholderText(u"0")
 
@@ -71,11 +114,19 @@ class Ui_ItemWindow(object):
 
         self.item_model = QLineEdit(self.verticalLayoutWidget_2)
         self.item_model.setObjectName(u"item_model")
+        self.item_model.setStyleSheet(u"background-color: #526c75;\n"
+"color: #B6E3F0;\n"
+"\n"
+"font-size: 12px;")
 
         self.item_info_vlayout.addWidget(self.item_model)
 
         self.item_brand = QLineEdit(self.verticalLayoutWidget_2)
         self.item_brand.setObjectName(u"item_brand")
+        self.item_brand.setStyleSheet(u"background-color: #526c75;\n"
+"color: #B6E3F0;\n"
+"\n"
+"font-size: 12px;")
 
         self.item_info_vlayout.addWidget(self.item_brand)
 
@@ -108,21 +159,37 @@ class Ui_ItemWindow(object):
         self.item_phys_atts_hlayout.setObjectName(u"item_phys_atts_hlayout")
         self.item_length = QLineEdit(self.verticalLayoutWidget_2)
         self.item_length.setObjectName(u"item_length")
+        self.item_length.setStyleSheet(u"background-color: #526c75;\n"
+"color: #B6E3F0;\n"
+"\n"
+"font-size: 12px;")
 
         self.item_phys_atts_hlayout.addWidget(self.item_length)
 
         self.item_width = QLineEdit(self.verticalLayoutWidget_2)
         self.item_width.setObjectName(u"item_width")
+        self.item_width.setStyleSheet(u"background-color: #526c75;\n"
+"color: #B6E3F0;\n"
+"\n"
+"font-size: 12px;")
 
         self.item_phys_atts_hlayout.addWidget(self.item_width)
 
         self.item_depth = QLineEdit(self.verticalLayoutWidget_2)
         self.item_depth.setObjectName(u"item_depth")
+        self.item_depth.setStyleSheet(u"background-color: #526c75;\n"
+"color: #B6E3F0;\n"
+"\n"
+"font-size: 12px;")
 
         self.item_phys_atts_hlayout.addWidget(self.item_depth)
 
         self.item_weight = QLineEdit(self.verticalLayoutWidget_2)
         self.item_weight.setObjectName(u"item_weight")
+        self.item_weight.setStyleSheet(u"background-color: #526c75;\n"
+"color: #B6E3F0;\n"
+"\n"
+"font-size: 12px;")
 
         self.item_phys_atts_hlayout.addWidget(self.item_weight)
 
@@ -143,6 +210,10 @@ class Ui_ItemWindow(object):
 
         self.pending_shipment_line = QLineEdit(self.verticalLayoutWidget_2)
         self.pending_shipment_line.setObjectName(u"pending_shipment_line")
+        self.pending_shipment_line.setStyleSheet(u"background-color: #526c75;\n"
+"color: #B6E3F0;\n"
+"\n"
+"font-size: 12px;")
 
         self.active_pending_lo.addWidget(self.pending_shipment_line)
 
@@ -161,6 +232,10 @@ class Ui_ItemWindow(object):
 
         self.save_item_btn = QPushButton(self.verticalLayoutWidget_2)
         self.save_item_btn.setObjectName(u"save_item_btn")
+        self.save_item_btn.setStyleSheet(u"\n"
+"color: #B6E3F0;\n"
+"\n"
+"font-size: 12px;")
 
         self.item_info_vlayout.addWidget(self.save_item_btn)
 
@@ -174,6 +249,10 @@ class Ui_ItemWindow(object):
         self.barcode_ops_hlayout.setObjectName(u"barcode_ops_hlayout")
         self.barcode_count_lbl = QLineEdit(self.verticalLayoutWidget_3)
         self.barcode_count_lbl.setObjectName(u"barcode_count_lbl")
+        self.barcode_count_lbl.setStyleSheet(u"background-color: #526c75;\n"
+"color: #B6E3F0;\n"
+"\n"
+"font-size: 12px;")
 
         self.barcode_ops_hlayout.addWidget(self.barcode_count_lbl)
 
@@ -192,11 +271,19 @@ class Ui_ItemWindow(object):
 
         self.barcode_search_line = QLineEdit(self.verticalLayoutWidget_3)
         self.barcode_search_line.setObjectName(u"barcode_search_line")
+        self.barcode_search_line.setStyleSheet(u"background-color: #4395a3;\n"
+"color: white;\n"
+"\n"
+"font-size: 12px;")
 
         self.barcode_info_vlayout.addWidget(self.barcode_search_line)
 
         self.barcode_table = QTableWidget(self.verticalLayoutWidget_3)
         self.barcode_table.setObjectName(u"barcode_table")
+        self.barcode_table.setStyleSheet(u"background-color: #526c75;\n"
+"color: #B6E3F0;\n"
+"border-radius: 25px;\n"
+"font-size: 12px;")
 
         self.barcode_info_vlayout.addWidget(self.barcode_table)
 
@@ -207,7 +294,7 @@ class Ui_ItemWindow(object):
     # setupUi
 
     def retranslateUi(self, ItemWindow):
-        ItemWindow.setWindowTitle(QCoreApplication.translate("ItemWindow", u"Warehouse Items", None))
+        ItemWindow.setWindowTitle(QCoreApplication.translate("ItemWindow", u"Item Manipulation", None))
         self.return_btn.setText(QCoreApplication.translate("ItemWindow", u"Return", None))
         self.item_search_line.setPlaceholderText(QCoreApplication.translate("ItemWindow", u"Search for an Item...", None))
         self.new_item_type_btn.setText(QCoreApplication.translate("ItemWindow", u"Create New Item Type", None))
@@ -234,6 +321,8 @@ class Ui_ItemWindow(object):
         self.delete_item_btn.setText(QCoreApplication.translate("ItemWindow", u"Remove Item", None))
         self.barcode_search_line.setPlaceholderText(QCoreApplication.translate("ItemWindow", u"Search for a Barcode...", None))
     # retranslateUi
+
+
 
 
 

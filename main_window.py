@@ -5,7 +5,7 @@ from PySide6.QtWidgets import *
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'main_windoweDDtpy.ui'
+## Form generated from reading UI file 'main_windowFppcQm.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.2.1
 ##
@@ -27,8 +27,11 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(800, 600)
-        MainWindow.setStyleSheet(u"background-color: #295B63;")
+        MainWindow.resize(800, 590)
+        MainWindow.setStyleSheet(u"background-color: #295B63;\n"
+"\n"
+"\n"
+"")
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.verticalLayoutWidget = QWidget(self.centralwidget)
@@ -42,7 +45,6 @@ class Ui_MainWindow(object):
         self.items_btn.setMinimumSize(QSize(0, 80))
         self.items_btn.setStyleSheet(u"color: #B6E3F0;\n"
 "font-size: 12px;\n"
-"border-radoius: 25px;\n"
 "\n"
 "")
 
@@ -53,12 +55,9 @@ class Ui_MainWindow(object):
         self.create_order_btn.setMinimumSize(QSize(0, 80))
         self.create_order_btn.setStyleSheet(u"color: #B6E3F0;\n"
 "font-size: 12px;\n"
-"border-radius: 25px;\n"
-"background-color: #47767d;\n"
 "\n"
-"QPushButton::hover{\n"
-"	background-color: red;\n"
-"}")
+"\n"
+"")
 
         self.verticalLayout.addWidget(self.create_order_btn)
 
@@ -119,7 +118,6 @@ class Ui_MainWindow(object):
 "font-size: 12px;")
         self.outgoing_orders_tbl.setEditTriggers(QAbstractItemView.NoEditTriggers)
         self.outgoing_orders_tbl.setSortingEnabled(True)
-        #self.outgoing_orders_tbl.row()
 
         self.verticalLayout_2.addWidget(self.outgoing_orders_tbl)
 
@@ -163,6 +161,8 @@ class Ui_MainWindow(object):
         self.user_lbl.setText("")
         self.error_lbl.setText("")
     # retranslateUi
+
+
 
 
 
@@ -225,7 +225,7 @@ class MainWindow(QMainWindow):
 
         self.ui.incoming_orders_tbl.setHorizontalHeaderLabels(["Order ID", "Client", "Status", "Item Count"])
         self.ui.outgoing_orders_tbl.setHorizontalHeaderLabels(["Order ID", "Client", "Status", "Item Count"])
-        
+
         header = self.ui.incoming_orders_tbl.horizontalHeader()
         header.setSectionResizeMode(0, QHeaderView.Stretch)
         header.setSectionResizeMode(1, QHeaderView.ResizeToContents)

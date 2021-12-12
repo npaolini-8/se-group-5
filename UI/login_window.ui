@@ -39,6 +39,7 @@
      <widget class="QLabel" name="titleLbl">
       <property name="font">
        <font>
+        <family>Serif</family>
         <pointsize>20</pointsize>
        </font>
       </property>
@@ -83,6 +84,12 @@
         <height>0</height>
        </size>
       </property>
+      <property name="font">
+       <font>
+        <family>Serif</family>
+        <pointsize>-1</pointsize>
+       </font>
+      </property>
       <property name="styleSheet">
        <string notr="true">background-color: #526c75;
 color: #B6E3F0;
@@ -101,6 +108,12 @@ font-size: 12px;</string>
         <width>0</width>
         <height>30</height>
        </size>
+      </property>
+      <property name="font">
+       <font>
+        <family>Serif</family>
+        <pointsize>-1</pointsize>
+       </font>
       </property>
       <property name="styleSheet">
        <string notr="true">background-color: #526c75;
@@ -127,9 +140,16 @@ font-size: 12px;</string>
         <height>80</height>
        </size>
       </property>
+      <property name="font">
+       <font>
+        <family>Serif</family>
+        <pointsize>26</pointsize>
+        <italic>false</italic>
+       </font>
+      </property>
       <property name="styleSheet">
        <string notr="true">color: #B6E3F0;
-font-size: 12px;</string>
+</string>
       </property>
       <property name="text">
        <string>Login</string>
