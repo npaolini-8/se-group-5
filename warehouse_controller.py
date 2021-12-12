@@ -76,7 +76,7 @@ class WarehouseController():
         salt = self.warehouse.get_salt(username)
         password = Security.generate_password(password,salt)
         
-        return self.warehouse.users_collection.find_one({"Username": username,"Password": password}) #BretC1, bananafish6
+        return self.warehouse.users_collection.find_one({"Username": username,"Password": password},{"Password":0}) #BretC1, bananafish6
 
     def set_current_user(self, new_user):
         self.current_user = new_user
