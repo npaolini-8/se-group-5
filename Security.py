@@ -1,23 +1,22 @@
-import os
 import hashlib
+import random,string
 
-class password():
+#TODO: generate salt fxn
 
-    #TODO: generate salt fxn
+def generate_salt():
+    #salt = os.urandom(32)
+    #return salt
+    return "".join(random.SystemRandom().choice(string.ascii_uppercase + string.digits) for _ in range(32))
+    
+#TODO: modify to: given salt + pw -> return encrypted pw
+# Generates a password given a username and password
+def generate_password(password:str, salt:str):
 
-    def generate_salt(self):
-        salt = os.urandom(32)
-        return salt
-        
-    #TODO: modify to: given salt + pw -> return encrypted pw
-    # Generates a password given a username and password
-    def generate_password(self,username, password, salt):
+    password = password.encode()
+    salt = salt.encode()
+    key = hashlib.pbkdf2_hmac('sha512', password, salt, 100000)
+    hex_hash = key.hex()
+    return hex_hash
 
-        plaintext = 'password'.encode()
-        key = hashlib.pbkdf2_hmac('sha512', plaintext, self.salt, 100000)
-        hex_hash = key.hex()
-        return hex_hash
-
-#pw = password()
-#new_password = pw.generate_salt()
-#pw.generate_password("someuser","somepw", new_password)
+#print(generate_salt())
+print(generate_password("yams", "YSCSUBGHSI9TEMTLGSQDO3DTU3Y1NLBU"))

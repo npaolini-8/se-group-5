@@ -2,6 +2,7 @@ from warehouse import Warehouse
 from application import Application
 from bson.objectid import ObjectId
 import re
+import Security
 
 class WarehouseController():
     def __init__(self):
@@ -69,9 +70,12 @@ class WarehouseController():
         elif role == "Admin":
             if self.get_current_role() == "Admin":
                 return True
-    #TODO: bred - encrypt given password and then check with DB
+    #TODO: bret - encrypt given password and then check with DB
     def connect_user(self, username, password):
         self.warehouse.cluster.server_info()  #This will fail if we don't have a connection to the server
+        salt = self.warehouse.get_salt(username)
+        password = Security.generate_password(password,salt)
+        
         return self.warehouse.users_collection.find_one({"Username": username,"Password": password}) #BretC1, bananafish6
 
     def set_current_user(self, new_user):
@@ -189,7 +193,8 @@ class WarehouseController():
             self.warehouse.edit_user(username, self.get_current_username(), password="",role=role,newUsername=newUsername, active=active,locked=locked)
     #TODO: bret - save encrypted PW
     def set_new_pw(self, username, password):
-        self.warehouse.edit_user(username, self.get_current_username(), password=password)
+        salt = self.warehouse.get_salt(username)
+        self.warehouse.edit_user(username, self.get_current_username(), password=Security.generate_password(password,salt))
 
     def create_new_item(self, item_name, item_desc, item_model, item_brand, isActive, item_weight=None, item_length=None, item_width=None, item_depth=None):
         self.warehouse.create_main_item(self.get_current_username(), item_name, item_desc, item_model, item_brand,isActive=isActive,length=item_length,width=item_width,depth=item_depth,weight=item_weight)

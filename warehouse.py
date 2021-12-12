@@ -4,7 +4,7 @@ from bson.objectid import ObjectId
 import ssl # Used to specify certificate connection for MongoDB
 import json # Used for backups
 import os.path # Used for file writing path
-from Security import generate_salt
+import Security
 
 
 
@@ -51,19 +51,22 @@ class Warehouse():
     def get_users(self):
         users = []
 
-        for user in self.users_collection.find({}):
+        for user in self.users_collection.find({},{"Password":0}):
             users.append(user)
 
         return users
 
     def find_user(self, username):
-        return self.users_collection.find_one({'Username': username})
+        return self.users_collection.find_one({'Username': username},{"Password":0})
 
     def check_none_password(self, username) -> bool:
         if self.users_collection.find_one({"Username":username,"Password":None}):
             return True
         else:
             return False
+
+    def get_salt(self, username):
+        return self.users_collection.find_one({"Username":username},{"Salt":1})["Salt"]
 
     def increment_barcode_increment(self, Name):
         self.items_collection.update_one(
@@ -198,7 +201,7 @@ class Warehouse():
                 "isLocked": False,
                 "Date modified": self.get_time(),
                 "Last modified by": user,
-                "Salt": self.generate_salt(),
+                "Salt": Security.generate_salt(),
             }
         )
 
