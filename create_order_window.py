@@ -291,7 +291,7 @@ class CreateOrderWindow(QDialog):
             self.ui.info_label.setText(f"Please input client name.")
             return
 
-        if self.ui.order_items_tbl.item(0, 0).text() == '':
+        if self.ui.order_items_tbl.item(0, 0) is None:
             self.ui.info_label.setStyleSheet("color: red;")
             self.ui.info_label.setText(f"Cannot create an order with no order items.")
             return
