@@ -109,20 +109,9 @@ class Ui_Dialog(object):
         self.outgoing_lcd_count.setMode(QLCDNumber.Dec)
         self.outgoing_lcd_count.setSegmentStyle(QLCDNumber.Flat)
         self.stacked_widget.addWidget(self.page_2)
-        self.com_radio = QRadioButton(Dialog)
-        self.com_radio.setObjectName(u"com_radio")
-        self.com_radio.setEnabled(False)
-        self.com_radio.setGeometry(QRect(140, 50, 91, 20))
-        self.com_radio.setFont(font)
-        self.pend_radio = QRadioButton(Dialog)
-        self.pend_radio.setObjectName(u"pend_radio")
-        self.pend_radio.setEnabled(False)
-        self.pend_radio.setGeometry(QRect(60, 50, 91, 20))
-        self.pend_radio.setFont(font)
-        self.pend_radio.setChecked(True)
         self.error_lbl = QLabel(Dialog)
         self.error_lbl.setObjectName(u"error_lbl")
-        self.error_lbl.setGeometry(QRect(270, 540, 531, 31))
+        self.error_lbl.setGeometry(QRect(270, 530, 531, 61))
         font3 = QFont()
         font3.setPointSize(14)
         self.error_lbl.setFont(font3)
@@ -150,11 +139,8 @@ class Ui_Dialog(object):
         self.groupBox_3.setTitle(QCoreApplication.translate("Dialog", u"Barcodes", None))
         self.save_barcodes_btn.setText(QCoreApplication.translate("Dialog", u"Save Barcode Selections", None))
         self.groupBox_5.setTitle(QCoreApplication.translate("Dialog", u"Items Present", None))
-        self.com_radio.setText(QCoreApplication.translate("Dialog", u"Complete", None))
-        self.pend_radio.setText(QCoreApplication.translate("Dialog", u"Pending", None))
         self.error_lbl.setText("")
     # retranslateUi
-
 
 
 
@@ -173,6 +159,7 @@ class OrdersWindow(QDialog):
         self.init_tables()
         self.reset_to_start_state(set_radios = True, incoming = True)
         self.edited_orders = {}
+        self.order_warning_present = False
 
     def init_tables(self):
         self.init_table(self.ui.orders_tbl, ['Order', 'Client', 'Item Count'])
@@ -207,8 +194,6 @@ class OrdersWindow(QDialog):
         self.ui.return_btn.clicked.connect(self.return_clicked)
         self.ui.in_radio.toggled.connect(self.in_radio_toggled)
         self.ui.out_radio.toggled.connect(self.out_radio_toggled)
-        self.ui.pend_radio.toggled.connect(self.pend_radio_toggled)
-        self.ui.com_radio.toggled.connect(self.com_radio_toggled)
 
         self.ui.orders_tbl.clicked.connect(self.order_selected)
         self.ui.items_tbl.clicked.connect(self.item_selected)
@@ -222,18 +207,10 @@ class OrdersWindow(QDialog):
 
         self.ui.complete_btn.clicked.connect(self.complete_clicked)
 
-    def set_error(self, msg, is_good = False):
-        if is_good:
-            self.ui.error_lbl.setStyleSheet("color: green;")
-        else:
-            self.ui.error_lbl.setStyleSheet("color: red;")
+    def set_error(self, msg, color = 'red'):
+        self.ui.error_lbl.setStyleSheet("color: "+ color + ";")
         self.ui.error_lbl.setText(msg)
 
-    def pend_radio_toggled(self):
-        pass
-
-    def com_radio_toggled(self):
-        pass
 
     def all_items_done(self):
         done = True
@@ -241,9 +218,14 @@ class OrdersWindow(QDialog):
             done = done and (str(self.ui.items_tbl.item(i, 3).text()) == 'Yes')
         return done
 
+    def all_items_filled(self):
+        filled = True
+        for i in range(self.ui.items_tbl.rowCount()):
+            filled = filled and (str(self.ui.items_tbl.item(i, 1).text()) == str(self.ui.items_tbl.item(i, 2).text()))
+        return filled
 
-    def complete_clicked(self):
-        if self.all_items_done():
+    def complete_order(self):
+        try:
             order_row = self.ui.orders_tbl.currentRow()
             id = str(self.ui.orders_tbl.item(order_row, 0).text())
             order = self.warehouse_controller.get_order(id)
@@ -264,16 +246,32 @@ class OrdersWindow(QDialog):
                     for barcode in barcodes_to_add:
                         self.warehouse_controller.delete_sub_item(item_name, barcode)
 
-
             self.warehouse_controller.complete_order(id)
-            self.set_error('Order archived.', is_good = True)
+            self.set_error('Order completed', color='green')
             self.reset_to_start_state(set_radios = False, incoming = self.is_incoming_checked())
+        except:
+            self.set_error('Please select an order first', color='red')
+
+
+
+    def complete_clicked(self):
+        self.set_error('')
+        if self.all_items_done():
+            if self.all_items_filled():
+                self.complete_order()
+            else:
+                if self.order_warning_present:
+                    self.complete_order()
+                else:
+                    self.order_warning_present = True
+                    self.set_error('Warning - Not all items specified are accounted for.\nPress Complete again if this is intended.', color='yellow')
         else:
-            self.set_error('All items of order must be marked as done.')
+            self.set_error('All items of order must be marked as done.', color='red')
 
 
 
     def save_barcodes_clicked(self):
+        self.set_error('')
         order_row = self.ui.orders_tbl.currentRow()
         id = str(self.ui.orders_tbl.item(order_row, 0).text())
         if not id in self.edited_orders:
@@ -287,7 +285,6 @@ class OrdersWindow(QDialog):
         self.edited_orders[id][item_name] = (str(int(self.ui.incoming_lcd_count.value())), added_dict)
 
         #self.set_item(self.ui.items_tbl, 2, item_row, self.edited_orders[id][item_name][0])
-        self.set_item(self.ui.items_tbl, 2, item_row, str(int(self.ui.outgoing_lcd_count.value())))
         self.set_item(self.ui.items_tbl, 3, item_row, 'Yes')
 
 
@@ -315,6 +312,7 @@ class OrdersWindow(QDialog):
         self.reset_to_start_state(set_radios = False, incoming = False)
 
     def order_selected(self, item):
+        self.order_warning_present = False
         row = item.row()
         id = self.ui.orders_tbl.item(row, 0).text()
         order = self.warehouse_controller.get_order(id)
@@ -378,27 +376,31 @@ class OrdersWindow(QDialog):
 
 
         self.ui.incoming_lcd_count.display(self.ui.items_tbl.item(row, 1).text())
-        #self.ui.outgoing_lcd_count.display(self.ui.items_tbl.item(row, 1).text())
-        self.ui.outgoing_lcd_count.display(0)
+        self.ui.outgoing_lcd_count.display(self.ui.items_tbl.item(row, 2).text())
         self.lcds_empty = False
         self.ui.save_barcodes_btn.setEnabled(True)
         self.ui.save_count_btn.setEnabled(True)
 
     def barcode_selected(self, item):
+        self.set_error('', color='red')
         row = item.row()
         is_added = self.ui.barcodes_tbl.item(row, 1).text()
+        item_row = self.ui.items_tbl.currentRow()
+
+
         if is_added == 'No':
-            self.set_item(self.ui.barcodes_tbl, 1, row, 'Yes')
-            self.ui.outgoing_lcd_count.display(int(self.ui.outgoing_lcd_count.value() + 1))
+            if int(self.ui.items_tbl.item(item_row, 2).text()) < int(self.ui.items_tbl.item(item_row, 1).text()):
+                self.set_item(self.ui.barcodes_tbl, 1, row, 'Yes')
+                self.set_item(self.ui.items_tbl, 2, item_row, str(int(self.ui.items_tbl.item(item_row, 2).text()) + 1))
+            else:
+                self.set_error('Barcode limit reached', color='red')
         else:
             self.set_item(self.ui.barcodes_tbl, 1, row, 'No')
-            self.ui.outgoing_lcd_count.display(int(self.ui.outgoing_lcd_count.value() - 1))
+            self.set_item(self.ui.items_tbl, 2, item_row, str(int(self.ui.items_tbl.item(item_row, 2).text()) - 1))
+            #self.ui.items_tbl.item(item_row, 1).text()
 
-
-
-        item_row = self.ui.items_tbl.currentRow()
-        item_count = self.ui.items_tbl.item(item_row, 1).text()
-        #self.ui.outgoing_lcd_count.display(item_count)
+        current_item_count = self.ui.items_tbl.item(item_row, 2).text()
+        self.ui.outgoing_lcd_count.display(current_item_count)
 
 
     def minus_clicked(self):
