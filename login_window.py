@@ -1,3 +1,13 @@
+# -*- coding: utf-8 -*-
+
+################################################################################
+## Form generated from reading UI file 'login_windowXJqGTn.ui'
+##
+## Created by: Qt User Interface Compiler version 6.2.1
+##
+## WARNING! All changes made in this file will be lost when recompiling UI file!
+################################################################################
+
 from PySide6.QtCore import (QCoreApplication, QDate, QDateTime, QLocale,
     QMetaObject, QObject, QPoint, QRect,
     QSize, QTime, QUrl, Qt)
@@ -5,42 +15,64 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QDialog, QLabel, QLineEdit,
-    QPushButton, QSizePolicy, QSpacerItem, QVBoxLayout, QMainWindow,
-    QWidget)
-
-
-from time import sleep
-from PySide6.QtCore import QThreadPool
+from PySide6.QtWidgets import (QApplication, QDialog, QLabel, QLayout,
+    QLineEdit, QPushButton, QSizePolicy, QSpacerItem,
+    QVBoxLayout, QWidget)
 
 class Ui_LoginWindow(object):
     def setupUi(self, LoginWindow):
         if not LoginWindow.objectName():
             LoginWindow.setObjectName(u"LoginWindow")
         LoginWindow.resize(800, 600)
+        LoginWindow.setStyleSheet(u"background-color: #295B63;\n"
+"\n"
+"\n"
+"")
         self.verticalLayoutWidget = QWidget(LoginWindow)
         self.verticalLayoutWidget.setObjectName(u"verticalLayoutWidget")
-        self.verticalLayoutWidget.setGeometry(QRect(130, 150, 511, 221))
+        self.verticalLayoutWidget.setGeometry(QRect(110, 50, 591, 476))
         self.verticalLayout = QVBoxLayout(self.verticalLayoutWidget)
+        self.verticalLayout.setSpacing(15)
         self.verticalLayout.setObjectName(u"verticalLayout")
+        self.verticalLayout.setSizeConstraint(QLayout.SetDefaultConstraint)
         self.verticalLayout.setContentsMargins(0, 0, 0, 0)
         self.titleLbl = QLabel(self.verticalLayoutWidget)
         self.titleLbl.setObjectName(u"titleLbl")
+        font = QFont()
+        font.setFamilies([u"Serif"])
+        font.setPointSize(20)
+        self.titleLbl.setFont(font)
+        self.titleLbl.setStyleSheet(u"color: #B6E3F0;")
         self.titleLbl.setAlignment(Qt.AlignCenter)
 
         self.verticalLayout.addWidget(self.titleLbl)
 
-        self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
+        self.verticalSpacer = QSpacerItem(20, 10, QSizePolicy.Minimum, QSizePolicy.Preferred)
 
         self.verticalLayout.addItem(self.verticalSpacer)
 
         self.userName = QLineEdit(self.verticalLayoutWidget)
         self.userName.setObjectName(u"userName")
+        self.userName.setMinimumSize(QSize(0, 30))
+        self.userName.setBaseSize(QSize(0, 0))
+        font1 = QFont()
+        font1.setFamilies([u"Serif"])
+        self.userName.setFont(font1)
+        self.userName.setStyleSheet(u"background-color: #526c75;\n"
+"color: #B6E3F0;\n"
+"border-radius: 8px;\n"
+"font-size: 12px;")
 
         self.verticalLayout.addWidget(self.userName)
 
         self.passWord = QLineEdit(self.verticalLayoutWidget)
         self.passWord.setObjectName(u"passWord")
+        self.passWord.setMinimumSize(QSize(0, 30))
+        self.passWord.setFont(font1)
+        self.passWord.setStyleSheet(u"background-color: #526c75;\n"
+"color: #B6E3F0;\n"
+"border-radius: 8px;\n"
+"font-size: 12px;")
         self.passWord.setEchoMode(QLineEdit.Password)
         self.passWord.setReadOnly(False)
 
@@ -48,20 +80,29 @@ class Ui_LoginWindow(object):
 
         self.loginBtn = QPushButton(self.verticalLayoutWidget)
         self.loginBtn.setObjectName(u"loginBtn")
+        self.loginBtn.setMinimumSize(QSize(0, 80))
+        font2 = QFont()
+        font2.setFamilies([u"Serif"])
+        font2.setPointSize(26)
+        font2.setItalic(False)
+        self.loginBtn.setFont(font2)
+        self.loginBtn.setStyleSheet(u"color: #B6E3F0;\n"
+"")
 
         self.verticalLayout.addWidget(self.loginBtn)
 
         self.errorLbl = QLabel(self.verticalLayoutWidget)
         self.errorLbl.setObjectName(u"errorLbl")
+        self.errorLbl.setMaximumSize(QSize(16777215, 50))
+        font3 = QFont()
+        font3.setPointSize(14)
+        self.errorLbl.setFont(font3)
         self.errorLbl.setAlignment(Qt.AlignCenter)
 
         self.verticalLayout.addWidget(self.errorLbl)
 
 
         self.retranslateUi(LoginWindow)
-
-        self.loginBtn.setDefault(True)
-
 
         QMetaObject.connectSlotsByName(LoginWindow)
     # setupUi
@@ -76,8 +117,15 @@ class Ui_LoginWindow(object):
     # retranslateUi
 
 
+
+
+
+from PySide6.QtCore import QThreadPool
+from PySide6.QtWidgets import QDialog
+
+
 #Login gui
-class LoginWindow(QMainWindow):
+class LoginWindow(QDialog):
     def __init__(self, warehouse_controller):
         super(LoginWindow, self).__init__()
         self.ui = Ui_LoginWindow()
@@ -93,21 +141,21 @@ class LoginWindow(QMainWindow):
         self.one_pw_entered = False
         self.temp_pw = ""
         self.reset_fail_count = 0
-        
+
     def init_buttons(self):
         self.ui.loginBtn.clicked.connect(self.try_to_login)
 
     # def init_window_props(self):
     #     self.setWindowTitle('Warehouse System Login')
-        
+
 
     #     #Set window width and heights as percentages of screen resolution
-        
+
     #     self.setStyleSheet("background-color:#808000")
 
     #     #Center window on screen
-        
-       
+
+
 
     # def init_widgets(self):
     #     #Create and configure vertical layout
@@ -125,7 +173,7 @@ class LoginWindow(QMainWindow):
     #     self.passWord.setEchoMode(QLineEdit.Password)
 
     #     #Login button
-        
+
     #     loginBtn = QPushButton("Login")
     #     loginBtn.setStyleSheet("background-color: #000000;color:#cbd3d7;border:2px solid #cbd3d7")
     #     loginBtn.clicked.connect(self.try_to_login)
@@ -180,7 +228,7 @@ class LoginWindow(QMainWindow):
 
     def try_to_login(self):
         valid = not (len(self.ui.userName.text()) == 0 or len(self.ui.passWord.text()) == 0)
-        
+
         if valid:  #If username and password fields aren't empty
             try:
                 if self.warehouse_controller.check_none_password(self.ui.userName.text()): #password reset mode
@@ -229,7 +277,7 @@ class LoginWindow(QMainWindow):
                             self.ui.passWord.setText("")
                             self.ui.passWord.setFocus()
 
-                
+
                 else:
                     user = self.warehouse_controller.connect_user(self.ui.userName.text(), self.ui.passWord.text())  #Will cause exception if server is not connected -- will return None if no user with those credentials
 
@@ -237,8 +285,11 @@ class LoginWindow(QMainWindow):
                         self.warehouse_controller.increment_user_lock(self.ui.userName.text())
                         self.ui.errorLbl.setStyleSheet("color: red;")
                         self.ui.errorLbl.setText(f"Invalid login credentials.\nPlease try again.")
+
+
                         self.ui.userName.setFocus()
                         
+
                     else:
                         if self.warehouse_controller.get_user_lock(self.ui.userName.text()) >= 3:
                             self.ui.errorLbl.setStyleSheet("color: red;")
