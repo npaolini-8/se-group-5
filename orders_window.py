@@ -245,7 +245,10 @@ class OrdersWindow(QDialog):
                             barcodes_to_add.append(barcode)
                     for barcode in barcodes_to_add:
                         self.warehouse_controller.delete_sub_item(item_name, barcode)
-
+                    for item in order["Order Items"]:
+                        if item['Item Name'] == item_name:
+                            self.warehouse_controller.add_to_item_pending(item_name, -int(item['Count']))
+                            break
             self.warehouse_controller.complete_order(id)
             self.set_error('Order completed', color='green')
             self.reset_to_start_state(set_radios = False, incoming = self.is_incoming_checked())

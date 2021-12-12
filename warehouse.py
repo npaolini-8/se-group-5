@@ -120,6 +120,14 @@ class Warehouse():
         self.increment_barcode_increment(Name)
         return barcode
 
+    def edit_item_pending(self, item_name, pending):
+        self.items_collection.update_one(
+            {"Name" : item_name},
+            {"$set":
+                {"Pending Shipment":pending}
+            }
+        )
+
     def edit_main_item(self, user, Name, description=None, modelNumber=None, brand=None, isActive=None,length=None,width=None,depth=None,weight=None,newName=None,pending=None):
         edit_dict = {}
         if description is not None:
@@ -231,6 +239,7 @@ class Warehouse():
         order['Status'] = 'Complete'
         order['Date modified'] = self.get_time()
         self.orders_history_collection.insert_one(order)
+
 
     def create_order(self, order_type, client, status, user):
         inserted_result = self.orders_collection.insert_one(
@@ -431,5 +440,5 @@ class Warehouse():
             {"Username": username},
             {"$set": {"Lock Counter": 0}}
         )
-        
+
 #warehouse = Warehouse()

@@ -46,8 +46,17 @@ class WarehouseController():
         order = self.warehouse.find_order(id)
         self.warehouse.archive_order(order)
         #if order['Order Type'] == "Incoming":
-
         self.warehouse.delete_order(id)
+
+    def add_to_item_pending(self, item_name, num_to_add):
+        print('beign')
+        item = self.get_item(item_name)
+        print('mid')
+        self.warehouse.edit_item_pending(item_name, item['Pending Shipment'] + num_to_add)
+        print('end')
+
+
+
 
 
     def get_current_username(self):
