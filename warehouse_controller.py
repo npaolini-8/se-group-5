@@ -27,6 +27,7 @@ class WarehouseController():
             self.app.create_order_window.refresh_table()
             self.app.create_order_window.show()
         elif win_name == 'process_order':
+            self.app.order_processing_window.reset_to_start_state(set_radios = True, incoming = True)
             self.app.order_processing_window.show()
         elif win_name == 'backup':
             current.show()
@@ -210,7 +211,7 @@ class WarehouseController():
 
     def clear_user_lock(self, username):
         self.warehouse.clear_user_lock(username)
-        
+
     def set_none_password(self, username, user):
         self.warehouse.edit_user(username, user, password=None)
 

@@ -285,6 +285,7 @@ class OrdersWindow(QDialog):
         self.edited_orders[id][item_name] = (str(int(self.ui.incoming_lcd_count.value())), added_dict)
 
         #self.set_item(self.ui.items_tbl, 2, item_row, self.edited_orders[id][item_name][0])
+        self.set_item(self.ui.items_tbl, 2, item_row, str(int(self.ui.outgoing_lcd_count.value())))
         self.set_item(self.ui.items_tbl, 3, item_row, 'Yes')
 
 
@@ -354,6 +355,8 @@ class OrdersWindow(QDialog):
 
 
     def item_selected(self, item):
+        self.order_warning_present = False
+        self.set_error('', color='red')
         row = item.row()
         name = self.ui.items_tbl.item(row, 0).text()
         order_row = self.ui.orders_tbl.currentRow()
@@ -382,25 +385,28 @@ class OrdersWindow(QDialog):
         self.ui.save_count_btn.setEnabled(True)
 
     def barcode_selected(self, item):
+        self.order_warning_present = False
         self.set_error('', color='red')
         row = item.row()
         is_added = self.ui.barcodes_tbl.item(row, 1).text()
         item_row = self.ui.items_tbl.currentRow()
 
-
         if is_added == 'No':
-            if int(self.ui.items_tbl.item(item_row, 2).text()) < int(self.ui.items_tbl.item(item_row, 1).text()):
+            if int(self.ui.outgoing_lcd_count.value()) < int(self.ui.items_tbl.item(item_row, 1).text()):
                 self.set_item(self.ui.barcodes_tbl, 1, row, 'Yes')
-                self.set_item(self.ui.items_tbl, 2, item_row, str(int(self.ui.items_tbl.item(item_row, 2).text()) + 1))
+                self.ui.outgoing_lcd_count.display(int(self.ui.outgoing_lcd_count.value()) + 1)
+                #self.set_item(self.ui.items_tbl, 2, item_row, str(int(self.ui.items_tbl.item(item_row, 2).text()) + 1))
             else:
                 self.set_error('Barcode limit reached', color='red')
         else:
             self.set_item(self.ui.barcodes_tbl, 1, row, 'No')
-            self.set_item(self.ui.items_tbl, 2, item_row, str(int(self.ui.items_tbl.item(item_row, 2).text()) - 1))
+            self.ui.outgoing_lcd_count.display(int(self.ui.outgoing_lcd_count.value()) - 1)
+            #self.set_item(self.ui.items_tbl, 2, item_row, str(int(self.ui.items_tbl.item(item_row, 2).text()) - 1))
             #self.ui.items_tbl.item(item_row, 1).text()
 
-        current_item_count = self.ui.items_tbl.item(item_row, 2).text()
-        self.ui.outgoing_lcd_count.display(current_item_count)
+        #current_item_count = self.ui.items_tbl.item(item_row, 2).text()
+        #self.ui.outgoing_lcd_count.display(current_item_count)
+
 
 
     def minus_clicked(self):
