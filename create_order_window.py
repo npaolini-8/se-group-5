@@ -291,16 +291,16 @@ class CreateOrderWindow(QDialog):
             self.ui.info_label.setText(f"Please input client name.")
             return
 
-        try:
+        if self.ui.order_items_tbl.item(0, 0).text() == '':
+            self.ui.info_label.setStyleSheet("color: red;")
+            self.ui.info_label.setText(f"Cannot create an order with no order items.")
+            return
+        else:
             order_id = self.warehouse_controller.create_order(order_type, client, 'Pending')
             for row in range(self.ui.order_items_tbl.rowCount()):
                 item_name = self.ui.order_items_tbl.item(row, 0).text()
                 item_count = int(self.ui.order_items_tbl.item(row,  1).text())
                 self.warehouse_controller.warehouse.add_to_order(order_id, item_name, item_count, order_type)
-        except AttributeError:
-            self.ui.info_label.setStyleSheet("color: red;")
-            self.ui.info_label.setText(f"Cannot create an order with no order items.")
-            return
 
         self.ui.order_items_tbl.setRowCount(0)
         self.ui.order_items_tbl.insertRow(self.ui.order_items_tbl.rowCount())
