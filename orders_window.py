@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'order_processing_windowKfhlWW.ui'
+## Form generated from reading UI file 'order_processing_windowSDuUAl.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.2.1
 ##
@@ -111,9 +111,9 @@ class Ui_Dialog(object):
         self.stacked_widget.addWidget(self.page_2)
         self.error_lbl = QLabel(Dialog)
         self.error_lbl.setObjectName(u"error_lbl")
-        self.error_lbl.setGeometry(QRect(270, 540, 531, 31))
+        self.error_lbl.setGeometry(QRect(270, 530, 531, 61))
         font3 = QFont()
-        font3.setPointSize(22)
+        font3.setPointSize(14)
         self.error_lbl.setFont(font3)
 
         self.retranslateUi(Dialog)
@@ -141,7 +141,6 @@ class Ui_Dialog(object):
         self.groupBox_5.setTitle(QCoreApplication.translate("Dialog", u"Items Present", None))
         self.error_lbl.setText("")
     # retranslateUi
-
 
 
 
@@ -256,6 +255,7 @@ class OrdersWindow(QDialog):
 
 
     def complete_clicked(self):
+        self.set_error('')
         if self.all_items_done():
             if self.all_items_filled():
                 self.complete_order()
@@ -264,13 +264,14 @@ class OrdersWindow(QDialog):
                     self.complete_order()
                 else:
                     self.order_warning_present = True
-                    self.set_error('Warning - Not all items specified are accounted for. Press Complete again if this is intended.', color='yellow')
+                    self.set_error('Warning - Not all items specified are accounted for.\nPress Complete again if this is intended.', color='yellow')
         else:
             self.set_error('All items of order must be marked as done.', color='red')
 
 
 
     def save_barcodes_clicked(self):
+        self.set_error('')
         order_row = self.ui.orders_tbl.currentRow()
         id = str(self.ui.orders_tbl.item(order_row, 0).text())
         if not id in self.edited_orders:
@@ -381,14 +382,18 @@ class OrdersWindow(QDialog):
         self.ui.save_count_btn.setEnabled(True)
 
     def barcode_selected(self, item):
+        self.set_error('', color='red')
         row = item.row()
         is_added = self.ui.barcodes_tbl.item(row, 1).text()
         item_row = self.ui.items_tbl.currentRow()
 
 
         if is_added == 'No':
-            self.set_item(self.ui.barcodes_tbl, 1, row, 'Yes')
-            self.set_item(self.ui.items_tbl, 2, item_row, str(int(self.ui.items_tbl.item(item_row, 2).text()) + 1))
+            if int(self.ui.items_tbl.item(item_row, 2).text()) < int(self.ui.items_tbl.item(item_row, 1).text()):
+                self.set_item(self.ui.barcodes_tbl, 1, row, 'Yes')
+                self.set_item(self.ui.items_tbl, 2, item_row, str(int(self.ui.items_tbl.item(item_row, 2).text()) + 1))
+            else:
+                self.set_error('Barcode limit reached', color='red')
         else:
             self.set_item(self.ui.barcodes_tbl, 1, row, 'No')
             self.set_item(self.ui.items_tbl, 2, item_row, str(int(self.ui.items_tbl.item(item_row, 2).text()) - 1))
