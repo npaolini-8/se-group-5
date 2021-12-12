@@ -4,6 +4,8 @@ from bson.objectid import ObjectId
 import ssl # Used to specify certificate connection for MongoDB
 import json # Used for backups
 import os.path # Used for file writing path
+from Security import generate_salt
+
 
 
 class Warehouse():
@@ -182,7 +184,7 @@ class Warehouse():
                 '$pull': {"Items": {"Barcode":barcode}}
             }
         )
-    #TODO: bret - generate salt field, add it here - generate salt
+    
     def create_user(self, username, password, role, user):
         self.users_collection.insert_one(
             {
@@ -194,6 +196,7 @@ class Warehouse():
                 "isLocked": False,
                 "Date modified": self.get_time(),
                 "Last modified by": user,
+                "Salt": self.generate_salt(),
             }
         )
 
