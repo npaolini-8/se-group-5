@@ -255,6 +255,7 @@ class AdminWindow(QDialog):
         self.ui.user_search_bar.textChanged.connect(self.filter_users)
         self.ui.users_table.clicked.connect(self.select_user)
         self.ui.active_check.setChecked(True)
+        self.set_req_fields(True)
 
     #loads table with user info, fetched by refresh_users
     def init_table(self):
@@ -425,9 +426,9 @@ class AdminWindow(QDialog):
     def set_error(self,error, good):
         self.ui.err_label.setText(error)
         if good:
-            self.ui.err_label.setStyleSheet("color: green;")
+            self.ui.err_label.setStyleSheet("color: white;")
         else:
-            self.ui.err_label.setStyleSheet("color: red;")
+            self.ui.err_label.setStyleSheet("color: orange;")
 
     def save_user(self):
 

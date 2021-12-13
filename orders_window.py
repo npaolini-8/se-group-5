@@ -223,7 +223,7 @@ class OrdersWindow(QDialog):
 
         self.ui.complete_btn.clicked.connect(self.complete_clicked)
 
-    def set_error(self, msg, color = 'red'):
+    def set_error(self, msg, color = 'orange'):
         self.ui.error_lbl.setStyleSheet("color: "+ color + ";")
         self.ui.error_lbl.setText(msg)
 
@@ -266,10 +266,10 @@ class OrdersWindow(QDialog):
                             self.warehouse_controller.add_to_item_pending(item_name, -int(item['Count']))
                             break
             self.warehouse_controller.complete_order(id)
-            self.set_error('Order completed', color='green')
+            self.set_error('Order completed', color='white')
             self.reset_to_start_state(set_radios = False, incoming = self.is_incoming_checked())
         except:
-            self.set_error('Please select an order first', color='red')
+            self.set_error('Please select an order first', color='orange')
 
 
 
@@ -285,7 +285,7 @@ class OrdersWindow(QDialog):
                     self.order_warning_present = True
                     self.set_error('Warning - Not all items specified are accounted for.\nPress Complete again if this is intended.', color='yellow')
         else:
-            self.set_error('All items of order must be marked as done.', color='red')
+            self.set_error('All items of order must be marked as done.', color='orange')
 
 
 
@@ -375,7 +375,7 @@ class OrdersWindow(QDialog):
 
     def item_selected(self, item):
         self.order_warning_present = False
-        self.set_error('', color='red')
+        self.set_error('', color='orange')
         row = item.row()
         name = self.ui.items_tbl.item(row, 0).text()
         order_row = self.ui.orders_tbl.currentRow()
@@ -405,7 +405,7 @@ class OrdersWindow(QDialog):
 
     def barcode_selected(self, item):
         self.order_warning_present = False
-        self.set_error('', color='red')
+        self.set_error('', color='orange')
         row = item.row()
         is_added = self.ui.barcodes_tbl.item(row, 1).text()
         item_row = self.ui.items_tbl.currentRow()
@@ -416,7 +416,7 @@ class OrdersWindow(QDialog):
                 self.ui.outgoing_lcd_count.display(int(self.ui.outgoing_lcd_count.value()) + 1)
                 #self.set_item(self.ui.items_tbl, 2, item_row, str(int(self.ui.items_tbl.item(item_row, 2).text()) + 1))
             else:
-                self.set_error('Barcode limit reached', color='red')
+                self.set_error('Barcode limit reached', color='orange')
         else:
             self.set_item(self.ui.barcodes_tbl, 1, row, 'No')
             self.ui.outgoing_lcd_count.display(int(self.ui.outgoing_lcd_count.value()) - 1)

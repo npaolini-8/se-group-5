@@ -176,8 +176,8 @@ class MainWindow(QMainWindow):
         self.center_on_screen()
         self.ui.incoming_orders_tbl.setSelectionBehavior(QAbstractItemView.SelectionBehavior.SelectRows)
         self.ui.outgoing_orders_tbl.setSelectionBehavior(QAbstractItemView.SelectionBehavior.SelectRows)
-        self.ui.user_lbl.setStyleSheet("color: green;")
-        self.ui.error_lbl.setStyleSheet("color: red;")
+        self.ui.user_lbl.setStyleSheet("color: yellow;")
+        self.ui.error_lbl.setStyleSheet("color: orange;")
 
     def set_error(self, msg):
         self.ui.error_lbl.setText(msg)

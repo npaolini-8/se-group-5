@@ -267,11 +267,11 @@ class CreateOrderWindow(QDialog):
                             self.ui.search_tbl.setItem(row, 1, newStockItem)
             else:
                 if item_col0.text() != '':
-                    self.ui.info_label.setStyleSheet("color: red;")
+                    self.ui.info_label.setStyleSheet("color: orange;")
                     self.ui.info_label.setText(f"Please input amount other than 0 for {item_col0.text()}.")
                     return
                 else:
-                    self.ui.info_label.setStyleSheet("color: red;")
+                    self.ui.info_label.setStyleSheet("color: orange;")
                     self.ui.info_label.setText(f"Please select an item.")
                     return
         elif self.ui.incoming_radio.isChecked():
@@ -290,19 +290,19 @@ class CreateOrderWindow(QDialog):
                     self.ui.order_items_tbl.setItem(self.ui.order_items_tbl.rowCount()-1, 1, amountItem)
             else:
                 if item_col0.text() != '':
-                    self.ui.info_label.setStyleSheet("color: red;")
+                    self.ui.info_label.setStyleSheet("color: orange;")
                     self.ui.info_label.setText(f"Please input amount other than 0 for {item_col0.text()}.")
                     return
                 else:
-                    self.ui.info_label.setStyleSheet("color: red;")
+                    self.ui.info_label.setStyleSheet("color: orange;")
                     self.ui.info_label.setText(f"Please select an item.")
                     return
         else:
-            self.ui.info_label.setStyleSheet("color: red;")
+            self.ui.info_label.setStyleSheet("color: orange;")
             self.ui.info_label.setText(f"Please selecting incoming or outgoing.")
             return
 
-        self.ui.info_label.setStyleSheet("color: green;")
+        self.ui.info_label.setStyleSheet("color: white;")
         self.ui.info_label.setText(f"Added {amountItem.text()} {item_col0.text()} to order.")
 
     def remove_from_order(self):
@@ -355,18 +355,18 @@ class CreateOrderWindow(QDialog):
         elif self.ui.outgoing_radio.isChecked():
             order_type = 'Outgoing'
         else:
-            self.ui.info_label.setStyleSheet("color: red;")
+            self.ui.info_label.setStyleSheet("color: orange;")
             self.ui.info_label.setText(f"Please select incoming or outgoing.")
             return
 
         client = self.ui.client_line.text()
         if client == '':
-            self.ui.info_label.setStyleSheet("color: red;")
+            self.ui.info_label.setStyleSheet("color: orange;")
             self.ui.info_label.setText(f"Please input client name.")
             return
 
         if self.ui.order_items_tbl.item(0, 0) is None:
-            self.ui.info_label.setStyleSheet("color: red;")
+            self.ui.info_label.setStyleSheet("color: orange;")
             self.ui.info_label.setText(f"Cannot create an order with no order items.")
             return
         else:
@@ -381,7 +381,7 @@ class CreateOrderWindow(QDialog):
         self.ui.client_line.setText('')
         self.ui.incoming_radio.setChecked(False)
         self.ui.outgoing_radio.setChecked(False)
-        self.ui.info_label.setStyleSheet("color: green;")
+        self.ui.info_label.setStyleSheet("color: white;")
         self.ui.info_label.setText(f"Submitted Order ID: {order_id}")
 
     def init_table(self, table, list):

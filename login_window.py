@@ -216,9 +216,9 @@ class LoginWindow(QDialog):
     def set_error(self, error, is_good):
         self.ui.errorLbl.setText(error)
         if is_good:
-            self.ui.errorLbl.setStyleSheet("color: green;")
+            self.ui.errorLbl.setStyleSheet("color: white;")
         else:
-            self.ui.errorLbl.setStyleSheet("color: red;")
+            self.ui.errorLbl.setStyleSheet("color: orange;")
 
     def valid_pw( self,password ):
         if len(password) >= 8 and len(password) <= 30:
@@ -283,7 +283,7 @@ class LoginWindow(QDialog):
 
                     if user == None:  #If user + password doesn't exist
                         self.warehouse_controller.increment_user_lock(self.ui.userName.text())
-                        self.ui.errorLbl.setStyleSheet("color: red;")
+                        self.ui.errorLbl.setStyleSheet("color: orange;")
                         self.ui.errorLbl.setText(f"Invalid login credentials.\nPlease try again.")
 
 
@@ -292,7 +292,7 @@ class LoginWindow(QDialog):
 
                     else:
                         if self.warehouse_controller.get_user_lock(self.ui.userName.text()) >= 3:
-                            self.ui.errorLbl.setStyleSheet("color: red;")
+                            self.ui.errorLbl.setStyleSheet("color: orange;")
                             self.ui.errorLbl.setText(f"Account is currently locked.\nPlease contact an administrator.")
                             self.ui.userName.setFocus()
                         else:
@@ -308,7 +308,7 @@ class LoginWindow(QDialog):
                             self.main_startup()
             except Exception as e:
                 #print(e)
-                self.ui.errorLbl.setStyleSheet("color: red;")
+                self.ui.errorLbl.setStyleSheet("color: orange;")
                 self.ui.errorLbl.setText("Server error - Server may be down.")
                 self.ui.userName.setFocus()
         else:
@@ -316,7 +316,7 @@ class LoginWindow(QDialog):
                 self.set_error("Please enter a new password", False)
                 self.ui.passWord.setFocus()
             else:
-                self.ui.errorLbl.setStyleSheet("color: red;")
+                self.ui.errorLbl.setStyleSheet("color: orange;")
                 self.ui.errorLbl.setText("One or more fields are blank.")
                 self.ui.userName.setFocus()
 

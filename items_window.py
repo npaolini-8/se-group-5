@@ -364,6 +364,7 @@ class ItemsWindow(QDialog):
         self.ui.edit_label.setText(self.new_item_string)
         self.ui.active_check.setChecked(True)
         self.ui.item_desc.setPlaceholderText("Item Description") #not a QtDesigner option for some reason
+        self.set_req_fields(True)
 
     def init_buttons(self):
         self.ui.return_btn.clicked.connect(self.return_clicked)
@@ -551,9 +552,9 @@ class ItemsWindow(QDialog):
     def set_error(self,error, good):
         self.ui.error_label.setText(error)
         if good:
-            self.ui.error_label.setStyleSheet("color: green;")
+            self.ui.error_label.setStyleSheet("color: white;")
         else:
-            self.ui.error_label.setStyleSheet("color: red;")
+            self.ui.error_label.setStyleSheet("color: orange;")
 
     def set_req_fields(self, on):
         if on:
