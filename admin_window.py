@@ -166,7 +166,6 @@ class Ui_AdminWindow(object):
         self.db_fxn_lbl = QLabel(self.verticalLayoutWidget_3)
         self.db_fxn_lbl.setObjectName(u"db_fxn_lbl")
         font = QFont()
-        font.setFamilies([u"Sans Serif"])
         font.setPointSize(12)
         font.setBold(False)
         font.setItalic(False)
@@ -210,6 +209,9 @@ class Ui_AdminWindow(object):
 
         self.verticalLayout_3.addLayout(self.db_bu_buttons)
 
+        self.backup_label = QLabel(AdminWindow)
+        self.backup_label.setObjectName(u"backup_label")
+        self.backup_label.setGeometry(QRect(65, 545, 1000, 30))
 
         self.retranslateUi(AdminWindow)
 
@@ -237,10 +239,8 @@ class Ui_AdminWindow(object):
         self.restore_users_btn.setText(QCoreApplication.translate("AdminWindow", u"Restore Users", None))
         self.restore_orders_btn.setText(QCoreApplication.translate("AdminWindow", u"Restore Orders", None))
         self.restore_orders_history_btn.setText(QCoreApplication.translate("AdminWindow", u"Restore Orders History", None))
+        self.backup_label.setText("")
     # retranslateUi
-
-
-
 
 class AdminWindow(QDialog):
     def __init__(self, warehouse_controller):
@@ -316,10 +316,30 @@ class AdminWindow(QDialog):
         self.ui.new_user_button.clicked.connect(self.create_new_clicked)
         self.ui.save_user_button.clicked.connect(self.save_user)
         self.ui.bu_create_btn.clicked.connect(self.create_backups)
-        self.ui.restore_items_btn.clicked.connect(self.warehouse_controller.restore_items)
-        self.ui.restore_users_btn.clicked.connect(self.warehouse_controller.restore_users)
-        self.ui.restore_orders_btn.clicked.connect(self.warehouse_controller.restore_orders)
-        self.ui.restore_orders_history_btn.clicked.connect(self.warehouse_controller.restore_orders_history)
+        self.ui.restore_items_btn.clicked.connect(self.restore_items)
+        self.ui.restore_users_btn.clicked.connect(self.restore_users)
+        self.ui.restore_orders_btn.clicked.connect(self.restore_orders)
+        self.ui.restore_orders_history_btn.clicked.connect(self.restore_orders_history)
+
+    def restore_items(self):
+        self.warehouse_controller.restore_items()
+        self.ui.backup_label.setStyleSheet("color: white;")
+        self.ui.backup_label.setText(f"Items have been restored.")
+
+    def restore_users(self):
+        self.warehouse_controller.restore_users()
+        self.ui.backup_label.setStyleSheet("color: white;")
+        self.ui.backup_label.setText(f"Users have been restored.")
+
+    def restore_orders(self):
+        self.warehouse_controller.restore_orders()
+        self.ui.backup_label.setStyleSheet("color: white;")
+        self.ui.backup_label.setText(f"Orders has been restored.")
+
+    def restore_orders_history(self):
+        self.warehouse_controller.restore_orders_history()
+        self.ui.backup_label.setStyleSheet("color: white;")
+        self.ui.backup_label.setText(f"Order History has been restored.")
 
     def return_clicked(self):
         self.warehouse_controller.switch_to(self, 'main')
@@ -470,3 +490,5 @@ class AdminWindow(QDialog):
 
     def create_backups(self):
         self.warehouse_controller.create_backup()
+        self.ui.backup_label.setStyleSheet("color: white;")
+        self.ui.backup_label.setText(f"Backups have been created.")

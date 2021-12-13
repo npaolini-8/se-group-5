@@ -241,7 +241,6 @@ font-size: 12px;</string>
      <widget class="QLabel" name="db_fxn_lbl">
       <property name="font">
        <font>
-        <family>Sans Serif</family>
         <pointsize>12</pointsize>
         <italic>false</italic>
         <bold>false</bold>
@@ -310,6 +309,19 @@ font-size: 12px;</string>
      </layout>
     </item>
    </layout>
+  </widget>
+  <widget class="QLabel" name="backup_label">
+   <property name="geometry">
+    <rect>
+     <x>65</x>
+     <y>545</y>
+     <width>1000</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
   </widget>
  </widget>
  <resources/>
