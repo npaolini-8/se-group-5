@@ -291,7 +291,12 @@ class LoginWindow(QDialog):
 
 
                     else:
-                        if self.warehouse_controller.get_user_lock(self.ui.userName.text()) >= 3:
+                        if not user['isActive']:
+                            self.ui.errorLbl.setStyleSheet("color: orange;")
+                            self.ui.errorLbl.setText(f"User is disabled.\nPlease contact an administrator.")
+                            self.ui.userName.setFocus()
+
+                        elif self.warehouse_controller.get_user_lock(self.ui.userName.text()) >= 3:
                             self.ui.errorLbl.setStyleSheet("color: orange;")
                             self.ui.errorLbl.setText(f"Account is currently locked.\nPlease contact an administrator.")
                             self.ui.userName.setFocus()
