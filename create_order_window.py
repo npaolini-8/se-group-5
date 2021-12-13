@@ -4,7 +4,7 @@ from PySide6.QtWidgets import *
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'create_orderZiZqXf.ui'
+## Form generated from reading UI file 'create_orderptGPAP.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.2.1
 ##
@@ -115,7 +115,7 @@ class Ui_Dialog(object):
 "color: #B6E3F0;\n"
 "border-radius: 10px;\n"
 "font-size: 12px;\n"
-"border: 2px solid #b73705")
+"")
         self.label_2 = QLabel(Dialog)
         self.label_2.setObjectName(u"label_2")
         self.label_2.setGeometry(QRect(330, 30, 49, 16))
@@ -195,7 +195,6 @@ class Ui_Dialog(object):
         self.remove_from_order_btn.setText(QCoreApplication.translate("Dialog", u"Remove from Order", None))
         self.info_label.setText("")
     # retranslateUi
-
 
 
 
@@ -438,6 +437,6 @@ class CreateOrderWindow(QDialog):
 
     def set_req_fields(self,on):
         if on:
-            self.ui.client_line.setStyleSheet(u"background-color: #526c75;color: #B6E3F0;border-radius: 20px;font-size: 12px;border: 2px solid #85069c")
+            self.ui.client_line.setStyleSheet(u"background-color: #526c75;color: #B6E3F0;border-radius: 20px;font-size: 12px;border: 2px solid #b73705")
         else:
             self.ui.client_line.setStyleSheet(u"background-color: #526c75;color: #B6E3F0;border-radius: 20px;font-size: 12px;")

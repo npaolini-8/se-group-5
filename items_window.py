@@ -13,7 +13,7 @@ from PySide6.QtWidgets import (QApplication, QCheckBox, QDialog, QHBoxLayout,
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'items_windowhhGPCn.ui'
+## Form generated from reading UI file 'items_windowfilJko.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.2.1
 ##
@@ -100,7 +100,7 @@ class Ui_ItemWindow(object):
 "color: #B6E3F0;\n"
 "\n"
 "font-size: 12px;\n"
-"border: 2px solid #b73705")
+"")
 
         self.item_info_vlayout.addWidget(self.item_name_line)
 
@@ -110,7 +110,7 @@ class Ui_ItemWindow(object):
 "color: #B6E3F0;\n"
 "border-radius: 15px;\n"
 "font-size: 12px;\n"
-"border: 2px solid #b73705")
+"")
         self.item_desc.setCursorWidth(0)
         self.item_desc.setPlaceholderText(u"0")
 
@@ -122,7 +122,7 @@ class Ui_ItemWindow(object):
 "color: #B6E3F0;\n"
 "\n"
 "font-size: 12px;\n"
-"border: 2px solid #b73705")
+"")
 
         self.item_info_vlayout.addWidget(self.item_model)
 
@@ -132,7 +132,7 @@ class Ui_ItemWindow(object):
 "color: #B6E3F0;\n"
 "\n"
 "font-size: 12px;\n"
-"border: 2px solid #b73705")
+"")
 
         self.item_info_vlayout.addWidget(self.item_brand)
 
@@ -557,10 +557,10 @@ class ItemsWindow(QDialog):
 
     def set_req_fields(self, on):
         if on:
-            self.ui.item_name_line.setStyleSheet("background-color: #526c75;color: #B6E3F0;font-size: 12px;border: 2px solid #85069c")
-            self.ui.item_desc.setStyleSheet("background-color: #526c75;color: #B6E3F0;border-radius: 10px;font-size: 12px;border: 2px solid #85069c")
-            self.ui.item_model.setStyleSheet(u"background-color: #526c75;color: #B6E3F0;font-size: 12px;border: 2px solid #85069c")
-            self.ui.item_brand.setStyleSheet(u"background-color: #526c75;color: #B6E3F0;font-size: 12px;border: 2px solid #85069c")
+            self.ui.item_name_line.setStyleSheet("background-color: #526c75;color: #B6E3F0;font-size: 12px;border: 2px solid #b73705")
+            self.ui.item_desc.setStyleSheet("background-color: #526c75;color: #B6E3F0;border-radius: 10px;font-size: 12px;border: 2px solid #b73705")
+            self.ui.item_model.setStyleSheet(u"background-color: #526c75;color: #B6E3F0;font-size: 12px;border: 2px solid #b73705")
+            self.ui.item_brand.setStyleSheet(u"background-color: #526c75;color: #B6E3F0;font-size: 12px;border: 2px solid #b73705")
         else:
             self.ui.item_name_line.setStyleSheet("background-color: #526c75;color: #B6E3F0;font-size: 12px;")
             self.ui.item_desc.setStyleSheet("background-color: #526c75;color: #B6E3F0;border-radius: 10px;font-size: 12px;")

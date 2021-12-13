@@ -65,7 +65,7 @@
 color: #B6E3F0;
 border-radius: 4px;
 font-size: 12px;
-border: 2px solid #b73705</string>
+</string>
       </property>
       <property name="placeholderText">
        <string>Username</string>
@@ -79,7 +79,7 @@ border: 2px solid #b73705</string>
 color: #B6E3F0;
 border-radius: 4px;
 font-size: 12px;
-border: 2px solid #b73705</string>
+</string>
       </property>
       <property name="placeholderText">
        <string>Password</string>

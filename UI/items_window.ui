@@ -120,7 +120,7 @@ font-size: 12px;</string>
 color: #B6E3F0;
 
 font-size: 12px;
-border: 2px solid #b73705</string>
+</string>
       </property>
       <property name="text">
        <string/>
@@ -137,7 +137,7 @@ border: 2px solid #b73705</string>
 color: #B6E3F0;
 border-radius: 15px;
 font-size: 12px;
-border: 2px solid #b73705</string>
+</string>
       </property>
       <property name="cursorWidth">
        <number>0</number>
@@ -154,7 +154,7 @@ border: 2px solid #b73705</string>
 color: #B6E3F0;
 
 font-size: 12px;
-border: 2px solid #b73705</string>
+</string>
       </property>
       <property name="placeholderText">
        <string>Model #</string>
@@ -168,7 +168,7 @@ border: 2px solid #b73705</string>
 color: #B6E3F0;
 
 font-size: 12px;
-border: 2px solid #b73705</string>
+</string>
       </property>
       <property name="placeholderText">
        <string>Brand</string>

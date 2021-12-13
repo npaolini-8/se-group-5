@@ -4,7 +4,7 @@ from PySide6.QtWidgets import *
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'admin_windowjZLUVn.ui'
+## Form generated from reading UI file 'admin_windowYuaTtz.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.2.1
 ##
@@ -56,7 +56,7 @@ class Ui_AdminWindow(object):
 "color: #B6E3F0;\n"
 "border-radius: 4px;\n"
 "font-size: 12px;\n"
-"border: 2px solid #b73705")
+"")
 
         self.verticalLayout.addWidget(self.user_name_line)
 
@@ -66,7 +66,7 @@ class Ui_AdminWindow(object):
 "color: #B6E3F0;\n"
 "border-radius: 4px;\n"
 "font-size: 12px;\n"
-"border: 2px solid #b73705")
+"")
 
         self.verticalLayout.addWidget(self.password_line)
 
@@ -350,7 +350,7 @@ class AdminWindow(QDialog):
 
     def set_req_fields(self, on):
         if on:
-            self.ui.user_name_line.setStyleSheet("background-color: #526c75;color: #B6E3F0;font-size: 12px;border: 2px solid #85069c")
+            self.ui.user_name_line.setStyleSheet("background-color: #526c75;color: #B6E3F0;font-size: 12px;border: 2px solid #b73705")
         else:
             self.ui.user_name_line.setStyleSheet("background-color: #526c75;color: #B6E3F0;font-size: 12px;")
 
