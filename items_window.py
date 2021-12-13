@@ -11,10 +11,9 @@ from PySide6.QtWidgets import (QApplication, QCheckBox, QDialog, QHBoxLayout,
     QSizePolicy, QSpacerItem, QTableWidget, QTableWidgetItem,
     QTextEdit, QVBoxLayout, QWidget, QAbstractItemView, QHeaderView)
 # -*- coding: utf-8 -*-
-# -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'items_windowZAjOeB.ui'
+## Form generated from reading UI file 'items_windowhhGPCn.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.2.1
 ##
@@ -100,7 +99,8 @@ class Ui_ItemWindow(object):
         self.item_name_line.setStyleSheet(u"background-color: #526c75;\n"
 "color: #B6E3F0;\n"
 "\n"
-"font-size: 12px;")
+"font-size: 12px;\n"
+"border: 2px solid #b73705")
 
         self.item_info_vlayout.addWidget(self.item_name_line)
 
@@ -109,7 +109,8 @@ class Ui_ItemWindow(object):
         self.item_desc.setStyleSheet(u"background-color: #526c75;\n"
 "color: #B6E3F0;\n"
 "border-radius: 15px;\n"
-"font-size: 12px;")
+"font-size: 12px;\n"
+"border: 2px solid #b73705")
         self.item_desc.setCursorWidth(0)
         self.item_desc.setPlaceholderText(u"0")
 
@@ -120,7 +121,8 @@ class Ui_ItemWindow(object):
         self.item_model.setStyleSheet(u"background-color: #526c75;\n"
 "color: #B6E3F0;\n"
 "\n"
-"font-size: 12px;")
+"font-size: 12px;\n"
+"border: 2px solid #b73705")
 
         self.item_info_vlayout.addWidget(self.item_model)
 
@@ -129,7 +131,8 @@ class Ui_ItemWindow(object):
         self.item_brand.setStyleSheet(u"background-color: #526c75;\n"
 "color: #B6E3F0;\n"
 "\n"
-"font-size: 12px;")
+"font-size: 12px;\n"
+"border: 2px solid #b73705")
 
         self.item_info_vlayout.addWidget(self.item_brand)
 

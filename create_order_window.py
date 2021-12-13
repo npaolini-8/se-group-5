@@ -4,7 +4,7 @@ from PySide6.QtWidgets import *
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'create_ordercfrXUm.ui'
+## Form generated from reading UI file 'create_orderZiZqXf.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.2.1
 ##
@@ -114,7 +114,8 @@ class Ui_Dialog(object):
         self.client_line.setStyleSheet(u"background-color: #526c75;\n"
 "color: #B6E3F0;\n"
 "border-radius: 10px;\n"
-"font-size: 12px;")
+"font-size: 12px;\n"
+"border: 2px solid #b73705")
         self.label_2 = QLabel(Dialog)
         self.label_2.setObjectName(u"label_2")
         self.label_2.setGeometry(QRect(330, 30, 49, 16))

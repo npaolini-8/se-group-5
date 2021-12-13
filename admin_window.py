@@ -1,11 +1,10 @@
 from PySide6.QtCore import *
 from PySide6.QtGui import *
 from PySide6.QtWidgets import *
-
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'admin_windowwXcNks.ui'
+## Form generated from reading UI file 'admin_windowjZLUVn.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.2.1
 ##
@@ -55,8 +54,9 @@ class Ui_AdminWindow(object):
         self.user_name_line.setObjectName(u"user_name_line")
         self.user_name_line.setStyleSheet(u"background-color: #526c75;\n"
 "color: #B6E3F0;\n"
-"border-radius: 10px;\n"
-"font-size: 12px;")
+"border-radius: 4px;\n"
+"font-size: 12px;\n"
+"border: 2px solid #b73705")
 
         self.verticalLayout.addWidget(self.user_name_line)
 
@@ -64,8 +64,9 @@ class Ui_AdminWindow(object):
         self.password_line.setObjectName(u"password_line")
         self.password_line.setStyleSheet(u"background-color: #526c75;\n"
 "color: #B6E3F0;\n"
-"border-radius: 10px;\n"
-"font-size: 12px;")
+"border-radius: 4px;\n"
+"font-size: 12px;\n"
+"border: 2px solid #b73705")
 
         self.verticalLayout.addWidget(self.password_line)
 
@@ -236,6 +237,7 @@ class Ui_AdminWindow(object):
         self.restore_orders_btn.setText(QCoreApplication.translate("AdminWindow", u"Restore Orders", None))
         self.restore_orders_history_btn.setText(QCoreApplication.translate("AdminWindow", u"Restore Orders History", None))
     # retranslateUi
+
 
 
 
