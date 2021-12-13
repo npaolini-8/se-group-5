@@ -1,4 +1,4 @@
-from PySide6.QtWidgets import QApplication
+from PySide6.QtWidgets import QApplication, QStyleFactory
 from PySide6.QtCore import QThreadPool
 from PySide6.QtGui import QIcon
 from sys import exit, argv
@@ -13,6 +13,7 @@ from admin_window import AdminWindow
 #Application controls all sub-windows
 class Application(QApplication):
     def __init__(self, warehouse_controller):
+        self.setStyle('Fusion')
         super().__init__()
         self.setWindowIcon(QIcon('Resources/icon.png'))
         self.warehouse_controller = warehouse_controller
