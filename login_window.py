@@ -307,10 +307,14 @@ class LoginWindow(QDialog):
                             #self.threadpool.start(worker)
                             self.main_startup()
             except Exception as e:
-                #print(e)
-                self.ui.errorLbl.setStyleSheet("color: orange;")
-                self.ui.errorLbl.setText("Server error - Server may be down.")
-                self.ui.userName.setFocus()
+                if type(e) == TypeError:
+                    self.ui.errorLbl.setStyleSheet("color: orange;")
+                    self.ui.errorLbl.setText("Invalid login credentials.\nPlease try again.")
+                    self.ui.userName.setFocus()
+                else:
+                    self.ui.errorLbl.setStyleSheet("color: orange;")
+                    self.ui.errorLbl.setText("Server error - Server may be down.")
+                    self.ui.userName.setFocus()
         else:
             if self.reset_mode:
                 self.set_error("Please enter a new password", False)
