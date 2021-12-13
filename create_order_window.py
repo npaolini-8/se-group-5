@@ -4,7 +4,7 @@ from PySide6.QtWidgets import *
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'create_orderptGPAP.ui'
+## Form generated from reading UI file 'create_orderSvgbXK.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.2.1
 ##
@@ -140,15 +140,19 @@ class Ui_Dialog(object):
         self.plus_btn = QPushButton(self.verticalLayoutWidget_4)
         self.plus_btn.setObjectName(u"plus_btn")
         self.plus_btn.setMinimumSize(QSize(0, 50))
+        font = QFont()
+        font.setPointSize(20)
+        self.plus_btn.setFont(font)
+        self.plus_btn.setStyleSheet(u"color:white")
 
         self.verticalLayout_4.addWidget(self.plus_btn)
 
         self.count_line = QLineEdit(self.verticalLayoutWidget_4)
         self.count_line.setObjectName(u"count_line")
         self.count_line.setMinimumSize(QSize(0, 40))
-        font = QFont()
-        font.setPointSize(14)
-        self.count_line.setFont(font)
+        font1 = QFont()
+        font1.setPointSize(14)
+        self.count_line.setFont(font1)
         self.count_line.setStyleSheet(u"background-color: #031c1e;\n"
 "color: #B6E3F0;\n"
 "")
@@ -160,6 +164,10 @@ class Ui_Dialog(object):
         self.minus_btn = QPushButton(self.verticalLayoutWidget_4)
         self.minus_btn.setObjectName(u"minus_btn")
         self.minus_btn.setMinimumSize(QSize(0, 50))
+        font2 = QFont()
+        font2.setPointSize(24)
+        self.minus_btn.setFont(font2)
+        self.minus_btn.setStyleSheet(u"color:white")
 
         self.verticalLayout_4.addWidget(self.minus_btn)
 

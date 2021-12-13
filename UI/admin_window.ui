@@ -50,6 +50,9 @@
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
      <widget class="QLabel" name="curr_user_label">
+      <property name="styleSheet">
+       <string notr="true">color: white;</string>
+      </property>
       <property name="text">
        <string>Creating a New User</string>
       </property>

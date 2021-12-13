@@ -4,7 +4,7 @@ from PySide6.QtWidgets import *
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'admin_windowYuaTtz.ui'
+## Form generated from reading UI file 'admin_windowxNpMoq.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.2.1
 ##
@@ -46,6 +46,7 @@ class Ui_AdminWindow(object):
         self.verticalLayout.setContentsMargins(0, 0, 0, 0)
         self.curr_user_label = QLabel(self.verticalLayoutWidget)
         self.curr_user_label.setObjectName(u"curr_user_label")
+        self.curr_user_label.setStyleSheet(u"color: white;")
         self.curr_user_label.setAlignment(Qt.AlignCenter)
 
         self.verticalLayout.addWidget(self.curr_user_label)
@@ -237,8 +238,6 @@ class Ui_AdminWindow(object):
         self.restore_orders_btn.setText(QCoreApplication.translate("AdminWindow", u"Restore Orders", None))
         self.restore_orders_history_btn.setText(QCoreApplication.translate("AdminWindow", u"Restore Orders History", None))
     # retranslateUi
-
-
 
 
 

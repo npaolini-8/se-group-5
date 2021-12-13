@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Order Processing</string>
   </property>
   <property name="styleSheet">
    <string notr="true">background-color: #295B63;</string>
@@ -24,6 +24,9 @@
      <width>121</width>
      <height>34</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: #B6E3F0;</string>
    </property>
    <property name="text">
     <string>Return</string>
@@ -38,6 +41,9 @@
      <height>71</height>
     </rect>
    </property>
+   <property name="styleSheet">
+    <string notr="true">color: #B6E3F0;</string>
+   </property>
    <property name="text">
     <string>Complete Order</string>
    </property>
@@ -50,6 +56,9 @@
      <width>251</width>
      <height>441</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: white;</string>
    </property>
    <property name="title">
     <string>Orders</string>
@@ -89,6 +98,9 @@ font-size: 12px;</string>
       <pointsize>8</pointsize>
      </font>
     </property>
+    <property name="styleSheet">
+     <string notr="true">color: #B6E3F0;</string>
+    </property>
     <property name="text">
      <string>Incoming</string>
     </property>
@@ -110,6 +122,9 @@ font-size: 12px;</string>
       <pointsize>8</pointsize>
      </font>
     </property>
+    <property name="styleSheet">
+     <string notr="true">color: #B6E3F0;</string>
+    </property>
     <property name="text">
      <string>Outgoing</string>
     </property>
@@ -123,6 +138,9 @@ font-size: 12px;</string>
      <width>251</width>
      <height>441</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color:white;</string>
    </property>
    <property name="title">
     <string>Items in Order</string>
@@ -174,6 +192,9 @@ font-size: 12px;</string>
        <height>41</height>
       </rect>
      </property>
+     <property name="styleSheet">
+      <string notr="true">color: #B6E3F0;</string>
+     </property>
      <property name="text">
       <string>Save Present Item Count</string>
      </property>
@@ -186,6 +207,9 @@ font-size: 12px;</string>
        <width>231</width>
        <height>81</height>
       </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: white;</string>
      </property>
      <property name="title">
       <string>Items Present</string>
@@ -218,7 +242,8 @@ font-size: 12px;</string>
        </rect>
       </property>
       <property name="styleSheet">
-       <string notr="true">background-color: #031c1e;</string>
+       <string notr="true">background-color: #031c1e;
+color: #B6E3F0;</string>
       </property>
       <property name="mode">
        <enum>QLCDNumber::Dec</enum>
@@ -256,6 +281,9 @@ font-size: 12px;</string>
        <width>231</width>
        <height>271</height>
       </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: white;</string>
      </property>
      <property name="title">
       <string>Barcodes</string>
@@ -297,6 +325,9 @@ font-size: 12px;</string>
        <height>41</height>
       </rect>
      </property>
+     <property name="styleSheet">
+      <string notr="true">color: #B6E3F0;</string>
+     </property>
      <property name="text">
       <string>Save Barcode Selections</string>
      </property>
@@ -323,7 +354,8 @@ font-size: 12px;</string>
        </rect>
       </property>
       <property name="styleSheet">
-       <string notr="true">background-color: #031c1e;</string>
+       <string notr="true">background-color: #031c1e;
+color: #B6E3F0;</string>
       </property>
       <property name="mode">
        <enum>QLCDNumber::Dec</enum>
