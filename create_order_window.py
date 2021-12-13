@@ -207,6 +207,7 @@ class CreateOrderWindow(QDialog):
         self.init_buttons()
         self.init_tables()
         self.ui.search_bar_line.textChanged.connect(self.filter_table)
+        self.set_req_fields(True)
 
     def init_buttons(self):
         self.ui.return_btn.clicked.connect(self.return_clicked)
@@ -433,3 +434,9 @@ class CreateOrderWindow(QDialog):
             self.ui.count_line.setText('0')
 
         self.ui.search_tbl.clicked.connect(clear_amount)
+
+    def set_req_fields(self,on):
+        if on:
+            self.ui.client_line.setStyleSheet(u"background-color: #526c75;color: #B6E3F0;border-radius: 20px;font-size: 12px;border: 2px solid #85069c")
+        else:
+            self.ui.client_line.setStyleSheet(u"background-color: #526c75;color: #B6E3F0;border-radius: 20px;font-size: 12px;")
