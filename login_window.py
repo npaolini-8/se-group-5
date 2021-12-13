@@ -195,19 +195,19 @@ class LoginWindow(QDialog):
     #     self.setCentralWidget(container)
 
     #Just a cool little login text animation as a confirmation that you are logging in
-    def load_animation(self):
-        self.ui.errorLbl.setStyleSheet("color: green;")
-        sleep(0.15)
-        self.ui.errorLbl.setText("User found.  Logging in..")
-        sleep(0.15)
-        self.ui.errorLbl.setText("User found.  Logging in...")
-        sleep(0.15)
-        self.ui.errorLbl.setText("User found.  Logging in....")
-        sleep(0.15)
-        self.ui.errorLbl.setText("User found.  Logging in.....")
-        sleep(0.15)
-        self.ui.errorLbl.setText("User found.  Logging in......")
-        sleep(0.15)
+    # def load_animation(self):
+    #     self.ui.errorLbl.setStyleSheet("color: green;")
+    #     sleep(0.15)
+    #     self.ui.errorLbl.setText("User found.  Logging in..")
+    #     sleep(0.15)
+    #     self.ui.errorLbl.setText("User found.  Logging in...")
+    #     sleep(0.15)
+    #     self.ui.errorLbl.setText("User found.  Logging in....")
+    #     sleep(0.15)
+    #     self.ui.errorLbl.setText("User found.  Logging in.....")
+    #     sleep(0.15)
+    #     self.ui.errorLbl.setText("User found.  Logging in......")
+    #     sleep(0.15)
 
     def main_startup(self):
         self.ui.errorLbl.setText("")

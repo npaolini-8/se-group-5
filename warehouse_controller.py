@@ -50,15 +50,11 @@ class WarehouseController():
         self.warehouse.delete_order(id)
 
     def add_to_item_pending(self, item_name, num_to_add):
-        print('beign')
+        #print('beign')
         item = self.get_item(item_name)
-        print('mid')
+        #print('mid')
         self.warehouse.edit_item_pending(item_name, item['Pending Shipment'] + num_to_add)
-        print('end')
-
-
-
-
+        #print('end')
 
     def get_current_username(self):
         return self.current_user["Username"]

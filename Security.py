@@ -19,4 +19,4 @@ def generate_password(password:str, salt:str):
     return hex_hash
 
 #print(generate_salt())
-print(generate_password("yams", "YSCSUBGHSI9TEMTLGSQDO3DTU3Y1NLBU"))
+#print(generate_password("yams", "YSCSUBGHSI9TEMTLGSQDO3DTU3Y1NLBU"))
