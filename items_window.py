@@ -344,6 +344,7 @@ class ItemsWindow(QDialog):
         self.curr_barcode = ""
         self.ui.edit_label.setText(self.new_item_string)
         self.ui.active_check.setChecked(True)
+        self.ui.item_desc.setPlaceholderText("Item Description") #not a QtDesigner option for some reason
 
     def init_buttons(self):
         self.ui.return_btn.clicked.connect(self.return_clicked)
@@ -356,6 +357,7 @@ class ItemsWindow(QDialog):
     def init_item_table(self):
         self.ui.item_table.setSelectionBehavior(QAbstractItemView.SelectionBehavior.SelectRows)
         self.ui.item_table.setSelectionMode(QAbstractItemView.SingleSelection)
+        self.ui.item_table.verticalHeader().setVisible(False)
 
         self.refresh_items()
         #taken from tony in create_order :)
@@ -383,6 +385,7 @@ class ItemsWindow(QDialog):
         header = self.ui.barcode_table.horizontalHeader()
         header.setSectionResizeMode(0, QHeaderView.ResizeToContents)
         header.setSectionResizeMode(1, QHeaderView.ResizeToContents)
+        self.ui.barcode_table.verticalHeader().setVisible(False)
 
     def return_clicked(self):
         self.warehouse_controller.switch_to(self, 'main')
@@ -441,7 +444,7 @@ class ItemsWindow(QDialog):
 
     def select_item(self,item):
         row = item.row()
-
+        self.set_req_fields(False)
         item = self.ui.item_table.item(row,0).text()
         self.curr_item = item
         self.curr_barcode = ""
@@ -523,6 +526,7 @@ class ItemsWindow(QDialog):
             self.ui.edit_label.setText(self.new_item_string)
             self.ui.pending_shipment_line.setText("0")
             self.ui.pending_shipment_line.setReadOnly(True)
+            self.set_req_fields(True)
             self.ui.item_name_line.setFocus()
 
     def set_error(self,error, good):
@@ -531,6 +535,18 @@ class ItemsWindow(QDialog):
             self.ui.error_label.setStyleSheet("color: green;")
         else:
             self.ui.error_label.setStyleSheet("color: red;")
+
+    def set_req_fields(self, on):
+        if on:
+            self.ui.item_name_line.setStyleSheet("background-color: #526c75;color: #B6E3F0;font-size: 12px;border: 2px solid #85069c")
+            self.ui.item_desc.setStyleSheet("background-color: #526c75;color: #B6E3F0;border-radius: 10px;font-size: 12px;border: 2px solid #85069c")
+            self.ui.item_model.setStyleSheet(u"background-color: #526c75;color: #B6E3F0;font-size: 12px;border: 2px solid #85069c")
+            self.ui.item_brand.setStyleSheet(u"background-color: #526c75;color: #B6E3F0;font-size: 12px;border: 2px solid #85069c")
+        else:
+            self.ui.item_name_line.setStyleSheet("background-color: #526c75;color: #B6E3F0;font-size: 12px;")
+            self.ui.item_desc.setStyleSheet("background-color: #526c75;color: #B6E3F0;border-radius: 10px;font-size: 12px;")
+            self.ui.item_model.setStyleSheet("background-color: #526c75;color: #B6E3F0;font-size: 12px;")
+            self.ui.item_brand.setStyleSheet("background-color: #526c75;color: #B6E3F0;font-size: 12px;")
 
     def save_item(self):
 
@@ -621,6 +637,7 @@ class ItemsWindow(QDialog):
                             self.clear_form()
                             self.refresh_item_table()
                             self.set_error("New Item Created: " + item_name, True)
+                            self.set_req_fields(False)
                     else: #editing existing item, cases separated for informative messaging
                         if self.curr_item != item_name: #change item name case
                             if self.warehouse_controller.validate_new_item_name(item_name) != "OK":
@@ -630,11 +647,13 @@ class ItemsWindow(QDialog):
                                 self.clear_form()
                                 self.set_error(self.curr_item + " updated to: " + item_name,True)
                                 self.refresh_item_table()
+                                self.set_req_fields(False)
                         else: #edit existing item, no item name change
                             self.warehouse_controller.edit_item(self.curr_item,item_desc=item_desc,item_model=item_model,item_brand=item_brand,isActive=item_active,item_weight=item_weight,item_length=item_length,item_width=item_width,item_depth=item_depth,pending=pending_shipment)
                             self.clear_form()
                             self.set_error(self.curr_item + " updated!",True)
                             self.refresh_item_table()
+                            self.set_req_fields(False)
 
 
             #except ValueError:
