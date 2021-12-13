@@ -295,6 +295,12 @@ class AdminWindow(QDialog):
         self.ui.lock_check.setChecked(False)
         self.set_error("",True)
 
+    def set_req_fields(self, on):
+        if on:
+            self.ui.user_name_line.setStyleSheet("background-color: #526c75;color: #B6E3F0;font-size: 12px;border: 2px solid #85069c")
+        else:
+            self.ui.user_name_line.setStyleSheet("background-color: #526c75;color: #B6E3F0;font-size: 12px;")
+
     #"" represents new user account
     def create_new_clicked(self):
         self.curr_user = ""
@@ -305,6 +311,7 @@ class AdminWindow(QDialog):
         self.ui.lock_check.setChecked(False)
         self.ui.user_name_line.setFocus()
         self.set_error("",True)
+        self.set_req_fields(True)
 
     def filter_users(self):
         filter_string = self.ui.user_search_bar.text()
@@ -317,7 +324,7 @@ class AdminWindow(QDialog):
 
     def select_user(self,item):
         row = item.row()
-        
+        self.set_req_fields(False)
         user = self.ui.users_table.item(row,0).text()
         self.curr_user = user
         self.ui.user_name_line.setText(user)
@@ -391,6 +398,7 @@ class AdminWindow(QDialog):
                 self.clear_form()
                 self.refresh_form()
                 self.set_error("New User Created",True)
+                self.set_req_fields(False)
         else: #updating existing user passing empty strings for PWs
             if username != self.curr_user: #changing username
                 if self.warehouse_controller.validate_new_username( username ) != "OK":
