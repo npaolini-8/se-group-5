@@ -281,6 +281,7 @@ class MainWindow(QMainWindow):
 
 
     def logout_clicked(self):
+        self.warehouse_controller.reinstantiate_application()
         self.warehouse_controller.switch_to(self, 'login')
 
     def items_clicked(self):

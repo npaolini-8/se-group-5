@@ -253,3 +253,7 @@ class WarehouseController():
 
     def restore_orders_history(self):
         self.warehouse.import_backup("Orders History", r".\Backups\orders_history_backup.txt")
+
+    def reinstantiate_application(self):
+        self.current_user = None
+        self.app.restart()
