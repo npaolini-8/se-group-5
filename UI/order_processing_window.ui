@@ -13,6 +13,9 @@
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: #295B63;</string>
+  </property>
   <widget class="QPushButton" name="return_btn">
    <property name="geometry">
     <rect>
@@ -62,8 +65,14 @@
     </property>
     <property name="font">
      <font>
-      <pointsize>8</pointsize>
+      <pointsize>-1</pointsize>
      </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: #526c75;
+color: #B6E3F0;
+border-radius: 10px;
+font-size: 12px;</string>
     </property>
    </widget>
    <widget class="QRadioButton" name="in_radio">
@@ -129,8 +138,14 @@
     </property>
     <property name="font">
      <font>
-      <pointsize>8</pointsize>
+      <pointsize>-1</pointsize>
      </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: #526c75;
+color: #B6E3F0;
+border-radius: 10px;
+font-size: 12px;</string>
     </property>
    </widget>
   </widget>
@@ -144,7 +159,7 @@
     </rect>
    </property>
    <property name="currentIndex">
-    <number>1</number>
+    <number>0</number>
    </property>
    <widget class="QWidget" name="page">
     <widget class="QPushButton" name="save_count_btn">
@@ -202,6 +217,9 @@
         <height>61</height>
        </rect>
       </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: #031c1e;</string>
+      </property>
       <property name="mode">
        <enum>QLCDNumber::Dec</enum>
       </property>
@@ -253,8 +271,14 @@
       </property>
       <property name="font">
        <font>
-        <pointsize>8</pointsize>
+        <pointsize>-1</pointsize>
        </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: #526c75;
+color: #B6E3F0;
+border-radius: 10px;
+font-size: 12px;</string>
       </property>
       <property name="selectionMode">
        <enum>QAbstractItemView::SingleSelection</enum>
@@ -297,6 +321,9 @@
         <width>231</width>
         <height>61</height>
        </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: #031c1e;</string>
       </property>
       <property name="mode">
        <enum>QLCDNumber::Dec</enum>

@@ -1,3 +1,16 @@
+from PySide6.QtCore import *
+from PySide6.QtGui import *
+from PySide6.QtWidgets import *
+
+# -*- coding: utf-8 -*-
+
+################################################################################
+## Form generated from reading UI file 'admin_windowwXcNks.ui'
+##
+## Created by: Qt User Interface Compiler version 6.2.1
+##
+## WARNING! All changes made in this file will be lost when recompiling UI file!
+################################################################################
 
 from PySide6.QtCore import (QCoreApplication, QDate, QDateTime, QLocale,
     QMetaObject, QObject, QPoint, QRect,
@@ -7,9 +20,9 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QCheckBox, QDialog, QHBoxLayout,
-    QHeaderView, QLineEdit, QPushButton, QRadioButton,
-    QSizePolicy, QSpacerItem, QTableWidget, QTableWidgetItem,
-    QVBoxLayout, QWidget, QAbstractItemView, QLabel)
+    QHeaderView, QLabel, QLineEdit, QPushButton,
+    QRadioButton, QSizePolicy, QSpacerItem, QTableWidget,
+    QTableWidgetItem, QVBoxLayout, QWidget)
 
 class Ui_AdminWindow(object):
     def setupUi(self, AdminWindow):
@@ -21,9 +34,11 @@ class Ui_AdminWindow(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(AdminWindow.sizePolicy().hasHeightForWidth())
         AdminWindow.setSizePolicy(sizePolicy)
+        AdminWindow.setStyleSheet(u"background-color: #295B63;")
         self.return_btn = QPushButton(AdminWindow)
         self.return_btn.setObjectName(u"return_btn")
         self.return_btn.setGeometry(QRect(20, 10, 75, 24))
+        self.return_btn.setStyleSheet(u"color: #B6E3F0;")
         self.verticalLayoutWidget = QWidget(AdminWindow)
         self.verticalLayoutWidget.setObjectName(u"verticalLayoutWidget")
         self.verticalLayoutWidget.setGeometry(QRect(350, 100, 281, 201))
@@ -38,11 +53,19 @@ class Ui_AdminWindow(object):
 
         self.user_name_line = QLineEdit(self.verticalLayoutWidget)
         self.user_name_line.setObjectName(u"user_name_line")
+        self.user_name_line.setStyleSheet(u"background-color: #526c75;\n"
+"color: #B6E3F0;\n"
+"border-radius: 10px;\n"
+"font-size: 12px;")
 
         self.verticalLayout.addWidget(self.user_name_line)
 
         self.password_line = QLineEdit(self.verticalLayoutWidget)
         self.password_line.setObjectName(u"password_line")
+        self.password_line.setStyleSheet(u"background-color: #526c75;\n"
+"color: #B6E3F0;\n"
+"border-radius: 10px;\n"
+"font-size: 12px;")
 
         self.verticalLayout.addWidget(self.password_line)
 
@@ -50,16 +73,19 @@ class Ui_AdminWindow(object):
         self.horizontalLayout.setObjectName(u"horizontalLayout")
         self.user_radio = QRadioButton(self.verticalLayoutWidget)
         self.user_radio.setObjectName(u"user_radio")
+        self.user_radio.setStyleSheet(u"color: #B6E3F0;")
 
         self.horizontalLayout.addWidget(self.user_radio)
 
         self.super_radio = QRadioButton(self.verticalLayoutWidget)
         self.super_radio.setObjectName(u"super_radio")
+        self.super_radio.setStyleSheet(u"color: #B6E3F0;")
 
         self.horizontalLayout.addWidget(self.super_radio)
 
         self.admin_radio = QRadioButton(self.verticalLayoutWidget)
         self.admin_radio.setObjectName(u"admin_radio")
+        self.admin_radio.setStyleSheet(u"color: #B6E3F0;")
 
         self.horizontalLayout.addWidget(self.admin_radio)
 
@@ -70,11 +96,13 @@ class Ui_AdminWindow(object):
         self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
         self.active_check = QCheckBox(self.verticalLayoutWidget)
         self.active_check.setObjectName(u"active_check")
+        self.active_check.setStyleSheet(u"color: #B6E3F0;")
 
         self.horizontalLayout_2.addWidget(self.active_check)
 
         self.lock_check = QCheckBox(self.verticalLayoutWidget)
         self.lock_check.setObjectName(u"lock_check")
+        self.lock_check.setStyleSheet(u"color: #B6E3F0;")
 
         self.horizontalLayout_2.addWidget(self.lock_check)
 
@@ -93,6 +121,7 @@ class Ui_AdminWindow(object):
 
         self.save_user_button = QPushButton(self.verticalLayoutWidget)
         self.save_user_button.setObjectName(u"save_user_button")
+        self.save_user_button.setStyleSheet(u"color: #B6E3F0;")
 
         self.verticalLayout.addWidget(self.save_user_button)
 
@@ -104,16 +133,25 @@ class Ui_AdminWindow(object):
         self.verticalLayout_2.setContentsMargins(0, 0, 0, 0)
         self.new_user_button = QPushButton(self.verticalLayoutWidget_2)
         self.new_user_button.setObjectName(u"new_user_button")
+        self.new_user_button.setStyleSheet(u"color: #B6E3F0;")
 
         self.verticalLayout_2.addWidget(self.new_user_button)
 
         self.user_search_bar = QLineEdit(self.verticalLayoutWidget_2)
         self.user_search_bar.setObjectName(u"user_search_bar")
+        self.user_search_bar.setStyleSheet(u"background-color: #4395a3;\n"
+"color: white;\n"
+"\n"
+"font-size: 12px;")
 
         self.verticalLayout_2.addWidget(self.user_search_bar)
 
         self.users_table = QTableWidget(self.verticalLayoutWidget_2)
         self.users_table.setObjectName(u"users_table")
+        self.users_table.setStyleSheet(u"background-color: #526c75;\n"
+"color: #B6E3F0;\n"
+"border-radius: 10px;\n"
+"font-size: 12px;")
 
         self.verticalLayout_2.addWidget(self.users_table)
 
@@ -125,6 +163,12 @@ class Ui_AdminWindow(object):
         self.verticalLayout_3.setContentsMargins(0, 0, 0, 0)
         self.db_fxn_lbl = QLabel(self.verticalLayoutWidget_3)
         self.db_fxn_lbl.setObjectName(u"db_fxn_lbl")
+        font = QFont()
+        font.setFamilies([u"Sans Serif"])
+        font.setPointSize(12)
+        font.setBold(False)
+        font.setItalic(False)
+        self.db_fxn_lbl.setFont(font)
         self.db_fxn_lbl.setAlignment(Qt.AlignCenter)
 
         self.verticalLayout_3.addWidget(self.db_fxn_lbl)
@@ -133,26 +177,31 @@ class Ui_AdminWindow(object):
         self.db_bu_buttons.setObjectName(u"db_bu_buttons")
         self.bu_create_btn = QPushButton(self.verticalLayoutWidget_3)
         self.bu_create_btn.setObjectName(u"bu_create_btn")
+        self.bu_create_btn.setStyleSheet(u"color: #B6E3F0;")
 
         self.db_bu_buttons.addWidget(self.bu_create_btn)
 
         self.restore_items_btn = QPushButton(self.verticalLayoutWidget_3)
         self.restore_items_btn.setObjectName(u"restore_items_btn")
+        self.restore_items_btn.setStyleSheet(u"color: #B6E3F0;")
 
         self.db_bu_buttons.addWidget(self.restore_items_btn)
 
         self.restore_users_btn = QPushButton(self.verticalLayoutWidget_3)
         self.restore_users_btn.setObjectName(u"restore_users_btn")
+        self.restore_users_btn.setStyleSheet(u"color: #B6E3F0;")
 
         self.db_bu_buttons.addWidget(self.restore_users_btn)
 
         self.restore_orders_btn = QPushButton(self.verticalLayoutWidget_3)
         self.restore_orders_btn.setObjectName(u"restore_orders_btn")
+        self.restore_orders_btn.setStyleSheet(u"color: #B6E3F0;")
 
         self.db_bu_buttons.addWidget(self.restore_orders_btn)
 
         self.restore_orders_history_btn = QPushButton(self.verticalLayoutWidget_3)
         self.restore_orders_history_btn.setObjectName(u"restore_orders_history_btn")
+        self.restore_orders_history_btn.setStyleSheet(u"color: #B6E3F0;")
 
         self.db_bu_buttons.addWidget(self.restore_orders_history_btn)
 
@@ -190,6 +239,8 @@ class Ui_AdminWindow(object):
 
 
 
+
+
 class AdminWindow(QDialog):
     def __init__(self, warehouse_controller):
         super(AdminWindow, self).__init__()
@@ -202,7 +253,7 @@ class AdminWindow(QDialog):
         self.ui.user_search_bar.textChanged.connect(self.filter_users)
         self.ui.users_table.clicked.connect(self.select_user)
         self.ui.active_check.setChecked(True)
-        
+
     #loads table with user info, fetched by refresh_users
     def init_table(self):
         self.ui.users_table.setSelectionBehavior(QAbstractItemView.SelectionBehavior.SelectRows)
@@ -234,7 +285,7 @@ class AdminWindow(QDialog):
         #     self.ui.users_table.setItem(i, 3, role_item)
 
         #     i+=1
-    
+
     def refresh_table(self):
         self.refresh_users()
         self.ui.users_table.setRowCount( len(self.users) )
@@ -317,12 +368,12 @@ class AdminWindow(QDialog):
 
     def select_user(self,item):
         row = item.row()
-        
+
         user = self.ui.users_table.item(row,0).text()
         self.curr_user = user
         self.ui.user_name_line.setText(user)
         self.ui.curr_user_label.setText("Editing: " + user)
-        
+
         self.ui.password_line.setText(None)
 
         active = self.ui.users_table.item(row, 1).text()
@@ -336,7 +387,7 @@ class AdminWindow(QDialog):
             locked = True
         else:
             locked = False
-        
+
         self.ui.active_check.setChecked(active)
         self.ui.lock_check.setChecked(locked)
 
@@ -347,7 +398,7 @@ class AdminWindow(QDialog):
             self.ui.super_radio.setChecked(True)
         elif role == "Admin":
             self.ui.admin_radio.setChecked(True)
-        
+
         self.ui.password_line.setFocus()
 
     def role_check(self):
@@ -361,7 +412,7 @@ class AdminWindow(QDialog):
             role = "Admin"
 
         return role
-    
+
     def set_error(self,error, good):
         self.ui.err_label.setText(error)
         if good:
@@ -385,7 +436,7 @@ class AdminWindow(QDialog):
             if self.warehouse_controller.validate_new_username( username ) != "OK":
                 self.set_error("Username in use",False)
             #elif password is None or password == "": #removing for now, setting pw to None
-            #    self.set_error("Password required")    
+            #    self.set_error("Password required")
             else: #valid new user input
                 self.warehouse_controller.create_new_user(username,password,role)
                 self.clear_form()
@@ -400,12 +451,12 @@ class AdminWindow(QDialog):
                     self.clear_form()
                     self.set_error(self.curr_user + " updated to new username: " + username,True)
                     self.refresh_form()
-                    
+
             else: #updating user, username staying the same
                 self.warehouse_controller.edit_user(self.curr_user, password=password,role=role,active=active,locked=locked)
                 self.clear_form()
                 self.set_error(self.curr_user + " updated",True)
                 self.refresh_form()
-                
+
     def create_backups(self):
         self.warehouse_controller.create_backup()

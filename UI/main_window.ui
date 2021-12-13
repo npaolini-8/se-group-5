@@ -134,7 +134,7 @@ font-size: 12px;</string>
        <property name="styleSheet">
         <string notr="true">background-color: #526c75;
 color: #B6E3F0;
-border-radius: 25px;
+border-radius: 10px;
 font-size: 12px;</string>
        </property>
        <property name="editTriggers">
@@ -164,7 +164,7 @@ font-size: 12px;</string>
        <property name="styleSheet">
         <string notr="true">background-color: #526c75;
 color: #B6E3F0;
-border-radius: 25px;
+border-radius: 10px;
 font-size: 12px;</string>
        </property>
        <property name="editTriggers">

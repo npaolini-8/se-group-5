@@ -11,9 +11,10 @@ from PySide6.QtWidgets import (QApplication, QCheckBox, QDialog, QHBoxLayout,
     QSizePolicy, QSpacerItem, QTableWidget, QTableWidgetItem,
     QTextEdit, QVBoxLayout, QWidget, QAbstractItemView, QHeaderView)
 # -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'items_windowWnOaOv.ui'
+## Form generated from reading UI file 'items_windowZAjOeB.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.2.1
 ##
@@ -46,6 +47,8 @@ class Ui_ItemWindow(object):
         self.return_btn = QPushButton(ItemWindow)
         self.return_btn.setObjectName(u"return_btn")
         self.return_btn.setGeometry(QRect(10, 10, 75, 24))
+        self.return_btn.setStyleSheet(u"\n"
+"color: #B6E3F0;")
         self.verticalLayoutWidget = QWidget(ItemWindow)
         self.verticalLayoutWidget.setObjectName(u"verticalLayoutWidget")
         self.verticalLayoutWidget.setGeometry(QRect(10, 70, 251, 441))
@@ -65,7 +68,7 @@ class Ui_ItemWindow(object):
         self.item_table.setObjectName(u"item_table")
         self.item_table.setStyleSheet(u"background-color: #526c75;\n"
 "color: #B6E3F0;\n"
-"border-radius: 25px;\n"
+"border-radius: 10px;\n"
 "font-size: 12px;")
 
         self.item_search_vlayout.addWidget(self.item_table)
@@ -134,21 +137,28 @@ class Ui_ItemWindow(object):
         self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
         self.len_lbl = QLabel(self.verticalLayoutWidget_2)
         self.len_lbl.setObjectName(u"len_lbl")
+        self.len_lbl.setStyleSheet(u"\n"
+"color: white;\n"
+"\n"
+"")
 
         self.horizontalLayout_2.addWidget(self.len_lbl)
 
         self.widthLbl = QLabel(self.verticalLayoutWidget_2)
         self.widthLbl.setObjectName(u"widthLbl")
+        self.widthLbl.setStyleSheet(u"color: white;")
 
         self.horizontalLayout_2.addWidget(self.widthLbl)
 
         self.depth_lbl = QLabel(self.verticalLayoutWidget_2)
         self.depth_lbl.setObjectName(u"depth_lbl")
+        self.depth_lbl.setStyleSheet(u"color: white;")
 
         self.horizontalLayout_2.addWidget(self.depth_lbl)
 
         self.weight_lbl = QLabel(self.verticalLayoutWidget_2)
         self.weight_lbl.setObjectName(u"weight_lbl")
+        self.weight_lbl.setStyleSheet(u"color: white;")
 
         self.horizontalLayout_2.addWidget(self.weight_lbl)
 
@@ -200,11 +210,14 @@ class Ui_ItemWindow(object):
         self.active_pending_lo.setObjectName(u"active_pending_lo")
         self.active_check = QCheckBox(self.verticalLayoutWidget_2)
         self.active_check.setObjectName(u"active_check")
+        self.active_check.setStyleSheet(u"\n"
+"color: #B6E3F0;")
 
         self.active_pending_lo.addWidget(self.active_check)
 
         self.pending_lbl = QLabel(self.verticalLayoutWidget_2)
         self.pending_lbl.setObjectName(u"pending_lbl")
+        self.pending_lbl.setStyleSheet(u"color: white;")
 
         self.active_pending_lo.addWidget(self.pending_lbl)
 
@@ -258,11 +271,15 @@ class Ui_ItemWindow(object):
 
         self.new_barcode_btn = QPushButton(self.verticalLayoutWidget_3)
         self.new_barcode_btn.setObjectName(u"new_barcode_btn")
+        self.new_barcode_btn.setStyleSheet(u"\n"
+"color: #B6E3F0;")
 
         self.barcode_ops_hlayout.addWidget(self.new_barcode_btn)
 
         self.delete_item_btn = QPushButton(self.verticalLayoutWidget_3)
         self.delete_item_btn.setObjectName(u"delete_item_btn")
+        self.delete_item_btn.setStyleSheet(u"\n"
+"color: #B6E3F0;")
 
         self.barcode_ops_hlayout.addWidget(self.delete_item_btn)
 
@@ -282,7 +299,7 @@ class Ui_ItemWindow(object):
         self.barcode_table.setObjectName(u"barcode_table")
         self.barcode_table.setStyleSheet(u"background-color: #526c75;\n"
 "color: #B6E3F0;\n"
-"border-radius: 25px;\n"
+"border-radius: 10px;\n"
 "font-size: 12px;")
 
         self.barcode_info_vlayout.addWidget(self.barcode_table)
@@ -321,7 +338,6 @@ class Ui_ItemWindow(object):
         self.delete_item_btn.setText(QCoreApplication.translate("ItemWindow", u"Remove Item", None))
         self.barcode_search_line.setPlaceholderText(QCoreApplication.translate("ItemWindow", u"Search for a Barcode...", None))
     # retranslateUi
-
 
 
 

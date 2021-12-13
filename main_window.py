@@ -5,7 +5,7 @@ from PySide6.QtWidgets import *
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'main_windowFppcQm.ui'
+## Form generated from reading UI file 'main_windowhQcosH.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.2.1
 ##
@@ -95,7 +95,7 @@ class Ui_MainWindow(object):
         self.incoming_orders_tbl.setObjectName(u"incoming_orders_tbl")
         self.incoming_orders_tbl.setStyleSheet(u"background-color: #526c75;\n"
 "color: #B6E3F0;\n"
-"border-radius: 25px;\n"
+"border-radius: 10px;\n"
 "font-size: 12px;")
         self.incoming_orders_tbl.setEditTriggers(QAbstractItemView.NoEditTriggers)
         self.incoming_orders_tbl.setSortingEnabled(True)
@@ -114,7 +114,7 @@ class Ui_MainWindow(object):
         self.outgoing_orders_tbl.setObjectName(u"outgoing_orders_tbl")
         self.outgoing_orders_tbl.setStyleSheet(u"background-color: #526c75;\n"
 "color: #B6E3F0;\n"
-"border-radius: 25px;\n"
+"border-radius: 10px;\n"
 "font-size: 12px;")
         self.outgoing_orders_tbl.setEditTriggers(QAbstractItemView.NoEditTriggers)
         self.outgoing_orders_tbl.setSortingEnabled(True)
@@ -150,7 +150,7 @@ class Ui_MainWindow(object):
     # setupUi
 
     def retranslateUi(self, MainWindow):
-        MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))
+        MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"PyDepot", None))
         self.items_btn.setText(QCoreApplication.translate("MainWindow", u"Items", None))
         self.create_order_btn.setText(QCoreApplication.translate("MainWindow", u"Create Order", None))
         self.process_order_btn.setText(QCoreApplication.translate("MainWindow", u"Process Order", None))
@@ -161,8 +161,6 @@ class Ui_MainWindow(object):
         self.user_lbl.setText("")
         self.error_lbl.setText("")
     # retranslateUi
-
-
 
 
 

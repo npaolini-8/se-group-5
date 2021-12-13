@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'login_windowXJqGTn.ui'
+## Form generated from reading UI file 'login_windowtCkSQI.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.2.1
 ##
@@ -18,7 +18,6 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
 from PySide6.QtWidgets import (QApplication, QDialog, QLabel, QLayout,
     QLineEdit, QPushButton, QSizePolicy, QSpacerItem,
     QVBoxLayout, QWidget)
-from time import sleep
 
 class Ui_LoginWindow(object):
     def setupUi(self, LoginWindow):
@@ -289,7 +288,7 @@ class LoginWindow(QDialog):
 
 
                         self.ui.userName.setFocus()
-                        
+
 
                     else:
                         if self.warehouse_controller.get_user_lock(self.ui.userName.text()) >= 3:

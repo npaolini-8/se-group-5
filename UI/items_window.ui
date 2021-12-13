@@ -31,6 +31,10 @@
      <height>24</height>
     </rect>
    </property>
+   <property name="styleSheet">
+    <string notr="true">
+color: #B6E3F0;</string>
+   </property>
    <property name="text">
     <string>Return</string>
    </property>
@@ -63,7 +67,7 @@ font-size: 12px;</string>
       <property name="styleSheet">
        <string notr="true">background-color: #526c75;
 color: #B6E3F0;
-border-radius: 25px;
+border-radius: 10px;
 font-size: 12px;</string>
       </property>
      </widget>
@@ -171,6 +175,12 @@ font-size: 12px;</string>
      <layout class="QHBoxLayout" name="horizontalLayout_2">
       <item>
        <widget class="QLabel" name="len_lbl">
+        <property name="styleSheet">
+         <string notr="true">
+color: white;
+
+</string>
+        </property>
         <property name="text">
          <string>Length</string>
         </property>
@@ -178,6 +188,9 @@ font-size: 12px;</string>
       </item>
       <item>
        <widget class="QLabel" name="widthLbl">
+        <property name="styleSheet">
+         <string notr="true">color: white;</string>
+        </property>
         <property name="text">
          <string>Width</string>
         </property>
@@ -185,6 +198,9 @@ font-size: 12px;</string>
       </item>
       <item>
        <widget class="QLabel" name="depth_lbl">
+        <property name="styleSheet">
+         <string notr="true">color: white;</string>
+        </property>
         <property name="text">
          <string>Depth</string>
         </property>
@@ -192,6 +208,9 @@ font-size: 12px;</string>
       </item>
       <item>
        <widget class="QLabel" name="weight_lbl">
+        <property name="styleSheet">
+         <string notr="true">color: white;</string>
+        </property>
         <property name="text">
          <string>Weight</string>
         </property>
@@ -259,6 +278,10 @@ font-size: 12px;</string>
      <layout class="QHBoxLayout" name="active_pending_lo">
       <item>
        <widget class="QCheckBox" name="active_check">
+        <property name="styleSheet">
+         <string notr="true">
+color: #B6E3F0;</string>
+        </property>
         <property name="text">
          <string>Active Item</string>
         </property>
@@ -266,6 +289,9 @@ font-size: 12px;</string>
       </item>
       <item>
        <widget class="QLabel" name="pending_lbl">
+        <property name="styleSheet">
+         <string notr="true">color: white;</string>
+        </property>
         <property name="text">
          <string>Pending Shipment:</string>
         </property>
@@ -351,6 +377,10 @@ font-size: 12px;</string>
       </item>
       <item>
        <widget class="QPushButton" name="new_barcode_btn">
+        <property name="styleSheet">
+         <string notr="true">
+color: #B6E3F0;</string>
+        </property>
         <property name="text">
          <string>Create New Item</string>
         </property>
@@ -358,6 +388,10 @@ font-size: 12px;</string>
       </item>
       <item>
        <widget class="QPushButton" name="delete_item_btn">
+        <property name="styleSheet">
+         <string notr="true">
+color: #B6E3F0;</string>
+        </property>
         <property name="text">
          <string>Remove Item</string>
         </property>
@@ -383,7 +417,7 @@ font-size: 12px;</string>
       <property name="styleSheet">
        <string notr="true">background-color: #526c75;
 color: #B6E3F0;
-border-radius: 25px;
+border-radius: 10px;
 font-size: 12px;</string>
       </property>
      </widget>

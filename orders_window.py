@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'order_processing_windowYOBHJW.ui'
+## Form generated from reading UI file 'order_processing_windowoDCiyj.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.2.1
 ##
@@ -25,6 +25,7 @@ class Ui_Dialog(object):
         if not Dialog.objectName():
             Dialog.setObjectName(u"Dialog")
         Dialog.resize(814, 600)
+        Dialog.setStyleSheet(u"background-color: #295B63;")
         self.return_btn = QPushButton(Dialog)
         self.return_btn.setObjectName(u"return_btn")
         self.return_btn.setGeometry(QRect(10, 10, 121, 34))
@@ -38,17 +39,22 @@ class Ui_Dialog(object):
         self.orders_tbl.setObjectName(u"orders_tbl")
         self.orders_tbl.setGeometry(QRect(0, 20, 251, 441))
         font = QFont()
-        font.setPointSize(8)
         self.orders_tbl.setFont(font)
+        self.orders_tbl.setStyleSheet(u"background-color: #526c75;\n"
+"color: #B6E3F0;\n"
+"border-radius: 10px;\n"
+"font-size: 12px;")
         self.in_radio = QRadioButton(self.groupBox)
         self.in_radio.setObjectName(u"in_radio")
         self.in_radio.setGeometry(QRect(50, 0, 81, 20))
-        self.in_radio.setFont(font)
+        font1 = QFont()
+        font1.setPointSize(8)
+        self.in_radio.setFont(font1)
         self.in_radio.setChecked(True)
         self.out_radio = QRadioButton(self.groupBox)
         self.out_radio.setObjectName(u"out_radio")
         self.out_radio.setGeometry(QRect(130, 0, 91, 20))
-        self.out_radio.setFont(font)
+        self.out_radio.setFont(font1)
         self.groupBox_2 = QGroupBox(Dialog)
         self.groupBox_2.setObjectName(u"groupBox_2")
         self.groupBox_2.setGeometry(QRect(290, 70, 251, 441))
@@ -56,6 +62,10 @@ class Ui_Dialog(object):
         self.items_tbl.setObjectName(u"items_tbl")
         self.items_tbl.setGeometry(QRect(0, 20, 251, 441))
         self.items_tbl.setFont(font)
+        self.items_tbl.setStyleSheet(u"background-color: #526c75;\n"
+"color: #B6E3F0;\n"
+"border-radius: 10px;\n"
+"font-size: 12px;")
         self.stacked_widget = QStackedWidget(Dialog)
         self.stacked_widget.setObjectName(u"stacked_widget")
         self.stacked_widget.setGeometry(QRect(570, 90, 231, 421))
@@ -71,20 +81,21 @@ class Ui_Dialog(object):
         self.minus_btn = QPushButton(self.groupBox_4)
         self.minus_btn.setObjectName(u"minus_btn")
         self.minus_btn.setGeometry(QRect(0, 20, 61, 61))
-        font1 = QFont()
-        font1.setPointSize(36)
-        self.minus_btn.setFont(font1)
+        font2 = QFont()
+        font2.setPointSize(36)
+        self.minus_btn.setFont(font2)
         self.incoming_lcd_count = QLCDNumber(self.groupBox_4)
         self.incoming_lcd_count.setObjectName(u"incoming_lcd_count")
         self.incoming_lcd_count.setGeometry(QRect(60, 20, 111, 61))
+        self.incoming_lcd_count.setStyleSheet(u"background-color: #031c1e;")
         self.incoming_lcd_count.setMode(QLCDNumber.Dec)
         self.incoming_lcd_count.setSegmentStyle(QLCDNumber.Flat)
         self.plus_btn = QPushButton(self.groupBox_4)
         self.plus_btn.setObjectName(u"plus_btn")
         self.plus_btn.setGeometry(QRect(170, 20, 61, 61))
-        font2 = QFont()
-        font2.setPointSize(28)
-        self.plus_btn.setFont(font2)
+        font3 = QFont()
+        font3.setPointSize(28)
+        self.plus_btn.setFont(font3)
         self.stacked_widget.addWidget(self.page)
         self.page_2 = QWidget()
         self.page_2.setObjectName(u"page_2")
@@ -95,6 +106,10 @@ class Ui_Dialog(object):
         self.barcodes_tbl.setObjectName(u"barcodes_tbl")
         self.barcodes_tbl.setGeometry(QRect(0, 20, 231, 251))
         self.barcodes_tbl.setFont(font)
+        self.barcodes_tbl.setStyleSheet(u"background-color: #526c75;\n"
+"color: #B6E3F0;\n"
+"border-radius: 10px;\n"
+"font-size: 12px;")
         self.barcodes_tbl.setSelectionMode(QAbstractItemView.SingleSelection)
         self.save_barcodes_btn = QPushButton(self.page_2)
         self.save_barcodes_btn.setObjectName(u"save_barcodes_btn")
@@ -106,19 +121,20 @@ class Ui_Dialog(object):
         self.outgoing_lcd_count = QLCDNumber(self.groupBox_5)
         self.outgoing_lcd_count.setObjectName(u"outgoing_lcd_count")
         self.outgoing_lcd_count.setGeometry(QRect(0, 20, 231, 61))
+        self.outgoing_lcd_count.setStyleSheet(u"background-color: #031c1e;")
         self.outgoing_lcd_count.setMode(QLCDNumber.Dec)
         self.outgoing_lcd_count.setSegmentStyle(QLCDNumber.Flat)
         self.stacked_widget.addWidget(self.page_2)
         self.error_lbl = QLabel(Dialog)
         self.error_lbl.setObjectName(u"error_lbl")
         self.error_lbl.setGeometry(QRect(270, 530, 531, 61))
-        font3 = QFont()
-        font3.setPointSize(14)
-        self.error_lbl.setFont(font3)
+        font4 = QFont()
+        font4.setPointSize(14)
+        self.error_lbl.setFont(font4)
 
         self.retranslateUi(Dialog)
 
-        self.stacked_widget.setCurrentIndex(1)
+        self.stacked_widget.setCurrentIndex(0)
 
 
         QMetaObject.connectSlotsByName(Dialog)

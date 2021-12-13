@@ -1,11 +1,10 @@
 from PySide6.QtCore import *
 from PySide6.QtGui import *
 from PySide6.QtWidgets import *
-
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'create_orderzEJSDp.ui'
+## Form generated from reading UI file 'create_ordercfrXUm.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.2.1
 ##
@@ -34,6 +33,7 @@ class Ui_Dialog(object):
         self.return_btn = QPushButton(Dialog)
         self.return_btn.setObjectName(u"return_btn")
         self.return_btn.setGeometry(QRect(20, 10, 75, 24))
+        self.return_btn.setStyleSheet(u"color: #B6E3F0;")
         self.horizontalLayoutWidget = QWidget(Dialog)
         self.horizontalLayoutWidget.setObjectName(u"horizontalLayoutWidget")
         self.horizontalLayoutWidget.setGeometry(QRect(10, 40, 221, 51))
@@ -76,7 +76,7 @@ class Ui_Dialog(object):
         self.search_tbl.setObjectName(u"search_tbl")
         self.search_tbl.setStyleSheet(u"background-color: #526c75;\n"
 "color: #B6E3F0;\n"
-"border-radius: 25px;\n"
+"border-radius: 10px;\n"
 "font-size: 12px;")
 
         self.verticalLayout.addWidget(self.search_tbl)
@@ -94,7 +94,7 @@ class Ui_Dialog(object):
         self.verticalLayout_3.setContentsMargins(0, 0, 0, 0)
         self.label = QLabel(self.verticalLayoutWidget_3)
         self.label.setObjectName(u"label")
-        self.label.setStyleSheet(u"color: #B6E3F0;\n"
+        self.label.setStyleSheet(u"color: white;\n"
 "font-size: 12px;")
 
         self.verticalLayout_3.addWidget(self.label)
@@ -103,21 +103,21 @@ class Ui_Dialog(object):
         self.order_items_tbl.setObjectName(u"order_items_tbl")
         self.order_items_tbl.setStyleSheet(u"background-color: #526c75;\n"
 "color: #B6E3F0;\n"
-"border-radius: 25px;\n"
+"border-radius: 10px;\n"
 "font-size: 12px;")
 
         self.verticalLayout_3.addWidget(self.order_items_tbl)
 
         self.client_line = QLineEdit(Dialog)
         self.client_line.setObjectName(u"client_line")
-        self.client_line.setGeometry(QRect(240, 40, 211, 51))
+        self.client_line.setGeometry(QRect(250, 50, 211, 31))
         self.client_line.setStyleSheet(u"background-color: #526c75;\n"
 "color: #B6E3F0;\n"
-"border-radius: 20px;\n"
+"border-radius: 10px;\n"
 "font-size: 12px;")
         self.label_2 = QLabel(Dialog)
         self.label_2.setObjectName(u"label_2")
-        self.label_2.setGeometry(QRect(250, 20, 49, 16))
+        self.label_2.setGeometry(QRect(330, 30, 49, 16))
         self.label_2.setStyleSheet(u"\n"
 "color: #B6E3F0;\n"
 "\n"
