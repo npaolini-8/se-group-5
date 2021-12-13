@@ -36,3 +36,11 @@ class Application(QApplication):
             self.main_window.show()
         else:
             self.login_window.show()
+
+    def restart(self):
+        self.login_window = LoginWindow(self.warehouse_controller)
+        self.main_window = MainWindow(self.warehouse_controller)
+        self.order_processing_window = OrdersWindow(self.warehouse_controller)
+        self.items_window = ItemsWindow(self.warehouse_controller)
+        self.create_order_window = CreateOrderWindow(self.warehouse_controller)
+        self.admin_window = AdminWindow(self.warehouse_controller)
