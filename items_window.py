@@ -13,7 +13,7 @@ from PySide6.QtWidgets import (QApplication, QCheckBox, QDialog, QHBoxLayout,
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'items_windowfilJko.ui'
+## Form generated from reading UI file 'items_windowWroPHr.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.2.1
 ##
@@ -89,6 +89,7 @@ class Ui_ItemWindow(object):
 
         self.edit_label = QLabel(self.verticalLayoutWidget_2)
         self.edit_label.setObjectName(u"edit_label")
+        self.edit_label.setStyleSheet(u"color:white;")
         self.edit_label.setAlignment(Qt.AlignCenter)
 
         self.item_info_vlayout.addWidget(self.edit_label)

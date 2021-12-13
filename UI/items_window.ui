@@ -99,6 +99,9 @@ font-size: 12px;</string>
     </item>
     <item>
      <widget class="QLabel" name="edit_label">
+      <property name="styleSheet">
+       <string notr="true">color:white;</string>
+      </property>
       <property name="text">
        <string/>
       </property>
